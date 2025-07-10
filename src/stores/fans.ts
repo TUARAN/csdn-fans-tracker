@@ -1,44 +1,54 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { FanData, Stats } from '@/types'
+import type { FanData, Stats, CommunityStats, CommunityType } from '@/types'
 import dayjs from 'dayjs'
 
 export const useFansStore = defineStore('fans', () => {
   // 状态
   const fanDataList = ref<FanData[]>([])
-  const goals = ref<{ [date: string]: number }>({})
+  const goals = ref<{ [community: string]: { [date: string]: number } }>({
+    csdn: {},
+    juejin: {}
+  })
 
   // 计算属性
-  const currentStats = computed((): Stats => {
-    if (fanDataList.value.length === 0) {
+  const currentStats = computed((): CommunityStats => {
+    const getStatsForCommunity = (community: CommunityType): Stats => {
+      const communityData = fanDataList.value.filter(data => data.community === community)
+      
+      if (communityData.length === 0) {
+        return {
+          currentFans: 0,
+          currentReads: 0,
+          totalArticles: 0,
+          monthlyGrowth: 0,
+          weeklyGrowth: 0,
+          dailyGrowth: 0
+        }
+      }
+
+      const latest = communityData[communityData.length - 1]
+      const dailyGrowth = latest.dailyFansGrowth
+      const weeklyGrowth = communityData
+        .slice(-7)
+        .reduce((sum, data) => sum + data.dailyFansGrowth, 0)
+      const monthlyGrowth = communityData
+        .slice(-30)
+        .reduce((sum, data) => sum + data.dailyFansGrowth, 0)
+
       return {
-        currentFans: 0,
-        currentReads: 0,
-        totalArticles: 0,
-        monthlyGrowth: 0,
-        weeklyGrowth: 0,
-        dailyGrowth: 0
+        currentFans: latest.fansCount,
+        currentReads: latest.readCount,
+        totalArticles: latest.articleCount,
+        monthlyGrowth,
+        weeklyGrowth,
+        dailyGrowth
       }
     }
 
-    const latest = fanDataList.value[fanDataList.value.length - 1]
-    const previous = fanDataList.value[fanDataList.value.length - 2]
-    
-    const dailyGrowth = latest.dailyFansGrowth
-    const weeklyGrowth = fanDataList.value
-      .slice(-7)
-      .reduce((sum, data) => sum + data.dailyFansGrowth, 0)
-    const monthlyGrowth = fanDataList.value
-      .slice(-30)
-      .reduce((sum, data) => sum + data.dailyFansGrowth, 0)
-
     return {
-      currentFans: latest.fansCount,
-      currentReads: latest.readCount,
-      totalArticles: latest.articleCount,
-      monthlyGrowth,
-      weeklyGrowth,
-      dailyGrowth
+      csdn: getStatsForCommunity('csdn'),
+      juejin: getStatsForCommunity('juejin')
     }
   })
 
@@ -87,13 +97,16 @@ export const useFansStore = defineStore('fans', () => {
     }
   }
 
-  const setGoal = (date: string, targetGrowth: number) => {
-    goals.value[date] = targetGrowth
+  const setGoal = (community: CommunityType, date: string, targetGrowth: number) => {
+    if (!goals.value[community]) {
+      goals.value[community] = {}
+    }
+    goals.value[community][date] = targetGrowth
     saveToLocalStorage()
   }
 
-  const getGoal = (date: string) => {
-    return goals.value[date] || 0
+  const getGoal = (community: CommunityType, date: string) => {
+    return goals.value[community]?.[date] || 0
   }
 
   const importFromCSV = (csvData: string) => {
@@ -102,14 +115,15 @@ export const useFansStore = defineStore('fans', () => {
     
     for (let i = 1; i < lines.length; i++) {
       const values = lines[i].split(',')
-      if (values.length >= 4) {
+      if (values.length >= 5) {
         const data: FanData = {
           date: values[0].trim(),
-          fansCount: parseInt(values[1]) || 0,
-          readCount: parseInt(values[2]) || 0,
-          articleCount: parseInt(values[3]) || 0,
-          dailyFansGrowth: parseInt(values[4]) || 0,
-          dailyReadGrowth: parseInt(values[5]) || 0
+          community: values[1].trim() as CommunityType,
+          fansCount: parseInt(values[2]) || 0,
+          readCount: parseInt(values[3]) || 0,
+          articleCount: parseInt(values[4]) || 0,
+          dailyFansGrowth: parseInt(values[5]) || 0,
+          dailyReadGrowth: parseInt(values[6]) || 0
         }
         addFanData(data)
       }
@@ -117,9 +131,10 @@ export const useFansStore = defineStore('fans', () => {
   }
 
   const exportToCSV = () => {
-    const headers = ['日期', '粉丝数', '阅读量', '文章数', '日增粉丝', '日增阅读']
+    const headers = ['日期', '社区', '粉丝数', '阅读量', '文章数', '日增粉丝', '日增阅读']
     const rows = fanDataList.value.map(data => [
       data.date,
+      data.community,
       data.fansCount,
       data.readCount,
       data.articleCount,
@@ -155,6 +170,36 @@ export const useFansStore = defineStore('fans', () => {
 
   // 初始化时加载数据
   loadFromLocalStorage()
+
+  // 如果没有数据，添加最新的CSDN和掘金数据
+  if (fanDataList.value.length === 0) {
+    const today = dayjs().format('YYYY-MM-DD')
+    
+    // CSDN数据
+    const csdnData: FanData = {
+      date: today,
+      community: 'csdn',
+      fansCount: 16,
+      readCount: 1477,
+      articleCount: 34,
+      dailyFansGrowth: 2,
+      dailyReadGrowth: 1477
+    }
+    
+    // 掘金数据（示例数据，需要根据实际情况调整）
+    const juejinData: FanData = {
+      date: today,
+      community: 'juejin',
+      fansCount: 0,
+      readCount: 0,
+      articleCount: 0,
+      dailyFansGrowth: 0,
+      dailyReadGrowth: 0
+    }
+    
+    fanDataList.value.push(csdnData, juejinData)
+    saveToLocalStorage()
+  }
 
   return {
     fanDataList,

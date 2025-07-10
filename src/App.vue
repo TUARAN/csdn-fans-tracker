@@ -42,10 +42,17 @@ const currentRoute = computed(() => route.path)
 
           <!-- 目标显示 -->
           <div class="hidden md:flex items-center space-x-6">
-            <div class="flex items-center space-x-2 text-sm">
-              <Target class="w-4 h-4 text-csdn-red" />
-              <span class="text-gray-600">目标：</span>
-              <span class="font-semibold text-csdn-red">1万粉丝</span>
+            <div class="flex items-center space-x-4 text-sm">
+              <div class="flex items-center space-x-2">
+                <Target class="w-4 h-4 text-csdn-red" />
+                <span class="text-gray-600">CSDN目标：</span>
+                <span class="font-semibold text-csdn-red">1万粉丝</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <Target class="w-4 h-4 text-orange-500" />
+                <span class="text-gray-600">掘金目标：</span>
+                <span class="font-semibold text-orange-500">5千粉丝</span>
+              </div>
             </div>
             <div class="flex items-center space-x-2 text-sm">
               <span class="text-gray-600">更多内容：</span>

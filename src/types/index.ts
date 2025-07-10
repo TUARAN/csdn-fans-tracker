@@ -15,9 +15,13 @@ export interface Article {
   commentCount?: number
 }
 
+// 社区类型
+export type CommunityType = 'csdn' | 'juejin'
+
 // 粉丝数据
 export interface FanData {
   date: string
+  community: CommunityType
   fansCount: number
   readCount: number
   articleCount: number
@@ -42,6 +46,12 @@ export interface Stats {
   monthlyGrowth: number
   weeklyGrowth: number
   dailyGrowth: number
+}
+
+// 社区统计数据
+export interface CommunityStats {
+  csdn: Stats
+  juejin: Stats
 }
 
 // 图表数据
