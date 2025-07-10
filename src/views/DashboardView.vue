@@ -7,7 +7,6 @@ import dayjs from 'dayjs'
 const fansStore = useFansStore()
 
 const showDataForm = ref(false)
-const selectedCommunity = ref<CommunityType>('csdn')
 const dataForm = reactive({
   date: dayjs().format('YYYY-MM-DD'),
   community: 'csdn' as CommunityType,
@@ -124,85 +123,138 @@ const formatNumber = (num: number) => {
       </div>
     </div>
 
-    <!-- 社区选择器 -->
-    <div class="card">
-      <div class="flex space-x-4">
-        <button
-          @click="selectedCommunity = 'csdn'"
-          class="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-          :class="selectedCommunity === 'csdn' 
-            ? 'bg-csdn-red text-white' 
-            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
-        >
-          CSDN (目标：1万粉丝)
-        </button>
-        <button
-          @click="selectedCommunity = 'juejin'"
-          class="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-          :class="selectedCommunity === 'juejin' 
-            ? 'bg-orange-500 text-white' 
-            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
-        >
-          掘金
-        </button>
+    <!-- CSDN 数据面板 -->
+    <div class="space-y-4">
+      <h2 class="text-xl font-bold text-gray-900 flex items-center">
+        <span class="w-3 h-3 bg-csdn-red rounded-full mr-2"></span>
+        CSDN 数据 (目标：1万粉丝)
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="card">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600">粉丝数</p>
+              <p class="text-2xl font-bold text-gray-900">
+                {{ formatNumber(fansStore.currentStats.csdn.currentFans) }}
+              </p>
+            </div>
+            <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+              <span class="text-csdn-red text-xl">👥</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600">阅读量</p>
+              <p class="text-2xl font-bold text-gray-900">
+                {{ formatNumber(fansStore.currentStats.csdn.currentReads) }}
+              </p>
+            </div>
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+              <span class="text-blue-600 text-xl">👁️</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600">文章数</p>
+              <p class="text-2xl font-bold text-gray-900">
+                {{ formatNumber(fansStore.currentStats.csdn.totalArticles) }}
+              </p>
+            </div>
+            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+              <span class="text-green-600 text-xl">📄</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600">本周增长</p>
+              <p class="text-2xl font-bold text-gray-900">
+                {{ formatNumber(fansStore.currentStats.csdn.weeklyGrowth) }}
+              </p>
+            </div>
+            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+              <span class="text-purple-600 text-xl">📈</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="card">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm font-medium text-gray-600">{{ selectedCommunity === 'csdn' ? 'CSDN' : '掘金' }} 粉丝数</p>
-            <p class="text-2xl font-bold text-gray-900">
-              {{ formatNumber(fansStore.currentStats[selectedCommunity].currentFans) }}
-            </p>
+    <!-- 掘金 数据面板 -->
+    <div class="space-y-4">
+      <h2 class="text-xl font-bold text-gray-900 flex items-center">
+        <span class="w-3 h-3 bg-orange-500 rounded-full mr-2"></span>
+        掘金 数据 (目标：掘金8级作者)
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="card">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600">粉丝数</p>
+              <p class="text-2xl font-bold text-gray-900">
+                {{ formatNumber(fansStore.currentStats.juejin.currentFans) }}
+              </p>
+            </div>
+            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+              <span class="text-orange-500 text-xl">👥</span>
+            </div>
           </div>
-          <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-            <span class="text-csdn-red text-xl">👥</span>
+        </div>
+
+        <div class="card">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600">阅读量</p>
+              <p class="text-2xl font-bold text-gray-900">
+                {{ formatNumber(fansStore.currentStats.juejin.currentReads) }}
+              </p>
+            </div>
+            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+              <span class="text-orange-500 text-xl">👁️</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600">文章数</p>
+              <p class="text-2xl font-bold text-gray-900">
+                {{ formatNumber(fansStore.currentStats.juejin.totalArticles) }}
+              </p>
+            </div>
+            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+              <span class="text-orange-500 text-xl">📄</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600">本周增长</p>
+              <p class="text-2xl font-bold text-gray-900">
+                {{ formatNumber(fansStore.currentStats.juejin.weeklyGrowth) }}
+              </p>
+            </div>
+            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+              <span class="text-orange-500 text-xl">📈</span>
+            </div>
           </div>
         </div>
       </div>
-
-      <div class="card">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm font-medium text-gray-600">{{ selectedCommunity === 'csdn' ? 'CSDN' : '掘金' }} 阅读量</p>
-            <p class="text-2xl font-bold text-gray-900">
-              {{ formatNumber(fansStore.currentStats[selectedCommunity].currentReads) }}
-            </p>
-          </div>
-          <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-            <span class="text-blue-600 text-xl">👁️</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm font-medium text-gray-600">{{ selectedCommunity === 'csdn' ? 'CSDN' : '掘金' }} 文章数</p>
-            <p class="text-2xl font-bold text-gray-900">
-              {{ formatNumber(fansStore.currentStats[selectedCommunity].totalArticles) }}
-            </p>
-          </div>
-          <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-            <span class="text-green-600 text-xl">📄</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm font-medium text-gray-600">{{ selectedCommunity === 'csdn' ? 'CSDN' : '掘金' }} 本周增长</p>
-            <p class="text-2xl font-bold text-gray-900">
-              {{ formatNumber(fansStore.currentStats[selectedCommunity].weeklyGrowth) }}
-            </p>
-          </div>
-          <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-            <span class="text-purple-600 text-xl">📈</span>
-          </div>
-        </div>
+      <div class="mt-4 text-sm text-gray-600">
+        掘金文章请前往
+        <a href="https://tuaran.github.io/auto-sync-blog/sort/all.html#%E7%BB%9F%E8%AE%A1" target="_blank" class="text-orange-500 underline hover:text-orange-700">掘金安东尼文章合集</a>
+        查看。
       </div>
     </div>
   </div>

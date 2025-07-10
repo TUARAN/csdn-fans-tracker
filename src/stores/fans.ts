@@ -186,19 +186,43 @@ export const useFansStore = defineStore('fans', () => {
       dailyReadGrowth: 1477
     }
     
-    // 掘金数据（示例数据，需要根据实际情况调整）
+    // 掘金数据（最新）
     const juejinData: FanData = {
-      date: today,
+      date: '2024-06-19',
       community: 'juejin',
-      fansCount: 0,
-      readCount: 0,
-      articleCount: 0,
-      dailyFansGrowth: 0,
-      dailyReadGrowth: 0
+      fansCount: 10589,
+      readCount: 2143289,
+      articleCount: 490,
+      dailyFansGrowth: 9,
+      dailyReadGrowth: 1755
     }
     
     fanDataList.value.push(csdnData, juejinData)
     saveToLocalStorage()
+  } else {
+    // 检查现有数据是否包含community字段，如果没有则添加
+    const needsUpdate = fanDataList.value.some(data => !('community' in data))
+    if (needsUpdate) {
+      fanDataList.value = fanDataList.value.map(data => ({
+        ...data,
+        community: 'csdn' as CommunityType // 默认设置为CSDN
+      }))
+      saveToLocalStorage()
+    }
+    // 自动补全掘金数据
+    const hasJuejin = fanDataList.value.some(data => data.community === 'juejin')
+    if (!hasJuejin) {
+      fanDataList.value.push({
+        date: '2024-06-19',
+        community: 'juejin',
+        fansCount: 10589,
+        readCount: 2143289,
+        articleCount: 490,
+        dailyFansGrowth: 9,
+        dailyReadGrowth: 1755
+      })
+      saveToLocalStorage()
+    }
   }
 
   return {
