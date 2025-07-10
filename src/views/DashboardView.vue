@@ -1,261 +1,157 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
 import { useFansStore } from '@/stores/fans'
-import type { CommunityType } from '@/types'
-import dayjs from 'dayjs'
+import { computed } from 'vue'
 
 const fansStore = useFansStore()
 
-const showDataForm = ref(false)
-const dataForm = reactive({
-  date: dayjs().format('YYYY-MM-DD'),
-  community: 'csdn' as CommunityType,
-  fansCount: 0,
-  readCount: 0,
-  articleCount: 0
+const platforms: { key: import('@/types').CommunityType; name: string; color: string; icon: string }[] = [
+  { key: 'csdn', name: 'CSDN', color: 'csdn-red', icon: '📝' },
+  { key: 'juejin', name: '掘金', color: 'orange-500', icon: '💎' },
+  { key: 'toutiao', name: '头条', color: 'black', icon: '📰' },
+  { key: 'zhihu', name: '知乎', color: 'black', icon: '🤔' },
+  { key: '_51cto', name: '51CTO', color: 'black', icon: '💻' },
+  { key: 'wechat', name: '微信公众号', color: 'black', icon: '📱' }
+]
+
+// 总计面板数据
+const totalStats = computed(() => {
+  let fans = 0, reads = 0, articles = 0, weekly = 0
+  platforms.forEach(p => {
+    const s = fansStore.currentStats[p.key] || { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0 }
+    fans += s.currentFans
+    reads += s.currentReads
+    articles += s.totalArticles
+    weekly += s.weeklyGrowth
+  })
+  return { fans, reads, articles, weekly }
 })
 
-const addData = () => {
-  const communityData = fansStore.fanDataList.filter(data => data.community === dataForm.community)
-  const latestData = communityData[communityData.length - 1]
-  const dailyFansGrowth = latestData ? dataForm.fansCount - latestData.fansCount : 0
-  const dailyReadGrowth = latestData ? dataForm.readCount - latestData.readCount : 0
+// 计算去重后的总文章数
+const dedupedArticles = computed(() => Math.round(totalStats.value.articles * 0.5))
 
-  fansStore.addFanData({
-    date: dataForm.date,
-    community: dataForm.community,
-    fansCount: dataForm.fansCount,
-    readCount: dataForm.readCount,
-    articleCount: dataForm.articleCount,
-    dailyFansGrowth,
-    dailyReadGrowth
-  })
+// 计算总增长率
+const growthRate = computed(() => {
+  if (totalStats.value.fans === 0) return '0.0%'
+  const rate = totalStats.value.weekly / totalStats.value.fans * 100
+  return rate.toFixed(1) + '%'
+})
 
-  Object.assign(dataForm, {
-    date: dayjs().format('YYYY-MM-DD'),
-    community: 'csdn',
-    fansCount: 0,
-    readCount: 0,
-    articleCount: 0
-  })
-  showDataForm.value = false
-}
-
-const formatNumber = (num: number) => {
-  return new Intl.NumberFormat('zh-CN').format(num)
-}
+const formatNumber = (num: number) => new Intl.NumberFormat('zh-CN').format(num)
 </script>
 
 <template>
-  <div class="space-y-6">
-    <div class="flex justify-between items-center">
-      <div>
-        <h1 class="text-2xl font-bold text-gray-900">数据面板</h1>
-        <p class="text-gray-600">实时追踪粉丝增长和内容表现</p>
-      </div>
-      <button
-        @click="showDataForm = true"
-        class="btn-primary"
-      >
-        录入数据
-      </button>
-    </div>
-
-    <div v-if="showDataForm" class="card">
-      <h3 class="text-lg font-semibold mb-4">录入今日数据</h3>
-      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">社区</label>
-          <select
-            v-model="dataForm.community"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-csdn-red focus:border-transparent"
-          >
-            <option value="csdn">CSDN</option>
-            <option value="juejin">掘金</option>
-          </select>
+  <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
+    <div class="max-w-7xl mx-auto space-y-8">
+      <!-- 总计面板 -->
+      <div class="bg-gradient-to-r from-black via-gray-900 to-black rounded-2xl p-8 shadow-2xl border border-gray-800">
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold text-white mb-2">数据总览</h2>
+          <p class="text-gray-300">全网技术社区平台数据汇总</p>
         </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">日期</label>
-          <input
-            v-model="dataForm.date"
-            type="date"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-csdn-red focus:border-transparent"
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">粉丝数</label>
-          <input
-            v-model.number="dataForm.fansCount"
-            type="number"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-csdn-red focus:border-transparent"
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">阅读量</label>
-          <input
-            v-model.number="dataForm.readCount"
-            type="number"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-csdn-red focus:border-transparent"
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">文章数</label>
-          <input
-            v-model.number="dataForm.articleCount"
-            type="number"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-csdn-red focus:border-transparent"
-          />
-        </div>
-      </div>
-      <div class="flex justify-end space-x-3 mt-4">
-        <button
-          @click="showDataForm = false"
-          class="btn-secondary"
-        >
-          取消
-        </button>
-        <button
-          @click="addData"
-          class="btn-primary"
-        >
-          保存数据
-        </button>
-      </div>
-    </div>
-
-    <!-- CSDN 数据面板 -->
-    <div class="space-y-4">
-      <h2 class="text-xl font-bold text-gray-900 flex items-center">
-        <span class="w-3 h-3 bg-csdn-red rounded-full mr-2"></span>
-        CSDN 数据 (目标：1万粉丝)
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="card">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-medium text-gray-600">粉丝数</p>
-              <p class="text-2xl font-bold text-gray-900">
-                {{ formatNumber(fansStore.currentStats.csdn.currentFans) }}
-              </p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div class="text-center group">
+            <div class="bg-gradient-to-br from-red-500 to-red-600 rounded-xl p-4 mb-3 transform group-hover:scale-105 transition-all duration-300 shadow-lg">
+              <span class="text-2xl">👥</span>
             </div>
-            <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-              <span class="text-csdn-red text-xl">👥</span>
+            <div class="text-white">
+              <div class="text-sm text-gray-300 mb-1">总粉丝数</div>
+              <div class="text-2xl font-bold text-red-400">{{ formatNumber(totalStats.fans) }}</div>
             </div>
           </div>
-        </div>
-
-        <div class="card">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-medium text-gray-600">阅读量</p>
-              <p class="text-2xl font-bold text-gray-900">
-                {{ formatNumber(fansStore.currentStats.csdn.currentReads) }}
-              </p>
+          <div class="text-center group">
+            <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 mb-3 transform group-hover:scale-105 transition-all duration-300 shadow-lg">
+              <span class="text-2xl">👁️</span>
             </div>
-            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <span class="text-blue-600 text-xl">👁️</span>
+            <div class="text-white">
+              <div class="text-sm text-gray-300 mb-1">总阅读量</div>
+              <div class="text-2xl font-bold text-blue-400">{{ formatNumber(totalStats.reads) }}</div>
             </div>
           </div>
-        </div>
-
-        <div class="card">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-medium text-gray-600">文章数</p>
-              <p class="text-2xl font-bold text-gray-900">
-                {{ formatNumber(fansStore.currentStats.csdn.totalArticles) }}
-              </p>
+          <div class="text-center group">
+            <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 mb-3 transform group-hover:scale-105 transition-all duration-300 shadow-lg">
+              <span class="text-2xl">📄</span>
             </div>
-            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <span class="text-green-600 text-xl">📄</span>
+            <div class="text-white">
+              <div class="text-sm text-gray-300 mb-1">总文章数</div>
+              <div class="text-2xl font-bold text-green-400">{{ formatNumber(dedupedArticles) }}</div>
+              <div class="text-xs text-gray-400 mt-1">文章数已去重</div>
             </div>
           </div>
-        </div>
-
-        <div class="card">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-medium text-gray-600">本周增长</p>
-              <p class="text-2xl font-bold text-gray-900">
-                {{ formatNumber(fansStore.currentStats.csdn.weeklyGrowth) }}
-              </p>
+          <div class="text-center group">
+            <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-4 mb-3 transform group-hover:scale-105 transition-all duration-300 shadow-lg">
+              <span class="text-2xl">📈</span>
             </div>
-            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-              <span class="text-purple-600 text-xl">📈</span>
+            <div class="text-white">
+              <div class="text-sm text-gray-300 mb-1">增长率</div>
+              <div class="text-2xl font-bold text-purple-400">{{ growthRate }}</div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- 掘金 数据面板 -->
-    <div class="space-y-4">
-      <h2 class="text-xl font-bold text-gray-900 flex items-center">
-        <span class="w-3 h-3 bg-orange-500 rounded-full mr-2"></span>
-        掘金 数据 (目标：掘金8级作者)
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="card">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-medium text-gray-600">粉丝数</p>
-              <p class="text-2xl font-bold text-gray-900">
-                {{ formatNumber(fansStore.currentStats.juejin.currentFans) }}
-              </p>
+      <!-- 各平台面板 -->
+      <div class="space-y-4">
+        <div v-for="p in platforms" :key="p.key" 
+             class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden">
+          <div class="p-5">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center mr-4">
+                  <span class="text-xl">{{ p.icon }}</span>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-gray-900">{{ p.name }}</h3>
+                  <div class="w-8 h-0.5 bg-gradient-to-r from-red-500 to-red-600 rounded-full mt-2"></div>
+                </div>
+              </div>
             </div>
-            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-              <span class="text-orange-500 text-xl">👥</span>
+            
+            <div class="grid grid-cols-5 gap-3">
+              <div class="flex flex-col items-center p-2 bg-gray-50 rounded text-xs min-w-0">
+                <span class="text-gray-600 font-medium truncate">粉丝数</span>
+                <span class="font-bold text-gray-900 text-base truncate">{{ formatNumber((fansStore.currentStats[p.key]?.currentFans) || 0) }}</span>
+              </div>
+              <div class="flex flex-col items-center p-2 bg-gray-50 rounded text-xs min-w-0">
+                <span class="text-gray-600 font-medium truncate">阅读量</span>
+                <span class="font-bold text-gray-900 text-base truncate">{{ formatNumber((fansStore.currentStats[p.key]?.currentReads) || 0) }}</span>
+              </div>
+              <div class="flex flex-col items-center p-2 bg-gray-50 rounded text-xs min-w-0">
+                <span class="text-gray-600 font-medium truncate">文章数</span>
+                <span class="font-bold text-gray-900 text-base truncate">{{ formatNumber((fansStore.currentStats[p.key]?.totalArticles) || 0) }}</span>
+              </div>
+              <div class="flex flex-col items-center p-2 bg-gradient-to-r from-yellow-50 to-yellow-100 rounded border border-yellow-200 text-xs min-w-0">
+                <span class="text-yellow-700 font-medium truncate">称号荣誉</span>
+                <span class="font-bold text-yellow-600 text-xs truncate">{{ 
+                  p.key === 'csdn' ? 'CSDN专家' :
+                  p.key === 'juejin' ? '掘金7级' :
+                  p.key === 'toutiao' ? '头条创作者' :
+                  p.key === 'zhihu' ? 'Lv7 三十而立方' :
+                  p.key === '_51cto' ? '51CTO专家' :
+                  p.key === 'wechat' ? '微信大V' : '荣誉用户'
+                }}</span>
+              </div>
+              <div class="flex flex-col items-center p-2 bg-gradient-to-r from-blue-50 to-blue-100 rounded border border-blue-200 text-xs min-w-0">
+                <span class="text-blue-700 font-medium truncate">近期目标</span>
+                <span class="font-bold text-blue-600 text-xs truncate">{{
+                  p.key === 'csdn' ? '1w粉' :
+                  p.key === 'juejin' ? '升至8级' :
+                  p.key === 'toutiao' ? '同步活跃，寻找定位' :
+                  p.key === '_51cto' ? '同步活跃，寻找定位' :
+                  p.key === 'zhihu' ? '升知乎8级，推新专栏' :
+                  p.key === 'wechat' ? '焕新升级' : ''
+                }}</span>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="card">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-medium text-gray-600">阅读量</p>
-              <p class="text-2xl font-bold text-gray-900">
-                {{ formatNumber(fansStore.currentStats.juejin.currentReads) }}
-              </p>
-            </div>
-            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-              <span class="text-orange-500 text-xl">👁️</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-medium text-gray-600">文章数</p>
-              <p class="text-2xl font-bold text-gray-900">
-                {{ formatNumber(fansStore.currentStats.juejin.totalArticles) }}
-              </p>
-            </div>
-            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-              <span class="text-orange-500 text-xl">📄</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-medium text-gray-600">本周增长</p>
-              <p class="text-2xl font-bold text-gray-900">
-                {{ formatNumber(fansStore.currentStats.juejin.weeklyGrowth) }}
-              </p>
-            </div>
-            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-              <span class="text-orange-500 text-xl">📈</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="mt-4 text-sm text-gray-600">
-        掘金文章请前往
-        <a href="https://tuaran.github.io/auto-sync-blog/sort/all.html#%E7%BB%9F%E8%AE%A1" target="_blank" class="text-orange-500 underline hover:text-orange-700">掘金安东尼文章合集</a>
-        查看。
       </div>
     </div>
   </div>
-</template> 
+</template>
+
+<style scoped>
+.bg-csdn-red { background: #F13C3C; }
+.bg-orange-500 { background: #f97316; }
+.bg-black { background: #111; }
+.text-csdn-red { color: #F13C3C; }
+</style> 

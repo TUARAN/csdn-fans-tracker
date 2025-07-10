@@ -446,6 +446,24 @@ export const useArticlesStore = defineStore('articles', () => {
       }
     ]
 
+    // 自动补全7月10-13每天4篇CSDN文章
+    const csdnBatchDates = ['2024-07-10', '2024-07-11', '2024-07-12', '2024-07-13'];
+    csdnBatchDates.forEach(date => {
+      for (let i = 1; i <= 4; i++) {
+        newArticles.push({
+          id: `csdn-batch-${date.replace(/-/g, '')}-${i}`,
+          title: `CSDN日更计划-${date}-第${i}篇`,
+          publishDate: date,
+          category: '技术成长',
+          isAIGenerated: false,
+          csdnUrl: '',
+          readCount: 0,
+          likeCount: 0,
+          commentCount: 0
+        });
+      }
+    });
+
     // 添加最新的CSDN文章数据
     const latestCSDNArticles: Article[] = [
       {

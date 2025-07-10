@@ -48,7 +48,11 @@ export const useFansStore = defineStore('fans', () => {
 
     return {
       csdn: getStatsForCommunity('csdn'),
-      juejin: getStatsForCommunity('juejin')
+      juejin: getStatsForCommunity('juejin'),
+      toutiao: getStatsForCommunity('toutiao'),
+      zhihu: getStatsForCommunity('zhihu'),
+      _51cto: getStatsForCommunity('_51cto'),
+      wechat: getStatsForCommunity('wechat')
     }
   })
 
@@ -86,14 +90,12 @@ export const useFansStore = defineStore('fans', () => {
   // 方法
   const addFanData = (data: FanData) => {
     fanDataList.value.push(data)
-    saveToLocalStorage()
   }
 
   const updateFanData = (date: string, data: Partial<FanData>) => {
     const index = fanDataList.value.findIndex(item => item.date === date)
     if (index !== -1) {
       fanDataList.value[index] = { ...fanDataList.value[index], ...data }
-      saveToLocalStorage()
     }
   }
 
@@ -102,7 +104,6 @@ export const useFansStore = defineStore('fans', () => {
       goals.value[community] = {}
     }
     goals.value[community][date] = targetGrowth
-    saveToLocalStorage()
   }
 
   const getGoal = (community: CommunityType, date: string) => {
@@ -149,29 +150,7 @@ export const useFansStore = defineStore('fans', () => {
     return csvContent
   }
 
-  // 本地存储
-  const saveToLocalStorage = () => {
-    localStorage.setItem('csdn-fan-data', JSON.stringify(fanDataList.value))
-    localStorage.setItem('csdn-goals', JSON.stringify(goals.value))
-  }
-
-  const loadFromLocalStorage = () => {
-    const savedData = localStorage.getItem('csdn-fan-data')
-    const savedGoals = localStorage.getItem('csdn-goals')
-    
-    if (savedData) {
-      fanDataList.value = JSON.parse(savedData)
-    }
-    
-    if (savedGoals) {
-      goals.value = JSON.parse(savedGoals)
-    }
-  }
-
-  // 初始化时加载数据
-  loadFromLocalStorage()
-
-  // 如果没有数据，添加最新的CSDN和掘金数据
+  // 初始化数据（不再读写localStorage）
   if (fanDataList.value.length === 0) {
     const today = dayjs().format('YYYY-MM-DD')
     
@@ -181,7 +160,7 @@ export const useFansStore = defineStore('fans', () => {
       community: 'csdn',
       fansCount: 16,
       readCount: 1477,
-      articleCount: 34,
+      articleCount: 4,
       dailyFansGrowth: 2,
       dailyReadGrowth: 1477
     }
@@ -197,8 +176,38 @@ export const useFansStore = defineStore('fans', () => {
       dailyReadGrowth: 1755
     }
     
-    fanDataList.value.push(csdnData, juejinData)
-    saveToLocalStorage()
+    // 知乎数据
+    const zhihuData: FanData = {
+      date: today,
+      community: 'zhihu',
+      fansCount: 318,
+      readCount: 346799,
+      articleCount: 177,
+      dailyFansGrowth: 0,
+      dailyReadGrowth: 0
+    }
+    
+    // 头条数据
+    const toutiaoData: FanData = {
+      date: today,
+      community: 'toutiao',
+      fansCount: 692,
+      readCount: 120346,
+      articleCount: 124,
+      dailyFansGrowth: 0,
+      dailyReadGrowth: 0
+    }
+    // 51CTO数据
+    const _51ctoData: FanData = {
+      date: today,
+      community: '_51cto',
+      fansCount: 20,
+      readCount: 160000,
+      articleCount: 218,
+      dailyFansGrowth: 0,
+      dailyReadGrowth: 0
+    }
+    fanDataList.value.push(csdnData, juejinData, zhihuData, toutiaoData, _51ctoData)
   } else {
     // 检查现有数据是否包含community字段，如果没有则添加
     const needsUpdate = fanDataList.value.some(data => !('community' in data))
@@ -207,7 +216,6 @@ export const useFansStore = defineStore('fans', () => {
         ...data,
         community: 'csdn' as CommunityType // 默认设置为CSDN
       }))
-      saveToLocalStorage()
     }
     // 自动补全掘金数据
     const hasJuejin = fanDataList.value.some(data => data.community === 'juejin')
@@ -221,7 +229,6 @@ export const useFansStore = defineStore('fans', () => {
         dailyFansGrowth: 9,
         dailyReadGrowth: 1755
       })
-      saveToLocalStorage()
     }
   }
 
