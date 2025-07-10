@@ -35,8 +35,8 @@ const currentRoute = computed(() => route.path)
               <User class="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 class="text-xl font-bold text-gray-900">C站卡卡C</h1>
-              <p class="text-sm text-gray-500">CSDN运营助手</p>
+              <h1 class="text-xl font-bold text-gray-900">掘金安东尼</h1>
+              <p class="text-sm text-gray-500">技术博主 · <a href="https://tuaran.pages.dev" target="_blank" class="text-blue-600 hover:text-blue-800 underline">个人主页</a></p>
             </div>
           </div>
 
@@ -46,6 +46,10 @@ const currentRoute = computed(() => route.path)
               <Target class="w-4 h-4 text-csdn-red" />
               <span class="text-gray-600">目标：</span>
               <span class="font-semibold text-csdn-red">1万粉丝</span>
+            </div>
+            <div class="flex items-center space-x-2 text-sm">
+              <span class="text-gray-600">更多内容：</span>
+              <a href="https://tuaran.pages.dev" target="_blank" class="text-blue-600 hover:text-blue-800 underline">tuaran.pages.dev</a>
             </div>
           </div>
         </div>
