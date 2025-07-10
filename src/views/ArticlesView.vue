@@ -98,7 +98,7 @@ const getCategoryColor = (category: ArticleCategory) => {
           全部 ({{ articlesStore.articles.length }})
         </button>
         <button
-          v-for="category in ['面试题精选', 'AI 资源推荐', '技术成长', '大模型实战']"
+          v-for="category in (['面试题精选', 'AI 资源推荐', '技术成长', '大模型实战'] as ArticleCategory[])"
           :key="category"
           @click="selectedCategory = category"
           class="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
