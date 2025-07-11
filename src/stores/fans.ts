@@ -161,7 +161,7 @@ export const useFansStore = defineStore('fans', () => {
       fansCount: 16,
       readCount: 1477,
       articleCount: 4,
-      dailyFansGrowth: 2,
+      dailyFansGrowth: 50,
       dailyReadGrowth: 1477
     }
     
@@ -172,7 +172,7 @@ export const useFansStore = defineStore('fans', () => {
       fansCount: 10589,
       readCount: 2143289,
       articleCount: 490,
-      dailyFansGrowth: 9,
+      dailyFansGrowth: 200,
       dailyReadGrowth: 1755
     }
     
@@ -183,7 +183,7 @@ export const useFansStore = defineStore('fans', () => {
       fansCount: 318,
       readCount: 346799,
       articleCount: 177,
-      dailyFansGrowth: 0,
+      dailyFansGrowth: 30,
       dailyReadGrowth: 0
     }
     
@@ -194,7 +194,7 @@ export const useFansStore = defineStore('fans', () => {
       fansCount: 692,
       readCount: 120346,
       articleCount: 124,
-      dailyFansGrowth: 0,
+      dailyFansGrowth: 40,
       dailyReadGrowth: 0
     }
     // 51CTO数据
@@ -204,7 +204,7 @@ export const useFansStore = defineStore('fans', () => {
       fansCount: 20,
       readCount: 160000,
       articleCount: 218,
-      dailyFansGrowth: 0,
+      dailyFansGrowth: 10,
       dailyReadGrowth: 0
     }
     fanDataList.value.push(csdnData, juejinData, zhihuData, toutiaoData, _51ctoData)
@@ -226,7 +226,7 @@ export const useFansStore = defineStore('fans', () => {
         fansCount: 10589,
         readCount: 2143289,
         articleCount: 490,
-        dailyFansGrowth: 9,
+        dailyFansGrowth: 200,
         dailyReadGrowth: 1755
       })
     }

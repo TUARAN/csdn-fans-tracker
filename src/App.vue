@@ -23,7 +23,7 @@ const currentRoute = computed(() => route.path)
 <template>
   <div id="app" class="min-h-screen bg-gray-50">
     <!-- 顶部导航栏 -->
-    <header class="bg-gradient-to-r from-gray-900 via-gray-800 to-black shadow-2xl border-b border-gray-700 sticky top-0 z-50 relative overflow-hidden">
+    <header class="bg-gradient-to-r from-white via-gray-100 to-blue-100 shadow-2xl border-b border-gray-200 sticky top-0 z-50 relative overflow-hidden">
       <!-- 背景装饰元素 -->
       <div class="absolute inset-0 opacity-10">
         <!-- 数据曲线 -->
@@ -58,7 +58,7 @@ const currentRoute = computed(() => route.path)
         </svg>
         
         <!-- 网格背景 -->
-        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0); background-size: 20px 20px;"></div>
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.04) 1px, transparent 0); background-size: 20px 20px;"></div>
       </div>
       
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -74,13 +74,13 @@ const currentRoute = computed(() => route.path)
               </div>
               <h1 class="text-3xl font-bold">
                 <span class="bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">掘金安东尼</span>
-                <span class="text-gray-300 ml-3 text-xl font-medium">技术社区数据面板</span>
+                <span class="text-gray-700 ml-3 text-xl font-medium">技术社区数据面板</span>
               </h1>
             </div>
           </div>
           
           <!-- 右侧数据装饰 -->
-          <div class="flex items-center space-x-6 text-gray-400">
+          <div class="flex items-center space-x-6 text-gray-500">
             <div class="flex items-center space-x-2">
               <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
               <span class="text-sm">实时数据</span>

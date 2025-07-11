@@ -27,7 +27,7 @@ const totalStats = computed(() => {
 })
 
 // 计算去重后的总文章数
-const dedupedArticles = computed(() => Math.round(totalStats.value.articles * 0.5))
+const dedupedArticles = computed(() => Math.round(totalStats.value.articles * 0.6))
 
 // 计算总增长率
 const growthRate = computed(() => {
@@ -40,50 +40,50 @@ const formatNumber = (num: number) => new Intl.NumberFormat('zh-CN').format(num)
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
-    <div class="max-w-7xl mx-auto space-y-8">
+  <div class="min-h-screen bg-gray-50 p-6">
+    <div class="max-w-7xl mx-auto space-y-6">
       <!-- 总计面板 -->
-      <div class="bg-gradient-to-r from-black via-gray-900 to-black rounded-2xl p-8 shadow-2xl border border-gray-800">
+      <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
         <div class="text-center mb-6">
-          <h2 class="text-2xl font-bold text-white mb-2">数据总览</h2>
-          <p class="text-gray-300">全网技术社区平台数据汇总</p>
+          <h2 class="text-xl font-semibold text-gray-900 mb-1">数据总览</h2>
+          <p class="text-gray-500 text-sm">全网技术社区平台数据汇总</p>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div class="text-center group">
-            <div class="bg-gradient-to-br from-red-500 to-red-600 rounded-xl p-4 mb-3 transform group-hover:scale-105 transition-all duration-300 shadow-lg">
-              <span class="text-2xl">👥</span>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="text-center">
+            <div class="bg-red-50 rounded-lg p-3 mb-2">
+              <span class="text-xl">👥</span>
             </div>
-            <div class="text-white">
-              <div class="text-sm text-gray-300 mb-1">总粉丝数</div>
-              <div class="text-2xl font-bold text-red-400">{{ formatNumber(totalStats.fans) }}</div>
-            </div>
-          </div>
-          <div class="text-center group">
-            <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 mb-3 transform group-hover:scale-105 transition-all duration-300 shadow-lg">
-              <span class="text-2xl">👁️</span>
-            </div>
-            <div class="text-white">
-              <div class="text-sm text-gray-300 mb-1">总阅读量</div>
-              <div class="text-2xl font-bold text-blue-400">{{ formatNumber(totalStats.reads) }}</div>
+            <div class="text-gray-900">
+              <div class="text-xs text-gray-500 mb-1">总粉丝数</div>
+              <div class="text-lg font-semibold text-red-600">{{ formatNumber(totalStats.fans) }}</div>
             </div>
           </div>
-          <div class="text-center group">
-            <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 mb-3 transform group-hover:scale-105 transition-all duration-300 shadow-lg">
-              <span class="text-2xl">📄</span>
+          <div class="text-center">
+            <div class="bg-blue-50 rounded-lg p-3 mb-2">
+              <span class="text-xl">👁️</span>
             </div>
-            <div class="text-white">
-              <div class="text-sm text-gray-300 mb-1">总文章数</div>
-              <div class="text-2xl font-bold text-green-400">{{ formatNumber(dedupedArticles) }}</div>
+            <div class="text-gray-900">
+              <div class="text-xs text-gray-500 mb-1">总阅读量</div>
+              <div class="text-lg font-semibold text-blue-600">{{ formatNumber(totalStats.reads) }}</div>
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="bg-green-50 rounded-lg p-3 mb-2">
+              <span class="text-xl">📄</span>
+            </div>
+            <div class="text-gray-900">
+              <div class="text-xs text-gray-500 mb-1">总文章数</div>
+              <div class="text-lg font-semibold text-green-600">{{ formatNumber(dedupedArticles) }}</div>
               <div class="text-xs text-gray-400 mt-1">文章数已去重</div>
             </div>
           </div>
-          <div class="text-center group">
-            <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-4 mb-3 transform group-hover:scale-105 transition-all duration-300 shadow-lg">
-              <span class="text-2xl">📈</span>
+          <div class="text-center">
+            <div class="bg-purple-50 rounded-lg p-3 mb-2">
+              <span class="text-xl">📈</span>
             </div>
-            <div class="text-white">
-              <div class="text-sm text-gray-300 mb-1">增长率</div>
-              <div class="text-2xl font-bold text-purple-400">{{ growthRate }}</div>
+            <div class="text-gray-900">
+              <div class="text-xs text-gray-500 mb-1">增长率</div>
+              <div class="text-lg font-semibold text-purple-600">{{ growthRate }}</div>
             </div>
           </div>
         </div>
@@ -92,16 +92,16 @@ const formatNumber = (num: number) => new Intl.NumberFormat('zh-CN').format(num)
       <!-- 各平台面板 -->
       <div class="space-y-4">
         <div v-for="p in platforms" :key="p.key" 
-             class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden">
+             class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           <div class="p-5">
             <div class="flex items-center justify-between mb-4">
               <div class="flex items-center">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center mr-4">
-                  <span class="text-xl">{{ p.icon }}</span>
+                <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center mr-3">
+                  <span class="text-lg">{{ p.icon }}</span>
                 </div>
                 <div>
-                  <h3 class="text-lg font-bold text-gray-900">{{ p.name }}</h3>
-                  <div class="w-8 h-0.5 bg-gradient-to-r from-red-500 to-red-600 rounded-full mt-2"></div>
+                  <h3 class="text-lg font-semibold text-gray-900">{{ p.name }}</h3>
+                  <div class="w-6 h-0.5 bg-red-500 rounded-full mt-1"></div>
                 </div>
               </div>
             </div>
@@ -109,19 +109,19 @@ const formatNumber = (num: number) => new Intl.NumberFormat('zh-CN').format(num)
             <div class="grid grid-cols-5 gap-3">
               <div class="flex flex-col items-center p-2 bg-gray-50 rounded text-xs min-w-0">
                 <span class="text-gray-600 font-medium truncate">粉丝数</span>
-                <span class="font-bold text-gray-900 text-base truncate">{{ formatNumber((fansStore.currentStats[p.key]?.currentFans) || 0) }}</span>
+                <span class="font-semibold text-gray-900 text-sm truncate">{{ formatNumber((fansStore.currentStats[p.key]?.currentFans) || 0) }}</span>
               </div>
               <div class="flex flex-col items-center p-2 bg-gray-50 rounded text-xs min-w-0">
                 <span class="text-gray-600 font-medium truncate">阅读量</span>
-                <span class="font-bold text-gray-900 text-base truncate">{{ formatNumber((fansStore.currentStats[p.key]?.currentReads) || 0) }}</span>
+                <span class="font-semibold text-gray-900 text-sm truncate">{{ formatNumber((fansStore.currentStats[p.key]?.currentReads) || 0) }}</span>
               </div>
               <div class="flex flex-col items-center p-2 bg-gray-50 rounded text-xs min-w-0">
                 <span class="text-gray-600 font-medium truncate">文章数</span>
-                <span class="font-bold text-gray-900 text-base truncate">{{ formatNumber((fansStore.currentStats[p.key]?.totalArticles) || 0) }}</span>
+                <span class="font-semibold text-gray-900 text-sm truncate">{{ formatNumber((fansStore.currentStats[p.key]?.totalArticles) || 0) }}</span>
               </div>
-              <div class="flex flex-col items-center p-2 bg-gradient-to-r from-yellow-50 to-yellow-100 rounded border border-yellow-200 text-xs min-w-0">
+              <div class="flex flex-col items-center p-2 bg-yellow-50 rounded border border-yellow-200 text-xs min-w-0">
                 <span class="text-yellow-700 font-medium truncate">称号荣誉</span>
-                <span class="font-bold text-yellow-600 text-xs truncate">{{ 
+                <span class="font-semibold text-yellow-600 text-xs truncate">{{ 
                   p.key === 'csdn' ? 'CSDN专家' :
                   p.key === 'juejin' ? '掘金7级' :
                   p.key === 'toutiao' ? '头条创作者' :
@@ -130,9 +130,9 @@ const formatNumber = (num: number) => new Intl.NumberFormat('zh-CN').format(num)
                   p.key === 'wechat' ? '微信大V' : '荣誉用户'
                 }}</span>
               </div>
-              <div class="flex flex-col items-center p-2 bg-gradient-to-r from-blue-50 to-blue-100 rounded border border-blue-200 text-xs min-w-0">
+              <div class="flex flex-col items-center p-2 bg-blue-50 rounded border border-blue-200 text-xs min-w-0">
                 <span class="text-blue-700 font-medium truncate">近期目标</span>
-                <span class="font-bold text-blue-600 text-xs truncate">{{
+                <span class="font-semibold text-blue-600 text-xs truncate">{{
                   p.key === 'csdn' ? '1w粉' :
                   p.key === 'juejin' ? '升至8级' :
                   p.key === 'toutiao' ? '同步活跃，寻找定位' :
@@ -152,6 +152,5 @@ const formatNumber = (num: number) => new Intl.NumberFormat('zh-CN').format(num)
 <style scoped>
 .bg-csdn-red { background: #F13C3C; }
 .bg-orange-500 { background: #f97316; }
-.bg-black { background: #111; }
 .text-csdn-red { color: #F13C3C; }
 </style> 
