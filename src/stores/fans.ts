@@ -52,7 +52,9 @@ export const useFansStore = defineStore('fans', () => {
       toutiao: getStatsForCommunity('toutiao'),
       zhihu: getStatsForCommunity('zhihu'),
       _51cto: getStatsForCommunity('_51cto'),
-      wechat: getStatsForCommunity('wechat')
+      wechat: getStatsForCommunity('wechat'),
+      segmentfault: getStatsForCommunity('segmentfault'),
+      infoq: getStatsForCommunity('infoq')
     }
   })
 
@@ -156,13 +158,13 @@ export const useFansStore = defineStore('fans', () => {
     
     // CSDN数据
     const csdnData: FanData = {
-      date: today,
+      date: '2025-07-14',
       community: 'csdn',
-      fansCount: 16,
-      readCount: 1477,
-      articleCount: 4,
-      dailyFansGrowth: 50,
-      dailyReadGrowth: 1477
+      fansCount: 84,
+      readCount: 12573,
+      articleCount: 4, // 如需调整请补充
+      dailyFansGrowth: 17,
+      dailyReadGrowth: 3047
     }
     
     // 掘金数据（最新）
@@ -207,7 +209,30 @@ export const useFansStore = defineStore('fans', () => {
       dailyFansGrowth: 10,
       dailyReadGrowth: 0
     }
-    fanDataList.value.push(csdnData, juejinData, zhihuData, toutiaoData, _51ctoData)
+    
+    // 思否数据
+    const segmentfaultData: FanData = {
+      date: today,
+      community: 'segmentfault',
+      fansCount: 0,
+      readCount: 0,
+      articleCount: 0,
+      dailyFansGrowth: 0,
+      dailyReadGrowth: 0
+    }
+    
+    // InfoQ数据
+    const infoqData: FanData = {
+      date: '2025-07-14',
+      community: 'infoq',
+      fansCount: 12,
+      readCount: 49479,
+      articleCount: 115,
+      dailyFansGrowth: 3,
+      dailyReadGrowth: 0
+    }
+    
+    fanDataList.value.push(csdnData, juejinData, zhihuData, toutiaoData, _51ctoData, segmentfaultData, infoqData)
   } else {
     // 检查现有数据是否包含community字段，如果没有则添加
     const needsUpdate = fanDataList.value.some(data => !('community' in data))

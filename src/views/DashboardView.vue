@@ -10,7 +10,9 @@ const platforms: { key: import('@/types').CommunityType; name: string; color: st
   { key: 'toutiao', name: '头条', color: 'black', icon: '📰' },
   { key: 'zhihu', name: '知乎', color: 'black', icon: '🤔' },
   { key: '_51cto', name: '51CTO', color: 'black', icon: '💻' },
-  { key: 'wechat', name: '微信公众号', color: 'black', icon: '📱' }
+  { key: 'infoq', name: 'InfoQ', color: 'black', icon: '📊' },
+  { key: 'wechat', name: '微信公众号', color: 'black', icon: '📱' },
+  { key: 'segmentfault', name: '思否', color: 'black', icon: '🔍' }
 ]
 
 // 总计面板数据
@@ -101,6 +103,18 @@ const formatNumber = (num: number) => new Intl.NumberFormat('zh-CN').format(num)
                 </div>
                 <div>
                   <h3 class="text-lg font-semibold text-gray-900">{{ p.name }}</h3>
+                  <div class="flex flex-wrap items-center gap-2 mt-1">
+                    <span v-if="['csdn','juejin','toutiao','_51cto'].includes(p.key)" class="text-xs text-gray-500">账号名：掘金安东尼 <span class='ml-1 px-1 py-0.5 rounded bg-gray-100 text-[10px] text-gray-400 align-middle'>3292</span></span>
+                    <span v-else-if="p.key === 'infoq'" class="text-xs text-gray-500">账号名：掘金安东尼 <span class='ml-1 px-1 py-0.5 rounded bg-gray-100 text-[10px] text-gray-400 align-middle'>1453</span></span>
+                    <span v-else-if="p.key === 'zhihu'" class="text-xs text-gray-500">账号名：三十而立方</span>
+                    <span v-else-if="p.key === 'wechat'" class="text-xs text-gray-500">账号名：掘金安东尼 <span class='ml-1 px-1 py-0.5 rounded bg-gray-100 text-[10px] text-gray-400 align-middle'>chaosdefense</span></span>
+                    <span v-else-if="p.key === 'segmentfault'" class="text-xs text-gray-500">账号名：
+                      <span class='ml-1 px-1 py-0.5 rounded bg-gray-100 text-[10px] text-gray-400 align-middle'>中文版stackoverflow</span>
+                    </span>
+                  </div>
+                  <div class="text-xs text-gray-500 mt-1">
+                    数据更新时间：{{ p.key === 'infoq' ? '2025-07-14' : '2025-07-09' }}
+                  </div>
                   <div class="w-6 h-0.5 bg-red-500 rounded-full mt-1"></div>
                 </div>
               </div>
@@ -125,9 +139,10 @@ const formatNumber = (num: number) => new Intl.NumberFormat('zh-CN').format(num)
                   p.key === 'csdn' ? 'CSDN专家' :
                   p.key === 'juejin' ? '掘金7级' :
                   p.key === 'toutiao' ? '头条创作者' :
-                  p.key === 'zhihu' ? 'Lv7 三十而立方' :
                   p.key === '_51cto' ? '51CTO专家' :
-                  p.key === 'wechat' ? '微信大V' : '荣誉用户'
+                  p.key === 'wechat' ? '荣誉用户' :
+                  p.key === 'segmentfault' ? '思否专家' :
+                  p.key === 'infoq' ? 'InfoQ专家' : '荣誉用户'
                 }}</span>
               </div>
               <div class="flex flex-col items-center p-2 bg-blue-50 rounded border border-blue-200 text-xs min-w-0">
@@ -138,7 +153,9 @@ const formatNumber = (num: number) => new Intl.NumberFormat('zh-CN').format(num)
                   p.key === 'toutiao' ? '同步活跃，寻找定位' :
                   p.key === '_51cto' ? '同步活跃，寻找定位' :
                   p.key === 'zhihu' ? '升知乎8级，推新专栏' :
-                  p.key === 'wechat' ? '焕新升级' : ''
+                  p.key === 'wechat' ? '焕新升级' :
+                  p.key === 'segmentfault' ? '同步活跃，寻找定位' :
+                  p.key === 'infoq' ? '同步活跃，寻找定位' : ''
                 }}</span>
               </div>
             </div>

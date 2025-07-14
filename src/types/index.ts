@@ -16,7 +16,7 @@ export interface Article {
 }
 
 // 社区类型
-export type CommunityType = 'csdn' | 'juejin' | 'toutiao' | 'zhihu' | '_51cto' | 'wechat'
+export type CommunityType = 'csdn' | 'juejin' | 'toutiao' | 'zhihu' | '_51cto' | 'wechat' | 'segmentfault' | 'infoq'
 
 // 粉丝数据
 export interface FanData {
@@ -56,6 +56,8 @@ export interface CommunityStats {
   zhihu: Stats
   _51cto: Stats
   wechat: Stats
+  segmentfault: Stats
+  infoq: Stats
 }
 
 // 图表数据
