@@ -113,7 +113,7 @@ const formatNumber = (num: number) => new Intl.NumberFormat('zh-CN').format(num)
                     </span>
                   </div>
                   <div class="text-xs text-gray-500 mt-1">
-                    数据更新时间：{{ p.key === 'infoq' ? '2025-07-14' : '2025-07-09' }}
+                    数据更新时间：{{ p.key === 'infoq' ? '2025-07-14' : p.key === 'csdn' ? '2025-07-15' : '2025-07-09' }}
                   </div>
                   <div class="w-6 h-0.5 bg-red-500 rounded-full mt-1"></div>
                 </div>

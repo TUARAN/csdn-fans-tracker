@@ -158,13 +158,13 @@ export const useFansStore = defineStore('fans', () => {
     
     // CSDN数据
     const csdnData: FanData = {
-      date: '2025-07-14',
+      date: '2025-07-15',
       community: 'csdn',
-      fansCount: 84,
-      readCount: 12573,
-      articleCount: 4, // 如需调整请补充
-      dailyFansGrowth: 17,
-      dailyReadGrowth: 3047
+      fansCount: 115,
+      readCount: 18275,
+      articleCount: 43,
+      dailyFansGrowth: 36,
+      dailyReadGrowth: 4971
     }
     
     // 掘金数据（最新）
