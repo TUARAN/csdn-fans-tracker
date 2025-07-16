@@ -36,6 +36,9 @@ const platformPlan = computed(() => plansStore.getPlatformPlan(platform.value))
 // 当前选中的周索引
 const selectedWeekIndex = ref(0)
 
+// 当前选中的内容标签页
+const selectedContentTab = ref('')
+
 // 当前选中的周总结
 const currentWeeklySummary = computed(() => {
   if (platformPlan.value.weeklySummaries.length === 0) return null
@@ -109,6 +112,18 @@ const nextWeek = () => {
 const selectWeek = (index: number) => {
   selectedWeekIndex.value = index
 }
+
+// 监听内容规划变化，自动选中第一个标签页
+const updateSelectedContentTab = () => {
+  if (platformPlan.value.writingPlans.length > 0) {
+    selectedContentTab.value = platformPlan.value.writingPlans[0].id
+  }
+}
+
+// 组件挂载时初始化
+onMounted(() => {
+  updateSelectedContentTab()
+})
 </script>
 
 <template>
@@ -351,55 +366,50 @@ const selectWeek = (index: number) => {
               </div>
             </div>
 
-            <!-- 写作计划 -->
+            <!-- 内容规划 -->
             <div>
               <h4 class="text-md font-medium text-gray-800 mb-3">内容规划</h4>
               <div v-if="platformPlan.writingPlans.length === 0" class="text-center py-4">
                 <BookOpen class="w-8 h-8 text-gray-300 mx-auto mb-2" />
                 <p class="text-gray-500 text-sm">暂无内容规划</p>
               </div>
-              <div v-else class="space-y-3">
-                <div v-for="plan in platformPlan.writingPlans" :key="plan.id" 
-                     class="border border-gray-200 rounded-lg p-3">
-                  <div class="flex items-start justify-between mb-2">
-                    <div class="flex-1">
-                      <h5 class="font-medium text-gray-900 text-sm mb-1">{{ plan.title }}</h5>
-                      <div class="flex items-center space-x-3 text-xs text-gray-500">
-                        <span>{{ plan.category }}</span>
-                        <span>预计阅读: {{ plan.estimatedReadTime }}分钟</span>
-                        <span>目标日期: {{ plan.targetPublishDate }}</span>
-                      </div>
+              <div v-else>
+                <!-- 标签页导航 -->
+                <div class="flex space-x-1 mb-4 border-b border-gray-200">
+                  <button
+                    v-for="plan in platformPlan.writingPlans"
+                    :key="plan.id"
+                    @click="selectedContentTab = plan.id"
+                    :class="[
+                      'px-4 py-2 text-sm font-medium rounded-t-lg transition-colors',
+                      selectedContentTab === plan.id
+                        ? 'bg-blue-50 text-blue-600 border-b-2 border-blue-600'
+                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                    ]"
+                  >
+                    {{ plan.title }}
+                  </button>
+                </div>
+                
+                <!-- 标签页内容 -->
+                <div class="min-h-[200px]">
+                  <div v-for="plan in platformPlan.writingPlans" :key="plan.id" 
+                       v-show="selectedContentTab === plan.id"
+                       class="space-y-3">
+                    <div v-if="plan.articles.length === 0" class="text-center py-8">
+                      <BookOpen class="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                      <p class="text-gray-500 text-sm">{{ plan.title }} 文章清单</p>
+                      <p class="text-gray-400 text-xs mt-1">暂无文章</p>
                     </div>
-                    <span :class="`text-xs px-2 py-1 rounded ${statusColors[plan.status]}`">
-                      {{ plan.status === 'planning' ? '规划中' : 
-                         plan.status === 'in_progress' ? '进行中' : 
-                         plan.status === 'completed' ? '已完成' : '逾期' }}
-                    </span>
-                  </div>
-                  <div class="mb-2">
-                    <h6 class="text-xs font-medium text-gray-700 mb-1">大纲</h6>
-                    <ul class="text-xs text-gray-600 space-y-0.5">
-                      <li v-for="(item, index) in plan.outline.slice(0, 3)" :key="index" 
-                          class="flex items-start">
-                        <span class="w-0.5 h-0.5 bg-gray-400 rounded-full mt-1.5 mr-1.5 flex-shrink-0"></span>
-                        {{ item }}
-                      </li>
-                      <li v-if="plan.outline.length > 3" class="text-xs text-gray-400">
-                        ... 还有 {{ plan.outline.length - 3 }} 项
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                      <span class="text-xs text-gray-500">关键词:</span>
-                      <div class="flex space-x-1">
-                        <span v-for="keyword in plan.keywords.slice(0, 3)" :key="keyword" 
-                              class="text-xs bg-blue-100 text-blue-600 px-1.5 py-0.5 rounded">
-                          {{ keyword }}
-                        </span>
-                        <span v-if="plan.keywords.length > 3" class="text-xs text-gray-400">
-                          +{{ plan.keywords.length - 3 }}
-                        </span>
+                    <div v-else class="max-h-[400px] overflow-y-auto">
+                      <div v-for="article in plan.articles" :key="article.id" 
+                           class="border-b border-gray-100 py-2 hover:bg-gray-50 transition-colors">
+                        <div class="flex items-start">
+                          <div class="flex-1">
+                            <h5 class="font-medium text-gray-900 text-sm mb-1">{{ article.title }}</h5>
+                            <p class="text-xs text-gray-600">{{ article.description }}</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -156,75 +156,419 @@ export const usePlansStore = defineStore('plans', () => {
       writingPlans: [
         {
           id: '1',
-          title: '前端面试题精选系列（一）：JavaScript核心概念',
-          category: '面试题精选',
-          outline: [
-            'JavaScript数据类型与类型转换',
-            '作用域与闭包详解',
-            '原型链与继承机制',
-            '异步编程与Promise',
-            '实际面试题解析'
-          ],
-          targetPublishDate: '2025-07-20',
+          title: '面试文章',
+          category: '面试文章',
+          outline: [],
+          targetPublishDate: '',
           status: 'planning',
-          estimatedReadTime: 12,
-          keywords: ['JavaScript', '面试题', '前端开发', '核心概念'],
-          notes: '系列文章第一篇，重点讲解JavaScript核心概念，为后续面试题系列奠定基础。',
-          platforms: ['csdn']
+          estimatedReadTime: 0,
+          keywords: ['面试题', '前端开发'],
+          notes: '面试相关文章',
+          platforms: ['csdn'],
+          articles: [
+            {
+              id: '1',
+              title: '前端面试官最恨的10种CSS写法',
+              description: '你的z-index为什么永远失效？',
+              status: 'planned',
+              tags: ['CSS', '前端', '面试']
+            },
+            {
+              id: '2',
+              title: 'Vue3响应式原理八股文已死！',
+              description: '面试官在等你说这3个底层缺陷',
+              status: 'planned',
+              tags: ['Vue3', '响应式', '面试']
+            },
+            {
+              id: '3',
+              title: 'React性能杀手useMemo滥用实录',
+              description: '90%人不知道的渲染链崩溃陷阱',
+              status: 'planned',
+              tags: ['React', '性能优化', '面试']
+            },
+            {
+              id: '4',
+              title: 'TypeScript类型体操翻车现场',
+              description: '面试官递纸巾时我在擦类型报错',
+              status: 'planned',
+              tags: ['TypeScript', '类型', '面试']
+            },
+            {
+              id: '5',
+              title: 'Webpack tree-shaking失灵案',
+              description: '你的代码为什么被打包成"垃圾场"？',
+              status: 'planned',
+              tags: ['Webpack', '打包', '面试']
+            },
+            {
+              id: '6',
+              title: '前端监控埋点反作弊实战',
+              description: '如何用Performance API撕掉刷量外挂',
+              status: 'planned',
+              tags: ['监控', '埋点', '面试']
+            },
+            {
+              id: '7',
+              title: '跨域方案考古到现代',
+              description: 'CORS预检请求把面试官CPU干烧了',
+              status: 'planned',
+              tags: ['跨域', 'CORS', '面试']
+            },
+            {
+              id: '8',
+              title: '微前端沙箱漏洞攻防',
+              description: '子应用如何用Proxy劫持主站cookie',
+              status: 'planned',
+              tags: ['微前端', '沙箱', '面试']
+            },
+            {
+              id: '9',
+              title: '低代码平台面试避坑指南',
+              description: '别让拖拽组件暴露你的技术断层',
+              status: 'planned',
+              tags: ['低代码', '组件', '面试']
+            },
+            {
+              id: '10',
+              title: 'Three.js性能优化黑暗面',
+              description: '面试官让我现场调优崩溃的GPU',
+              status: 'planned',
+              tags: ['Three.js', '性能优化', '面试']
+            },
+            {
+              id: '11',
+              title: 'Spring事务失效的7个阴间场景',
+              description: '@Transactional注解竟是卧底？',
+              status: 'planned',
+              tags: ['Spring', '事务', '面试']
+            },
+            {
+              id: '12',
+              title: 'Redis分布式锁翻车大全',
+              description: '你的setnx正在给面试官表演喜剧',
+              status: 'planned',
+              tags: ['Redis', '分布式锁', '面试']
+            },
+            {
+              id: '13',
+              title: 'MySQL索引合并优化陷阱',
+              description: '明明建了索引为什么慢查告警炸了？',
+              status: 'planned',
+              tags: ['MySQL', '索引', '面试']
+            },
+            {
+              id: '14',
+              title: 'Kafka消息积压救命指南',
+              description: '从手动位移调到动态分区扩容实战',
+              status: 'planned',
+              tags: ['Kafka', '消息队列', '面试']
+            },
+            {
+              id: '15',
+              title: '线程池参数配置血泪史',
+              description: '队列塞爆时GC日志成了面试呈堂证供',
+              status: 'planned',
+              tags: ['线程池', 'JVM', '面试']
+            },
+            {
+              id: '16',
+              title: 'DDD面试反杀手册',
+              description: '当面试官说"写个聚合根"时我在画事件风暴',
+              status: 'planned',
+              tags: ['DDD', '架构', '面试']
+            },
+            {
+              id: '17',
+              title: '分布式ID生成器暗战',
+              description: '雪花算法时钟回拨时面试官笑而不语',
+              status: 'planned',
+              tags: ['分布式ID', '雪花算法', '面试']
+            },
+            {
+              id: '18',
+              title: 'TCP粘包拆包灾难现场',
+              description: 'Netty解码器救不了你的业务协议设计',
+              status: 'planned',
+              tags: ['TCP', 'Netty', '面试']
+            },
+            {
+              id: '19',
+              title: 'Elasticsearch深度分页谋杀案',
+              description: 'from+size如何拖垮集群',
+              status: 'planned',
+              tags: ['Elasticsearch', '分页', '面试']
+            },
+            {
+              id: '20',
+              title: '高并发下单系统架构尸检报告',
+              description: '库存扣减与订单创建的死锁链',
+              status: 'planned',
+              tags: ['高并发', '架构', '面试']
+            },
+            {
+              id: '21',
+              title: '大模型微调面试避雷针',
+              description: '你的LoRA适配器正在泄露业务数据',
+              status: 'planned',
+              tags: ['大模型', '微调', '面试']
+            },
+            {
+              id: '22',
+              title: 'LangChain面试翻车实录',
+              description: 'Chain和Agent区别说错直接挂',
+              status: 'planned',
+              tags: ['LangChain', 'AI', '面试']
+            },
+            {
+              id: '23',
+              title: 'Embedding向量检索优化',
+              description: '当面试官问"为什么不用余弦相似度"',
+              status: 'planned',
+              tags: ['Embedding', '向量检索', '面试']
+            },
+            {
+              id: '24',
+              title: '推理服务部署压测指南',
+              description: '你的Triton配置把GPU显存炸成烟花',
+              status: 'planned',
+              tags: ['推理服务', 'GPU', '面试']
+            },
+            {
+              id: '25',
+              title: 'Prompt注入攻防实战',
+              description: '如何用系统提示词封印越狱指令',
+              status: 'planned',
+              tags: ['Prompt', '安全', '面试']
+            },
+            {
+              id: '26',
+              title: 'LLM应用架构设计陷阱',
+              description: 'RAG还是Fine-tuning？选错技术栈直接出局',
+              status: 'planned',
+              tags: ['LLM', '架构', '面试']
+            },
+            {
+              id: '27',
+              title: '模型量化部署生死局',
+              description: 'INT8精度损失让面试官皱紧眉头',
+              status: 'planned',
+              tags: ['模型量化', '部署', '面试']
+            },
+            {
+              id: '28',
+              title: 'AI编译器面试冷箭',
+              description: 'TVM和MLIR区别说不清等于白学',
+              status: 'planned',
+              tags: ['AI编译器', 'TVM', '面试']
+            },
+            {
+              id: '29',
+              title: '多模态模型缓存灾难',
+              description: '图像编码器如何吃光你的内存',
+              status: 'planned',
+              tags: ['多模态', '缓存', '面试']
+            },
+            {
+              id: '30',
+              title: '大模型监控告警盲区',
+              description: 'Token延迟99分位超标竟无人察觉',
+              status: 'planned',
+              tags: ['监控', '告警', '面试']
+            },
+            {
+              id: '31',
+              title: 'K8s探针配置夺命call',
+              description: 'Readiness探针失败导致服务雪崩实录',
+              status: 'planned',
+              tags: ['Kubernetes', '探针', '面试']
+            },
+            {
+              id: '32',
+              title: 'Istio流量管理反模式',
+              description: '你的VirtualService正在制造环路',
+              status: 'planned',
+              tags: ['Istio', '流量管理', '面试']
+            },
+            {
+              id: '33',
+              title: 'Docker镜像瘦身手术',
+              description: '从1.2GB到80MB的面试急救方案',
+              status: 'planned',
+              tags: ['Docker', '镜像优化', '面试']
+            },
+            {
+              id: '34',
+              title: 'CI/CD流水线安全漏洞',
+              description: 'Jenkinsfile中groovy代码注入漏洞',
+              status: 'planned',
+              tags: ['CI/CD', '安全', '面试']
+            },
+            {
+              id: '35',
+              title: 'Service Mesh数据面性能刑侦',
+              description: 'Envoy内存泄漏如何定位',
+              status: 'planned',
+              tags: ['Service Mesh', 'Envoy', '面试']
+            },
+            {
+              id: '36',
+              title: '云原生可观测性骗局',
+              description: '你的OpenTelemetry埋点全是噪声',
+              status: 'planned',
+              tags: ['可观测性', 'OpenTelemetry', '面试']
+            },
+            {
+              id: '37',
+              title: 'Infra面试必杀技',
+              description: '用eBPF现场抓包证明网络延迟',
+              status: 'planned',
+              tags: ['eBPF', '网络', '面试']
+            },
+            {
+              id: '38',
+              title: 'Git高级操作翻车集',
+              description: '当面试官让你rebase冲突分支时...',
+              status: 'planned',
+              tags: ['Git', '版本控制', '面试']
+            },
+            {
+              id: '39',
+              title: '混沌工程面试红黑榜',
+              description: 'Chaos Mesh实验设计错误集锦',
+              status: 'planned',
+              tags: ['混沌工程', 'Chaos Mesh', '面试']
+            },
+            {
+              id: '40',
+              title: 'Server冷启动优化实战',
+              description: '面试官让我5分钟降低Lambda延迟',
+              status: 'planned',
+              tags: ['Serverless', '冷启动', '面试']
+            },
+            {
+              id: '41',
+              title: 'JVM调优面试死亡问答',
+              description: 'CMS和G1回收器选择错误直接挂',
+              status: 'planned',
+              tags: ['JVM', '调优', '面试']
+            },
+            {
+              id: '42',
+              title: 'Linux内存泄漏狩猎指南',
+              description: '面试官递来perf时我在颤抖',
+              status: 'planned',
+              tags: ['Linux', '内存泄漏', '面试']
+            },
+            {
+              id: '43',
+              title: 'Golang协程泄露检测',
+              description: 'pprof如何揪出百万级goroutine元凶',
+              status: 'planned',
+              tags: ['Golang', '协程', '面试']
+            },
+            {
+              id: '44',
+              title: 'Python GIL突围实战',
+              description: '面试官说多进程慢时我掏出了C扩展',
+              status: 'planned',
+              tags: ['Python', 'GIL', '面试']
+            },
+            {
+              id: '45',
+              title: 'SQL执行计划解读密码',
+              description: 'Extra字段出现"Using temporary"时危险了',
+              status: 'planned',
+              tags: ['SQL', '执行计划', '面试']
+            },
+            {
+              id: '46',
+              title: '分布式追踪埋雷分析',
+              description: 'OpenTelemetry Span超时牵连无辜服务',
+              status: 'planned',
+              tags: ['分布式追踪', 'OpenTelemetry', '面试']
+            },
+            {
+              id: '47',
+              title: '压测工具对比解剖',
+              description: 'wrk和jmeter谁更适合面试现场演示？',
+              status: 'planned',
+              tags: ['压测', '性能测试', '面试']
+            },
+            {
+              id: '48',
+              title: 'CPU毛刺排查终极武器',
+              description: '用火焰图锁定热点函数',
+              status: 'planned',
+              tags: ['CPU', '火焰图', '面试']
+            },
+            {
+              id: '49',
+              title: '协议栈调优黑科技',
+              description: 'TCP_NODELAY和TCP_QUICKACK的战争',
+              status: 'planned',
+              tags: ['TCP', '协议栈', '面试']
+            },
+            {
+              id: '50',
+              title: '代码审查反杀案例',
+              description: '在PR评论里发现面试官的逻辑漏洞',
+              status: 'planned',
+              tags: ['代码审查', 'PR', '面试']
+            }
+          ]
         },
         {
           id: '2',
-          title: '开发者必备工具集合：提升效率的利器',
-          category: 'AI 资源推荐',
-          outline: [
-            '代码编辑器与IDE推荐',
-            '调试与测试工具',
-            '版本控制与协作工具',
-            '性能监控与分析工具',
-            'AI辅助开发工具'
-          ],
-          targetPublishDate: '2025-07-22',
+          title: '资源集合',
+          category: '资源集合',
+          outline: [],
+          targetPublishDate: '',
           status: 'planning',
-          estimatedReadTime: 15,
-          keywords: ['开发工具', '效率提升', '程序员必备', '工具推荐'],
-          notes: '整理个人使用过的优秀开发工具，帮助其他开发者提升工作效率。',
-          platforms: ['csdn']
+          estimatedReadTime: 0,
+          keywords: ['资源', '工具'],
+          notes: '资源集合文章',
+          platforms: ['csdn'],
+          articles: []
         },
         {
           id: '3',
-          title: 'React 18新特性深度解析',
-          category: '技术成长',
-          outline: [
-            'React 18概述与升级指南',
-            'Concurrent Features详解',
-            'Suspense与数据获取',
-            '自动批处理机制',
-            '实际项目应用案例'
-          ],
-          targetPublishDate: '2025-07-25',
+          title: '热点文章',
+          category: '热点文章',
+          outline: [],
+          targetPublishDate: '',
           status: 'planning',
-          estimatedReadTime: 18,
-          keywords: ['React 18', '前端框架', '新特性', '技术解析'],
-          notes: '结合热点技术，深入解析React 18的新特性，帮助开发者快速上手。',
-          platforms: ['csdn']
+          estimatedReadTime: 0,
+          keywords: ['热点', '新技术'],
+          notes: '热点技术文章',
+          platforms: ['csdn'],
+          articles: []
         },
         {
           id: '4',
-          title: 'CSS Grid布局完全指南',
-          category: '技术成长',
-          outline: [
-            'Grid布局基础概念',
-            '网格容器与网格项',
-            '网格线命名与定位',
-            '响应式Grid布局',
-            '实际项目应用'
-          ],
-          targetPublishDate: '2025-07-28',
+          title: '翻译文章',
+          category: '翻译文章',
+          outline: [],
+          targetPublishDate: '',
           status: 'planning',
-          estimatedReadTime: 14,
-          keywords: ['CSS Grid', '布局', '前端开发', '响应式'],
-          notes: '基础知识系列文章，系统讲解CSS Grid布局，适合前端初学者。',
-          platforms: ['csdn']
+          estimatedReadTime: 0,
+          keywords: ['翻译', '国外技术'],
+          notes: '翻译国外技术文章',
+          platforms: ['csdn'],
+          articles: []
+        },
+        {
+          id: '5',
+          title: '基础知识文章',
+          category: '基础知识文章',
+          outline: [],
+          targetPublishDate: '',
+          status: 'planning',
+          estimatedReadTime: 0,
+          keywords: ['基础知识', '教程'],
+          notes: '基础知识教程文章',
+          platforms: ['csdn'],
+          articles: []
         }
       ],
       thoughtNotes: [

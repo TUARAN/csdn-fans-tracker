@@ -121,7 +121,7 @@ const goToHomepage = (url: string) => {
                     {{ p.username }}
                     <span class="text-yellow-600 ml-1">{{ 
                       p.key === 'csdn' ? 'CSDN专家' :
-                      p.key === 'juejin' ? '掘金7级' :
+                      p.key === 'juejin' ? '社区共建者' :
                       p.key === 'toutiao' ? '头条创作者' :
                       p.key === '_51cto' ? '51CTO专家' :
                       p.key === 'wechat' ? '荣誉用户' :

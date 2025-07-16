@@ -1,5 +1,5 @@
 // 文章分类
-export type ArticleCategory = '面试题精选' | 'AI 资源推荐' | '技术成长' | '大模型实战'
+export type ArticleCategory = '面试文章' | '资源集合' | '热点文章' | '翻译文章' | '基础知识文章'
 
 // 文章数据
 export interface Article {
@@ -107,6 +107,18 @@ export interface WeeklySummary {
   notes: string
 }
 
+// 文章项目
+export interface ArticleItem {
+  id: string
+  title: string
+  description: string
+  status: 'draft' | 'published' | 'planned'
+  publishDate?: string
+  readCount?: number
+  likeCount?: number
+  tags: string[]
+}
+
 // 写作计划
 export interface WritingPlan {
   id: string
@@ -119,6 +131,7 @@ export interface WritingPlan {
   estimatedReadTime: number
   keywords: string[]
   notes: string
+  articles: ArticleItem[]
 }
 
 // 思考笔记

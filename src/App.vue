@@ -74,7 +74,6 @@ const currentRoute = computed(() => route.path)
               </div>
               <h1 class="text-3xl font-bold">
                 <span class="bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">掘金安东尼</span>
-                <span class="text-gray-700 ml-3 text-xl font-medium">技术社区数据面板</span>
               </h1>
             </div>
           </div>
