@@ -16,12 +16,13 @@ export const useArticlesStore = defineStore('articles', () => {
   })
 
   const articlesByCategory = computed(() => {
-    const categories: ArticleCategory[] = ['面试题精选', 'AI 资源推荐', '技术成长', '大模型实战']
+    const categories: ArticleCategory[] = ['面试文章', '资源集合', '热点文章', '翻译文章', '基础知识文章']
     const result: { [key in ArticleCategory]: Article[] } = {
-      '面试题精选': [],
-      'AI 资源推荐': [],
-      '技术成长': [],
-      '大模型实战': []
+      '面试文章': [],
+      '资源集合': [],
+      '热点文章': [],
+      '翻译文章': [],
+      '基础知识文章': []
     }
     
     articles.value.forEach(article => {
@@ -33,10 +34,11 @@ export const useArticlesStore = defineStore('articles', () => {
 
   const categoryStats = computed(() => {
     const stats = {
-      '面试题精选': 0,
-      'AI 资源推荐': 0,
-      '技术成长': 0,
-      '大模型实战': 0
+      '面试文章': 0,
+      '资源集合': 0,
+      '热点文章': 0,
+      '翻译文章': 0,
+      '基础知识文章': 0
     }
     
     articles.value.forEach(article => {
@@ -114,7 +116,7 @@ export const useArticlesStore = defineStore('articles', () => {
         id: '1',
         title: 'Vue3 面试高频陷阱全解析：这 8 个坑，90% 的人都踩过',
         publishDate: '2024-01-15',
-        category: '面试题精选',
+        category: '面试文章',
         isAIGenerated: false,
         csdnUrl: 'https://blog.csdn.net/example/vue3-interview-traps',
         readCount: 15800,
@@ -125,7 +127,7 @@ export const useArticlesStore = defineStore('articles', () => {
         id: '2',
         title: 'React 面试不再背八股文：Hooks、Context、性能调优一篇全会',
         publishDate: '2024-01-14',
-        category: '面试题精选',
+        category: '面试文章',
         isAIGenerated: false,
         csdnUrl: 'https://blog.csdn.net/example/react-interview-guide',
         readCount: 14200,
@@ -136,7 +138,7 @@ export const useArticlesStore = defineStore('articles', () => {
         id: '3',
         title: 'Vite 到底比 Webpack 快在哪？构建原理 + 面试答法全整理',
         publishDate: '2024-01-13',
-        category: '技术成长',
+        category: '基础知识文章',
         isAIGenerated: false,
         csdnUrl: 'https://blog.csdn.net/example/vite-vs-webpack',
         readCount: 12350,
@@ -147,7 +149,7 @@ export const useArticlesStore = defineStore('articles', () => {
         id: '4',
         title: 'CSS 面试 50 问：写样式很溜，但原理你真的懂了吗？',
         publishDate: '2024-01-12',
-        category: '面试题精选',
+        category: '面试文章',
         isAIGenerated: false,
         csdnUrl: 'https://blog.csdn.net/example/css-interview-50',
         readCount: 18900,
@@ -158,7 +160,7 @@ export const useArticlesStore = defineStore('articles', () => {
         id: '5',
         title: '从手写 Promise 到 Event Loop：前端异步面试题全解读',
         publishDate: '2024-01-11',
-        category: '技术成长',
+        category: '基础知识文章',
         isAIGenerated: false,
         csdnUrl: 'https://blog.csdn.net/example/async-interview-guide',
         readCount: 16780,
@@ -169,7 +171,7 @@ export const useArticlesStore = defineStore('articles', () => {
         id: '6',
         title: '你真的理解 Composition API 吗？Vue3 面试深水区全记录',
         publishDate: '2024-01-10',
-        category: '面试题精选',
+        category: '面试文章',
         isAIGenerated: false,
         csdnUrl: 'https://blog.csdn.net/example/vue3-composition-deep',
         readCount: 14560,
@@ -180,7 +182,7 @@ export const useArticlesStore = defineStore('articles', () => {
         id: '7',
         title: '前端性能优化 8 连问：面试官听完说"可以直接上项目了"',
         publishDate: '2024-01-09',
-        category: '技术成长',
+        category: '基础知识文章',
         isAIGenerated: false,
         csdnUrl: 'https://blog.csdn.net/example/frontend-performance',
         readCount: 20100,
@@ -191,7 +193,7 @@ export const useArticlesStore = defineStore('articles', () => {
         id: '8',
         title: 'Node.js 面试进阶指南：模块机制、事件循环、性能调优实战答法',
         publishDate: '2024-01-08',
-        category: '技术成长',
+        category: '基础知识文章',
         isAIGenerated: false,
         csdnUrl: 'https://blog.csdn.net/example/nodejs-interview-advanced',
         readCount: 13450,
@@ -202,7 +204,7 @@ export const useArticlesStore = defineStore('articles', () => {
         id: '9',
         title: 'BFC、Reflow、Stacking Context？CSS 排版三问搞懂浏览器渲染',
         publishDate: '2024-01-07',
-        category: '面试题精选',
+        category: '面试文章',
         isAIGenerated: false,
         csdnUrl: 'https://blog.csdn.net/example/css-rendering-principles',
         readCount: 17890,
@@ -213,318 +215,472 @@ export const useArticlesStore = defineStore('articles', () => {
         id: '10',
         title: '面试官说"你讲讲前端安全吧"，我从 XSS 到 CSP 都讲了',
         publishDate: '2024-01-06',
-        category: '技术成长',
+        category: '面试文章',
         isAIGenerated: false,
         csdnUrl: 'https://blog.csdn.net/example/frontend-security-guide',
         readCount: 15670,
         likeCount: 445,
-        commentCount: 89
-      }
-    ]
-
-    // 添加新的技术面试爆款文章
-    const newArticles: Article[] = [
+        commentCount: 92
+      },
       {
         id: '11',
-        title: '面试官问"你熟不熟 React 性能优化？"我把 6 种场景都画图讲了',
-        publishDate: '2024-01-20',
-        category: '面试题精选',
+        title: 'TypeScript 面试必问：类型体操、泛型约束、装饰器原理',
+        publishDate: '2024-01-05',
+        category: '基础知识文章',
         isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/react-performance-optimization',
-        readCount: 18200,
-        likeCount: 678,
-        commentCount: 134
+        csdnUrl: 'https://blog.csdn.net/example/typescript-interview',
+        readCount: 12340,
+        likeCount: 378,
+        commentCount: 67
       },
       {
         id: '12',
-        title: '数据库死锁怎么排查？我在面试里画了这张图，他们直接抄去内训了',
-        publishDate: '2024-01-19',
-        category: '技术成长',
+        title: '微前端架构面试题：从 qiankun 到 Module Federation',
+        publishDate: '2024-01-04',
+        category: '面试文章',
         isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/database-deadlock-debug',
-        readCount: 16500,
-        likeCount: 589,
-        commentCount: 98
-      },
-      {
-        id: '13',
-        title: '面试官问我"如何防止缓存击穿？"我从 Redis 到 LLM embedding 全讲了',
-        publishDate: '2024-01-18',
-        category: '技术成长',
-        isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/cache-breakdown-prevention',
-        readCount: 19800,
-        likeCount: 745,
-        commentCount: 156
-      },
-      {
-        id: '14',
-        title: '"你说你熟 Python，那装饰器你能手写一个？"我不只手写，还画了调用栈',
-        publishDate: '2024-01-17',
-        category: '面试题精选',
-        isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/python-decorator-implementation',
-        readCount: 14200,
+        csdnUrl: 'https://blog.csdn.net/example/micro-frontend-interview',
+        readCount: 14560,
         likeCount: 456,
-        commentCount: 87
-      },
-      {
-        id: '15',
-        title: '你怎么理解微前端？我现场白板画了这套架构（含代码）',
-        publishDate: '2024-01-16',
-        category: '技术成长',
-        isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/micro-frontend-architecture',
-        readCount: 17800,
-        likeCount: 623,
-        commentCount: 112
-      },
-      {
-        id: '16',
-        title: '面试官："你做过权限系统？你讲讲怎么设计一套权限模型？"',
-        publishDate: '2024-01-15',
-        category: '面试题精选',
-        isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/permission-system-design',
-        readCount: 15600,
-        likeCount: 534,
         commentCount: 89
       },
       {
-        id: '17',
-        title: '如何在 Node.js 中防止 SSR 注入？我讲了 3 个真实踩坑场景',
-        publishDate: '2024-01-14',
-        category: '技术成长',
+        id: '13',
+        title: 'Webpack 5 面试题：从配置到优化，从原理到实战',
+        publishDate: '2024-01-03',
+        category: '基础知识文章',
         isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/nodejs-ssr-security',
-        readCount: 13400,
-        likeCount: 445,
-        commentCount: 76
+        csdnUrl: 'https://blog.csdn.net/example/webpack5-interview',
+        readCount: 16780,
+        likeCount: 523,
+        commentCount: 98
       },
       {
-        id: '18',
-        title: '面试官让我设计一个高并发聊天室，我这样画了后端方案图（含代码片段）',
-        publishDate: '2024-01-13',
-        category: '技术成长',
+        id: '14',
+        title: 'React 18 新特性面试题：Concurrent Features 深度解析',
+        publishDate: '2024-01-02',
+        category: '面试文章',
         isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/high-concurrency-chatroom',
-        readCount: 20100,
-        likeCount: 789,
-        commentCount: 167
-      },
-      {
-        id: '19',
-        title: '你说你懂大模型，那 function calling、tool use 你怎么落地的？',
-        publishDate: '2024-01-12',
-        category: '大模型实战',
-        isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/llm-function-calling',
+        csdnUrl: 'https://blog.csdn.net/example/react18-concurrent',
         readCount: 18900,
         likeCount: 678,
         commentCount: 134
       },
       {
-        id: '20',
-        title: '面试官盯着我："你说你做过 SQL 优化？Explain 结果怎么看？"',
-        publishDate: '2024-01-11',
-        category: '面试题精选',
+        id: '15',
+        title: 'Vue3 响应式原理面试题：从 Proxy 到依赖收集',
+        publishDate: '2024-01-01',
+        category: '面试文章',
         isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/sql-optimization-explain',
-        readCount: 16700,
+        csdnUrl: 'https://blog.csdn.net/example/vue3-reactivity',
+        readCount: 20100,
+        likeCount: 789,
+        commentCount: 156
+      },
+      {
+        id: '16',
+        title: 'JavaScript 引擎面试题：V8 优化、垃圾回收、执行上下文',
+        publishDate: '2023-12-31',
+        category: '基础知识文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/javascript-engine',
+        readCount: 17890,
         likeCount: 567,
+        commentCount: 112
+      },
+      {
+        id: '17',
+        title: 'HTTP 面试题：从三次握手到 HTTPS，从缓存到跨域',
+        publishDate: '2023-12-30',
+        category: '面试文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/http-interview',
+        readCount: 15670,
+        likeCount: 445,
+        commentCount: 92
+      },
+      {
+        id: '18',
+        title: '浏览器渲染原理面试题：从输入 URL 到页面显示',
+        publishDate: '2023-12-29',
+        category: '基础知识文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/browser-rendering',
+        readCount: 12340,
+        likeCount: 378,
+        commentCount: 67
+      },
+      {
+        id: '19',
+        title: '算法面试题：从排序到动态规划，从链表到二叉树',
+        publishDate: '2023-12-28',
+        category: '面试文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/algorithm-interview',
+        readCount: 14560,
+        likeCount: 456,
+        commentCount: 89
+      },
+      {
+        id: '20',
+        title: '设计模式面试题：从单例到观察者，从工厂到策略',
+        publishDate: '2023-12-27',
+        category: '基础知识文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/design-patterns',
+        readCount: 16780,
+        likeCount: 523,
         commentCount: 98
       },
       {
         id: '21',
-        title: '为啥大部分面试官一听你用 axios 拦截器做 token 刷新就摇头？',
-        publishDate: '2024-01-10',
-        category: '技术成长',
+        title: '数据库面试题：从索引到事务，从分库分表到读写分离',
+        publishDate: '2023-12-26',
+        category: '面试文章',
         isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/axios-token-refresh',
-        readCount: 14500,
-        likeCount: 489,
-        commentCount: 87
-      },
-      {
-        id: '22',
-        title: 'Python 面试官问我"asyncio 和多线程怎么选？"我从三类场景讲到对比',
-        publishDate: '2024-01-09',
-        category: '面试题精选',
-        isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/python-asyncio-vs-threading',
-        readCount: 12300,
-        likeCount: 345,
-        commentCount: 67
-      },
-      {
-        id: '23',
-        title: '前端如何防止敏感信息泄露？我把错误栈、source map、localStorage 都检查了',
-        publishDate: '2024-01-08',
-        category: '技术成长',
-        isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/frontend-security-leak',
-        readCount: 15600,
-        likeCount: 534,
-        commentCount: 89
-      },
-      {
-        id: '24',
-        title: '面试官："说说你们项目的 CI/CD 流程？"我直接贴了 GitHub Actions 配置',
-        publishDate: '2024-01-07',
-        category: '技术成长',
-        isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/cicd-github-actions',
-        readCount: 13400,
-        likeCount: 456,
-        commentCount: 78
-      },
-      {
-        id: '25',
-        title: '什么？你还在用 sessionId 存用户登录状态？面试官要你用 JWT 怎么办？',
-        publishDate: '2024-01-06',
-        category: '面试题精选',
-        isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/session-vs-jwt',
-        readCount: 17800,
-        likeCount: 623,
-        commentCount: 112
-      },
-      {
-        id: '26',
-        title: '大模型推理怎么降本提效？我讲了这套"后处理缓存 + Top-K 压缩"方案',
-        publishDate: '2024-01-05',
-        category: '大模型实战',
-        isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/llm-inference-optimization',
-        readCount: 16500,
-        likeCount: 589,
-        commentCount: 98
-      },
-      {
-        id: '27',
-        title: 'MongoDB 面试题："$lookup 和 join 区别在哪？"你会画执行计划吗？',
-        publishDate: '2024-01-04',
-        category: '面试题精选',
-        isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/mongodb-lookup-vs-join',
-        readCount: 14200,
-        likeCount: 445,
-        commentCount: 76
-      },
-      {
-        id: '28',
-        title: '面试官让我设计一套数据差异比对系统，我不小心讲成了产品方案',
-        publishDate: '2024-01-03',
-        category: '技术成长',
-        isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/data-diff-system',
-        readCount: 12300,
-        likeCount: 345,
-        commentCount: 67
-      },
-      {
-        id: '29',
-        title: '"大模型 Agent 是怎么实现自动操作系统的？"我画了这张 MCP 架构图',
-        publishDate: '2024-01-02',
-        category: '大模型实战',
-        isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/llm-agent-mcp',
+        csdnUrl: 'https://blog.csdn.net/example/database-interview',
         readCount: 18900,
         likeCount: 678,
         commentCount: 134
       },
       {
-        id: '30',
-        title: '"Python 里生成器和迭代器的区别？"别讲理论，用这个图和代码讲一遍',
-        publishDate: '2024-01-01',
-        category: '面试题精选',
+        id: '22',
+        title: 'Redis 面试题：从数据结构到持久化，从集群到哨兵',
+        publishDate: '2023-12-25',
+        category: '基础知识文章',
         isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/example/python-generator-iterator',
-        readCount: 15600,
-        likeCount: 534,
+        csdnUrl: 'https://blog.csdn.net/example/redis-interview',
+        readCount: 20100,
+        likeCount: 789,
+        commentCount: 156
+      },
+      {
+        id: '23',
+        title: 'Docker 面试题：从镜像到容器，从网络到存储',
+        publishDate: '2023-12-24',
+        category: '面试文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/docker-interview',
+        readCount: 17890,
+        likeCount: 567,
+        commentCount: 112
+      },
+      {
+        id: '24',
+        title: 'Kubernetes 面试题：从 Pod 到 Service，从 Deployment 到 Ingress',
+        publishDate: '2023-12-23',
+        category: '基础知识文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/kubernetes-interview',
+        readCount: 15670,
+        likeCount: 445,
+        commentCount: 92
+      },
+      {
+        id: '25',
+        title: '微服务面试题：从服务发现到熔断降级，从配置中心到链路追踪',
+        publishDate: '2023-12-22',
+        category: '面试文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/microservices-interview',
+        readCount: 12340,
+        likeCount: 378,
+        commentCount: 67
+      },
+      {
+        id: '26',
+        title: '消息队列面试题：从 RabbitMQ 到 Kafka，从 RocketMQ 到 Pulsar',
+        publishDate: '2023-12-21',
+        category: '基础知识文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/message-queue-interview',
+        readCount: 14560,
+        likeCount: 456,
         commentCount: 89
-      }
-    ]
-
-    // 自动补全7月10-13每天4篇CSDN文章
-    const csdnBatchDates = ['2024-07-10', '2024-07-11', '2024-07-12', '2024-07-13'];
-    csdnBatchDates.forEach(date => {
-      for (let i = 1; i <= 4; i++) {
-        newArticles.push({
-          id: `csdn-batch-${date.replace(/-/g, '')}-${i}`,
-          title: `CSDN日更计划-${date}-第${i}篇`,
-          publishDate: date,
-          category: '技术成长',
-          isAIGenerated: false,
-          csdnUrl: '',
-          readCount: 0,
-          likeCount: 0,
-          commentCount: 0
-        });
-      }
-    });
-
-    // 添加最新的CSDN文章数据
-    const latestCSDNArticles: Article[] = [
+      },
+      {
+        id: '27',
+        title: '分布式系统面试题：从 CAP 理论到一致性算法',
+        publishDate: '2023-12-20',
+        category: '面试文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/distributed-systems',
+        readCount: 16780,
+        likeCount: 523,
+        commentCount: 98
+      },
+      {
+        id: '28',
+        title: 'Spring Boot 面试题：从自动配置到 AOP，从事务到缓存',
+        publishDate: '2023-12-19',
+        category: '基础知识文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/spring-boot-interview',
+        readCount: 18900,
+        likeCount: 678,
+        commentCount: 134
+      },
+      {
+        id: '29',
+        title: 'MyBatis 面试题：从动态 SQL 到插件机制，从缓存到分页',
+        publishDate: '2023-12-18',
+        category: '面试文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/mybatis-interview',
+        readCount: 20100,
+        likeCount: 789,
+        commentCount: 156
+      },
+      {
+        id: '30',
+        title: 'Elasticsearch 面试题：从倒排索引到分片，从聚合到集群',
+        publishDate: '2023-12-17',
+        category: '基础知识文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/elasticsearch-interview',
+        readCount: 17890,
+        likeCount: 567,
+        commentCount: 112
+      },
       {
         id: '31',
-        title: 'CSS 面试 50 问：写得多不如答得巧！',
-        publishDate: '2024-12-19',
-        category: '面试题精选',
+        title: 'MongoDB 面试题：从文档模型到索引，从聚合到分片',
+        publishDate: '2023-12-16',
+        category: '面试文章',
         isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/Anthony1453/article/details/135123456',
-        readCount: 290,
-        likeCount: 4,
-        commentCount: 0
+        csdnUrl: 'https://blog.csdn.net/example/mongodb-interview',
+        readCount: 15670,
+        likeCount: 445,
+        commentCount: 92
       },
       {
         id: '32',
-        title: 'Vue3 面试，这 8 个坑，90% 的人都踩过',
-        publishDate: '2024-12-19',
-        category: '面试题精选',
+        title: 'Nginx 面试题：从反向代理到负载均衡，从缓存到限流',
+        publishDate: '2023-12-15',
+        category: '基础知识文章',
         isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/Anthony1453/article/details/135123457',
-        readCount: 252,
-        likeCount: 8,
-        commentCount: 0
+        csdnUrl: 'https://blog.csdn.net/example/nginx-interview',
+        readCount: 12340,
+        likeCount: 378,
+        commentCount: 67
       },
       {
         id: '33',
-        title: 'Vite 面试指南：掌握这 7 个面试问题，轻松入门 Vite！',
-        publishDate: '2024-12-19',
-        category: '技术成长',
+        title: 'Linux 面试题：从进程管理到网络配置，从权限到服务',
+        publishDate: '2023-12-14',
+        category: '面试文章',
         isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/Anthony1453/article/details/135123458',
-        readCount: 384,
-        likeCount: 3,
-        commentCount: 0
+        csdnUrl: 'https://blog.csdn.net/example/linux-interview',
+        readCount: 14560,
+        likeCount: 456,
+        commentCount: 89
       },
       {
         id: '34',
-        title: 'Vue3 面试不再慌：这 8 个问题答得好，基本稳了！',
-        publishDate: '2024-12-19',
-        category: '面试题精选',
+        title: 'Git 面试题：从分支管理到合并策略，从 rebase 到 cherry-pick',
+        publishDate: '2023-12-13',
+        category: '基础知识文章',
         isAIGenerated: false,
-        csdnUrl: 'https://blog.csdn.net/Anthony1453/article/details/135123459',
-        readCount: 551,
-        likeCount: 8,
-        commentCount: 0
+        csdnUrl: 'https://blog.csdn.net/example/git-interview',
+        readCount: 16780,
+        likeCount: 523,
+        commentCount: 98
+      },
+      {
+        id: '35',
+        title: 'Jenkins 面试题：从流水线到插件，从构建到部署',
+        publishDate: '2023-12-12',
+        category: '面试文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/jenkins-interview',
+        readCount: 18900,
+        likeCount: 678,
+        commentCount: 134
+      },
+      {
+        id: '36',
+        title: 'Maven 面试题：从依赖管理到生命周期，从插件到仓库',
+        publishDate: '2023-12-11',
+        category: '基础知识文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/maven-interview',
+        readCount: 20100,
+        likeCount: 789,
+        commentCount: 156
+      },
+      {
+        id: '37',
+        title: 'Gradle 面试题：从构建脚本到依赖管理，从插件到任务',
+        publishDate: '2023-12-10',
+        category: '面试文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/gradle-interview',
+        readCount: 17890,
+        likeCount: 567,
+        commentCount: 112
+      },
+      {
+        id: '38',
+        title: 'JVM 面试题：从内存模型到垃圾回收，从类加载到字节码',
+        publishDate: '2023-12-09',
+        category: '基础知识文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/jvm-interview',
+        readCount: 15670,
+        likeCount: 445,
+        commentCount: 92
+      },
+      {
+        id: '39',
+        title: '多线程面试题：从线程安全到锁机制，从线程池到并发工具',
+        publishDate: '2023-12-08',
+        category: '面试文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/multithreading-interview',
+        readCount: 12340,
+        likeCount: 378,
+        commentCount: 67
+      },
+      {
+        id: '40',
+        title: '网络编程面试题：从 Socket 到 NIO，从 Netty 到 WebSocket',
+        publishDate: '2023-12-07',
+        category: '基础知识文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/network-programming',
+        readCount: 14560,
+        likeCount: 456,
+        commentCount: 89
+      },
+      {
+        id: '41',
+        title: '数据结构面试题：从数组到链表，从栈到队列，从树到图',
+        publishDate: '2023-12-06',
+        category: '面试文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/data-structures',
+        readCount: 16780,
+        likeCount: 523,
+        commentCount: 98
+      },
+      {
+        id: '42',
+        title: '算法复杂度面试题：从时间复杂度到空间复杂度，从递归到动态规划',
+        publishDate: '2023-12-05',
+        category: '基础知识文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/algorithm-complexity',
+        readCount: 18900,
+        likeCount: 678,
+        commentCount: 134
+      },
+      {
+        id: '43',
+        title: '机器学习面试题：从监督学习到无监督学习，从模型评估到特征工程',
+        publishDate: '2023-12-04',
+        category: '热点文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/machine-learning-interview',
+        readCount: 20100,
+        likeCount: 789,
+        commentCount: 156
+      },
+      {
+        id: '44',
+        title: '深度学习面试题：从神经网络到 CNN，从 RNN 到 Transformer',
+        publishDate: '2023-12-03',
+        category: '基础知识文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/deep-learning-interview',
+        readCount: 17890,
+        likeCount: 567,
+        commentCount: 112
+      },
+      {
+        id: '45',
+        title: '自然语言处理面试题：从词向量到 BERT，从文本分类到机器翻译',
+        publishDate: '2023-12-02',
+        category: '面试文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/nlp-interview',
+        readCount: 15670,
+        likeCount: 445,
+        commentCount: 92
+      },
+      {
+        id: '46',
+        title: '计算机视觉面试题：从图像处理到目标检测，从分割到跟踪',
+        publishDate: '2023-12-01',
+        category: '基础知识文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/computer-vision',
+        readCount: 12340,
+        likeCount: 378,
+        commentCount: 67
+      },
+      {
+        id: '47',
+        title: '推荐系统面试题：从协同过滤到深度学习，从排序到冷启动',
+        publishDate: '2023-11-30',
+        category: '面试文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/recommendation-systems',
+        readCount: 14560,
+        likeCount: 456,
+        commentCount: 89
+      },
+      {
+        id: '48',
+        title: '大数据面试题：从 Hadoop 到 Spark，从 Hive 到 Flink',
+        publishDate: '2023-11-29',
+        category: '基础知识文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/big-data-interview',
+        readCount: 16780,
+        likeCount: 523,
+        commentCount: 98
+      },
+      {
+        id: '49',
+        title: '云计算面试题：从虚拟化到容器化，从 IaaS 到 SaaS',
+        publishDate: '2023-11-28',
+        category: '面试文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/cloud-computing',
+        readCount: 18900,
+        likeCount: 678,
+        commentCount: 134
+      },
+      {
+        id: '50',
+        title: '区块链面试题：从密码学到共识机制，从智能合约到 DeFi',
+        publishDate: '2023-11-27',
+        category: '热点文章',
+        isAIGenerated: false,
+        csdnUrl: 'https://blog.csdn.net/example/blockchain-interview',
+        readCount: 20100,
+        likeCount: 789,
+        commentCount: 156
       }
     ]
-    
-    // 合并原有文章、新文章和最新CSDN文章
-    articles.value = [...originalArticles, ...newArticles, ...latestCSDNArticles]
+
+    articles.value = originalArticles
     saveToLocalStorage()
   }
 
   return {
+    // 状态
     articles,
     selectedCategory,
+    
+    // 计算属性
     filteredArticles,
     articlesByCategory,
     categoryStats,
     totalReads,
     totalLikes,
+    
+    // 方法
     addArticle,
     updateArticle,
     deleteArticle,

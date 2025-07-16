@@ -14,7 +14,7 @@ const articleForm = reactive({
   title: '',
   publishDate: dayjs().format('YYYY-MM-DD'),
   coverImage: '',
-  category: '技术成长' as ArticleCategory,
+  category: '基础知识文章' as ArticleCategory,
   isAIGenerated: false,
   csdnUrl: '',
   readCount: 0,
@@ -32,7 +32,7 @@ const openArticleForm = (article?: Article) => {
       title: '',
       publishDate: dayjs().format('YYYY-MM-DD'),
       coverImage: '',
-      category: '技术成长' as ArticleCategory,
+      category: '基础知识文章' as ArticleCategory,
       isAIGenerated: false,
       csdnUrl: '',
       readCount: 0,
@@ -65,10 +65,11 @@ const formatNumber = (num: number) => {
 
 const getCategoryColor = (category: ArticleCategory) => {
   const colors = {
-    '面试题精选': 'bg-blue-100 text-blue-800',
-    'AI 资源推荐': 'bg-purple-100 text-purple-800',
-    '技术成长': 'bg-green-100 text-green-800',
-    '大模型实战': 'bg-orange-100 text-orange-800'
+    '面试文章': 'bg-blue-100 text-blue-800',
+    '资源集合': 'bg-purple-100 text-purple-800',
+    '热点文章': 'bg-orange-100 text-orange-800',
+    '翻译文章': 'bg-green-100 text-green-800',
+    '基础知识文章': 'bg-gray-100 text-gray-800'
   }
   return colors[category]
 }
@@ -98,7 +99,7 @@ const getCategoryColor = (category: ArticleCategory) => {
           全部 ({{ articlesStore.articles.length }})
         </button>
         <button
-          v-for="category in (['面试题精选', 'AI 资源推荐', '技术成长', '大模型实战'] as ArticleCategory[])"
+          v-for="category in (['面试文章', '资源集合', '热点文章', '翻译文章', '基础知识文章'] as ArticleCategory[])"
           :key="category"
           @click="selectedCategory = category"
           class="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
