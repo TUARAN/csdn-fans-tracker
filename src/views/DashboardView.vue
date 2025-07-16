@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useFansStore } from '@/stores/fans'
-import { computed } from 'vue'
-import { ExternalLink, Target } from 'lucide-vue-next'
+import { computed, ref } from 'vue'
+import { ExternalLink, Target, Copy, Check } from 'lucide-vue-next'
 
 const fansStore = useFansStore()
+const showCopied = ref(false)
 
 const platforms: { 
   key: import('@/types').CommunityType; 
@@ -52,11 +53,53 @@ const formatNumber = (num: number) => new Intl.NumberFormat('zh-CN').format(num)
 const goToHomepage = (url: string) => {
   window.open(url, '_blank')
 }
+
+// 复制介绍内容
+const copyIntro = async () => {
+  const introText = `👨‍💻 大家好，我是掘金安东尼，一位专注于 AI 编程、前端架构与数字产品打造的技术创作者。
+
+🚀 我已经正式开启个人 IP 之路，网站上线 👉 tuaran.pages.dev
+
+🧠 我会持续发布高质量干货内容，覆盖 Vue3 / Python / 大模型落地 / 工程化提升 / 技术创业 等方向。
+
+🎁 如果你想进 抽奖群 / 技术群 / 副业群 一起交流成长，欢迎加我微信：atar24 
+
+🪐 欢迎关注 + 收藏，一起探索程序员进阶的多维可能！`
+
+  try {
+    await navigator.clipboard.writeText(introText)
+    showCopied.value = true
+    setTimeout(() => {
+      showCopied.value = false
+    }, 2000)
+  } catch (err) {
+    console.error('复制失败:', err)
+  }
+}
 </script>
 
 <template>
   <div class="min-h-screen bg-gray-50 p-6">
     <div class="max-w-7xl mx-auto space-y-6">
+      <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+        <div class="flex items-start justify-between">
+          <div class="text-sm text-gray-700 space-y-2 flex-1">
+            <div>👨‍💻 大家好，我是掘金安东尼，一位专注于 AI 编程、前端架构与数字产品打造的技术创作者。</div>
+            <div>🚀 我已经正式开启个人 IP 之路，网站上线 👉 <a href="https://tuaran.pages.dev" target="_blank" class="text-blue-600 hover:text-blue-800">tuaran.pages.dev</a></div>
+            <div>🧠 我会持续发布高质量干货内容，覆盖 Vue3 / Python / 大模型落地 / 工程化提升 / 技术创业 等方向。</div>
+            <div>🎁 如果你想进 抽奖群 / 技术群 / 副业群 一起交流成长，欢迎加我微信：<span class="font-mono text-gray-900">atar24</span></div>
+            <div>🪐 欢迎关注 + 收藏，一起探索程序员进阶的多维可能！</div>
+          </div>
+          <button 
+            @click="copyIntro"
+            class="ml-4 p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+            :title="showCopied ? '已复制' : '复制介绍内容'"
+          >
+            <Check v-if="showCopied" class="w-4 h-4 text-green-600" />
+            <Copy v-else class="w-4 h-4" />
+          </button>
+        </div>
+      </div>
       <!-- 总计面板 -->
       <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
         <div class="text-center mb-6">
