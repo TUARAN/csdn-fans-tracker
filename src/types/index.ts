@@ -69,4 +69,88 @@ export interface ChartData {
     borderColor?: string
     backgroundColor?: string
   }[]
+}
+
+// 计划类型
+export type PlanType = 'weekly' | 'monthly' | 'quarterly' | 'yearly'
+
+// 计划状态
+export type PlanStatus = 'planning' | 'in_progress' | 'completed' | 'overdue'
+
+// 计划项目
+export interface PlanItem {
+  id: string
+  title: string
+  description: string
+  status: PlanStatus
+  priority: 'low' | 'medium' | 'high'
+  dueDate: string
+  completedDate?: string
+  tags: string[]
+}
+
+// 周总结
+export interface WeeklySummary {
+  id: string
+  weekStart: string
+  weekEnd: string
+  achievements: string[]
+  challenges: string[]
+  learnings: string[]
+  nextWeekGoals: string[]
+  metrics: {
+    articlesPublished: number
+    fansGrowth: number
+    readGrowth: number
+    engagementRate: number
+  }
+  notes: string
+}
+
+// 写作计划
+export interface WritingPlan {
+  id: string
+  title: string
+  category: ArticleCategory
+  outline: string[]
+  targetPublishDate: string
+  status: PlanStatus
+  platforms: CommunityType[]
+  estimatedReadTime: number
+  keywords: string[]
+  notes: string
+}
+
+// 思考笔记
+export interface ThoughtNote {
+  id: string
+  title: string
+  content: string
+  category: 'strategy' | 'content' | 'growth' | 'reflection'
+  tags: string[]
+  createdAt: string
+  updatedAt: string
+  relatedPlatforms: CommunityType[]
+}
+
+// 平台计划
+export interface PlatformPlan {
+  platform: CommunityType
+  currentStatus: {
+    fans: number
+    reads: number
+    articles: number
+    level: string
+  }
+  goals: {
+    shortTerm: string[]
+    mediumTerm: string[]
+    longTerm: string[]
+  }
+  strategies: string[]
+  challenges: string[]
+  opportunities: string[]
+  weeklySummaries: WeeklySummary[]
+  writingPlans: WritingPlan[]
+  thoughtNotes: ThoughtNote[]
 } 

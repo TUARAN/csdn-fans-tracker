@@ -1,18 +1,26 @@
 <script setup lang="ts">
 import { useFansStore } from '@/stores/fans'
 import { computed } from 'vue'
+import { ExternalLink, Target } from 'lucide-vue-next'
 
 const fansStore = useFansStore()
 
-const platforms: { key: import('@/types').CommunityType; name: string; color: string; icon: string }[] = [
-  { key: 'csdn', name: 'CSDN', color: 'csdn-red', icon: '📝' },
-  { key: 'juejin', name: '掘金', color: 'orange-500', icon: '💎' },
-  { key: 'toutiao', name: '头条', color: 'black', icon: '📰' },
-  { key: 'zhihu', name: '知乎', color: 'black', icon: '🤔' },
-  { key: '_51cto', name: '51CTO', color: 'black', icon: '💻' },
-  { key: 'infoq', name: 'InfoQ', color: 'black', icon: '📊' },
-  { key: 'wechat', name: '微信公众号', color: 'black', icon: '📱' },
-  { key: 'segmentfault', name: '思否', color: 'black', icon: '🔍' }
+const platforms: { 
+  key: import('@/types').CommunityType; 
+  name: string; 
+  color: string; 
+  icon: string;
+  homepage: string;
+  username: string;
+}[] = [
+  { key: 'csdn', name: 'CSDN', color: 'csdn-red', icon: '📝', homepage: 'https://blog.csdn.net/Anthony1453', username: '掘金安东尼' },
+  { key: 'juejin', name: '掘金', color: 'orange-500', icon: '💎', homepage: 'https://juejin.cn/user/1521379823340792', username: '掘金安东尼' },
+  { key: 'toutiao', name: '头条', color: 'black', icon: '📰', homepage: 'https://www.toutiao.com/c/user/token/CixsElNHkU9SqBXRGQJEufkWqwP0Bje2WqIrl4KnKLbcWnDDfYA44PkBxzIZbxpJCjwAAAAAAAAAAAAATz11eRsCdm0c3I-f9Mzp8EixSaljSiLIZP9fBCrQqaGNZ-GSMRYj2HVNlV3B-jkdJ1sQte_2DRjDxYPqBCIBA7vgaHk=/?', username: '掘金安东尼' },
+  { key: 'zhihu', name: '知乎', color: 'black', icon: '🤔', homepage: 'https://juejin.cn/user/1521379823340792', username: '三十而立方' },
+  { key: '_51cto', name: '51CTO', color: 'black', icon: '💻', homepage: 'https://juejin.cn/user/1521379823340792', username: '掘金安东尼' },
+  { key: 'infoq', name: 'InfoQ', color: 'black', icon: '📊', homepage: 'https://juejin.cn/user/1521379823340792', username: '掘金安东尼' },
+  { key: 'wechat', name: '微信公众号', color: 'black', icon: '📱', homepage: 'https://weixin.sogou.com/weixin?type=1&query=掘金安东尼', username: '掘金安东尼' },
+  { key: 'segmentfault', name: '思否', color: 'black', icon: '🔍', homepage: 'https://segmentfault.com/u/anthony1453', username: '掘金安东尼' }
 ]
 
 // 总计面板数据
@@ -39,6 +47,11 @@ const growthRate = computed(() => {
 })
 
 const formatNumber = (num: number) => new Intl.NumberFormat('zh-CN').format(num)
+
+// 跳转到平台主页
+const goToHomepage = (url: string) => {
+  window.open(url, '_blank')
+}
 </script>
 
 <template>
@@ -92,72 +105,74 @@ const formatNumber = (num: number) => new Intl.NumberFormat('zh-CN').format(num)
       </div>
 
       <!-- 各平台面板 -->
-      <div class="space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div v-for="p in platforms" :key="p.key" 
-             class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-          <div class="p-5">
+             class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+          <div class="p-4">
+            <!-- 平台头部 -->
             <div class="flex items-center justify-between mb-4">
               <div class="flex items-center">
-                <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center mr-3">
-                  <span class="text-lg">{{ p.icon }}</span>
+                <div class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center mr-2">
+                  <span class="text-sm">{{ p.icon }}</span>
                 </div>
                 <div>
-                  <h3 class="text-lg font-semibold text-gray-900">{{ p.name }}</h3>
-                  <div class="flex flex-wrap items-center gap-2 mt-1">
-                    <span v-if="['csdn','juejin','toutiao','_51cto'].includes(p.key)" class="text-xs text-gray-500">账号名：掘金安东尼 <span class='ml-1 px-1 py-0.5 rounded bg-gray-100 text-[10px] text-gray-400 align-middle'>3292</span></span>
-                    <span v-else-if="p.key === 'infoq'" class="text-xs text-gray-500">账号名：掘金安东尼 <span class='ml-1 px-1 py-0.5 rounded bg-gray-100 text-[10px] text-gray-400 align-middle'>1453</span></span>
-                    <span v-else-if="p.key === 'zhihu'" class="text-xs text-gray-500">账号名：三十而立方</span>
-                    <span v-else-if="p.key === 'wechat'" class="text-xs text-gray-500">账号名：掘金安东尼 <span class='ml-1 px-1 py-0.5 rounded bg-gray-100 text-[10px] text-gray-400 align-middle'>chaosdefense</span></span>
-                    <span v-else-if="p.key === 'segmentfault'" class="text-xs text-gray-500">账号名：
-                      <span class='ml-1 px-1 py-0.5 rounded bg-gray-100 text-[10px] text-gray-400 align-middle'>中文版stackoverflow</span>
-                    </span>
+                  <h3 class="text-sm font-semibold text-gray-900">{{ p.name }}</h3>
+                  <div class="text-xs text-gray-500 mt-0.5">
+                    {{ p.username }}
+                    <span class="text-yellow-600 ml-1">{{ 
+                      p.key === 'csdn' ? 'CSDN专家' :
+                      p.key === 'juejin' ? '掘金7级' :
+                      p.key === 'toutiao' ? '头条创作者' :
+                      p.key === '_51cto' ? '51CTO专家' :
+                      p.key === 'wechat' ? '荣誉用户' :
+                      p.key === 'segmentfault' ? '思否专家' :
+                      p.key === 'infoq' ? 'InfoQ专家' : '荣誉用户'
+                    }}</span>
                   </div>
-                  <div class="text-xs text-gray-500 mt-1">
-                    数据更新时间：{{ p.key === 'infoq' ? '2025-07-14' : p.key === 'csdn' ? '2025-07-15' : '2025-07-09' }}
-                  </div>
-                  <div class="w-6 h-0.5 bg-red-500 rounded-full mt-1"></div>
                 </div>
+              </div>
+              <div class="text-xs text-gray-400">
+                {{ p.key === 'infoq' ? '2025-07-14' : p.key === 'csdn' ? '2025-07-15' : '2025-07-09' }}
               </div>
             </div>
             
-            <div class="grid grid-cols-5 gap-3">
-              <div class="flex flex-col items-center p-2 bg-gray-50 rounded text-xs min-w-0">
-                <span class="text-gray-600 font-medium truncate">粉丝数</span>
-                <span class="font-semibold text-gray-900 text-sm truncate">{{ formatNumber((fansStore.currentStats[p.key]?.currentFans) || 0) }}</span>
+            <!-- 核心数据 -->
+            <div class="grid grid-cols-3 gap-2 mb-4">
+              <div class="text-center">
+                <div class="text-lg font-semibold text-gray-900">{{ formatNumber((fansStore.currentStats[p.key]?.currentFans) || 0) }}</div>
+                <div class="text-xs text-gray-500">粉丝</div>
               </div>
-              <div class="flex flex-col items-center p-2 bg-gray-50 rounded text-xs min-w-0">
-                <span class="text-gray-600 font-medium truncate">阅读量</span>
-                <span class="font-semibold text-gray-900 text-sm truncate">{{ formatNumber((fansStore.currentStats[p.key]?.currentReads) || 0) }}</span>
+              <div class="text-center">
+                <div class="text-lg font-semibold text-gray-900">{{ formatNumber((fansStore.currentStats[p.key]?.currentReads) || 0) }}</div>
+                <div class="text-xs text-gray-500">阅读</div>
               </div>
-              <div class="flex flex-col items-center p-2 bg-gray-50 rounded text-xs min-w-0">
-                <span class="text-gray-600 font-medium truncate">文章数</span>
-                <span class="font-semibold text-gray-900 text-sm truncate">{{ formatNumber((fansStore.currentStats[p.key]?.totalArticles) || 0) }}</span>
+              <div class="text-center">
+                <div class="text-lg font-semibold text-gray-900">{{ formatNumber((fansStore.currentStats[p.key]?.totalArticles) || 0) }}</div>
+                <div class="text-xs text-gray-500">文章</div>
               </div>
-              <div class="flex flex-col items-center p-2 bg-yellow-50 rounded border border-yellow-200 text-xs min-w-0">
-                <span class="text-yellow-700 font-medium truncate">称号荣誉</span>
-                <span class="font-semibold text-yellow-600 text-xs truncate">{{ 
-                  p.key === 'csdn' ? 'CSDN专家' :
-                  p.key === 'juejin' ? '掘金7级' :
-                  p.key === 'toutiao' ? '头条创作者' :
-                  p.key === '_51cto' ? '51CTO专家' :
-                  p.key === 'wechat' ? '荣誉用户' :
-                  p.key === 'segmentfault' ? '思否专家' :
-                  p.key === 'infoq' ? 'InfoQ专家' : '荣誉用户'
-                }}</span>
-              </div>
-              <div class="flex flex-col items-center p-2 bg-blue-50 rounded border border-blue-200 text-xs min-w-0">
-                <span class="text-blue-700 font-medium truncate">近期目标</span>
-                <span class="font-semibold text-blue-600 text-xs truncate">{{
-                  p.key === 'csdn' ? '1w粉' :
-                  p.key === 'juejin' ? '升至8级' :
-                  p.key === 'toutiao' ? '同步活跃，寻找定位' :
-                  p.key === '_51cto' ? '同步活跃，寻找定位' :
-                  p.key === 'zhihu' ? '升知乎8级，推新专栏' :
-                  p.key === 'wechat' ? '焕新升级' :
-                  p.key === 'segmentfault' ? '同步活跃，寻找定位' :
-                  p.key === 'infoq' ? '同步活跃，寻找定位' : ''
-                }}</span>
-              </div>
+            </div>
+
+            <!-- 状态信息 -->
+            <div class="space-y-2 mb-4">
+              <!-- 可以在这里添加其他状态信息 -->
+            </div>
+
+            <!-- 操作链接 -->
+            <div class="flex items-center justify-between text-sm">
+              <button @click="goToHomepage(p.homepage)" 
+                      class="flex items-center text-red-500 hover:text-red-700 transition-colors">
+                <ExternalLink class="w-3 h-3 mr-1" />
+                访问主页
+              </button>
+              <router-link :to="`/plan/${p.key}`" 
+                           :class="`flex items-center transition-colors ${
+                             p.key === 'csdn' || p.key === 'juejin' 
+                               ? 'text-blue-600 hover:text-blue-800' 
+                               : 'text-gray-400 cursor-not-allowed'
+                           }`">
+                <Target class="w-3 h-3 mr-1" />
+                查看计划
+              </router-link>
             </div>
           </div>
         </div>
