@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useFansStore } from '@/stores/fans'
 import { computed, ref } from 'vue'
-import { ExternalLink, Target, Copy, Check } from 'lucide-vue-next'
+import { ExternalLink, Target, Copy, Check, Send } from 'lucide-vue-next'
 
 const fansStore = useFansStore()
 const showCopied = ref(false)
@@ -18,15 +18,15 @@ const accountPlatformData: Record<string, Record<string, { currentFans: number; 
     wechat: { currentFans: 1200, currentReads: 18000, totalArticles: 35, weeklyGrowth: 60, username: '掘金安东尼' },
     segmentfault: { currentFans: 400, currentReads: 6000, totalArticles: 20, weeklyGrowth: 25, username: '掘金安东尼' }
   },
-  '代码甜瓜': {
-    csdn: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码甜瓜' },
-    juejin: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码甜瓜' },
-    toutiao: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码甜瓜' },
-    zhihu: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码甜瓜' },
-    _51cto: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码甜瓜' },
-    infoq: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码甜瓜' },
-    wechat: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码甜瓜' },
-    segmentfault: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码甜瓜' }
+  '代码AI弗森': {
+    csdn: { currentFans: 2, currentReads: 360, totalArticles: 1, weeklyGrowth: 2, username: '代码AI弗森' },
+    juejin: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' },
+    toutiao: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' },
+    zhihu: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' },
+    _51cto: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' },
+    infoq: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' },
+    wechat: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' },
+    segmentfault: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' }
   },
   '开发卡梅罗': {
     csdn: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '开发卡梅罗' },
@@ -152,7 +152,12 @@ const formatNumber = (num: number) => new Intl.NumberFormat('zh-CN').format(num)
 
 // 跳转到平台主页
 const goToHomepage = (url: string) => {
-  window.open(url, '_blank')
+  // 如果是CSDN且当前账号是"代码AI弗森"，使用对应的链接
+  if (url.includes('csdn.net') && fansStore.activeMatrixAccount === '代码AI弗森') {
+    window.open('https://blog.csdn.net/aifs2025?spm=1000.2115.3001.5343', '_blank')
+  } else {
+    window.open(url, '_blank')
+  }
 }
 
 // 复制介绍内容
@@ -192,14 +197,23 @@ const copyIntro = async () => {
             <div>🎁 如果你想进 抽奖群 / 技术群 / 副业群 一起交流成长，欢迎加我微信：<span class="font-mono text-gray-900">atar24</span></div>
             <div>🪐 欢迎关注 + 收藏，一起探索程序员进阶的多维可能！</div>
           </div>
-          <button 
-            @click="copyIntro"
-            class="ml-4 p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-            :title="showCopied ? '已复制' : '复制介绍内容'"
-          >
-            <Check v-if="showCopied" class="w-4 h-4 text-green-600" />
-            <Copy v-else class="w-4 h-4" />
-          </button>
+          <div class="flex items-center space-x-2">
+            <router-link 
+              to="/publish"
+              class="flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+            >
+              <Send class="w-4 h-4 mr-2" />
+              发布工具
+            </router-link>
+            <button 
+              @click="copyIntro"
+              class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              :title="showCopied ? '已复制' : '复制介绍内容'"
+            >
+              <Check v-if="showCopied" class="w-4 h-4 text-green-600" />
+              <Copy v-else class="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </div>
 

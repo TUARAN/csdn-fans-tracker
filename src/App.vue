@@ -10,7 +10,8 @@ import {
   TrendingUp,
   User,
   Target,
-  ChevronDown
+  ChevronDown,
+  Send
 } from 'lucide-vue-next'
 
 const route = useRoute()
@@ -18,7 +19,7 @@ const fansStore = useFansStore()
 const showAccountDropdown = ref(false)
 
 const navItems = [
-  { path: '/dashboard', name: '数据面板', icon: BarChart3 }
+  { path: '/publish', name: '一键发布', icon: Send }
 ]
 
 const currentRoute = computed(() => route.path)

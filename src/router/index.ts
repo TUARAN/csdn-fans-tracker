@@ -4,9 +4,13 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/dashboard',
-      name: '数据面板',
+      path: '/',
+      name: '首页',
       component: () => import('@/views/DashboardView.vue')
+    },
+    {
+      path: '/dashboard',
+      redirect: '/'
     },
     {
       path: '/plan/:platform/:account',
@@ -14,8 +18,9 @@ const router = createRouter({
       component: () => import('@/views/PlatformPlanView.vue')
     },
     {
-      path: '/',
-      redirect: '/dashboard'
+      path: '/publish',
+      name: '一键发布',
+      component: () => import('@/views/PublishView.vue')
     }
   ],
 })

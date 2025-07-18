@@ -25,9 +25,9 @@ export const useFansStore = defineStore('fans', () => {
     },
     {
       id: 'code-melo',
-      name: '代码甜瓜',
+      name: '代码AI弗森',
       description: '矩阵账号 - AI编程与大模型应用',
-      avatar: '🍈',
+      avatar: '🧠',
       status: 'active'
     },
     {
