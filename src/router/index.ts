@@ -9,7 +9,7 @@ const router = createRouter({
       component: () => import('@/views/DashboardView.vue')
     },
     {
-      path: '/plan/:platform',
+      path: '/plan/:platform/:account',
       name: '平台计划',
       component: () => import('@/views/PlatformPlanView.vue')
     },

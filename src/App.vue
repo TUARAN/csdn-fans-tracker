@@ -1,29 +1,44 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import { useFansStore } from '@/stores/fans'
 import { 
   BarChart3, 
   FileText, 
   Calendar, 
   TrendingUp,
   User,
-  Target
+  Target,
+  ChevronDown
 } from 'lucide-vue-next'
 
 const route = useRoute()
+const fansStore = useFansStore()
+const showAccountDropdown = ref(false)
 
 const navItems = [
   { path: '/dashboard', name: '数据面板', icon: BarChart3 }
 ]
 
 const currentRoute = computed(() => route.path)
+
+// 切换矩阵账号
+const switchMatrixAccount = (accountName: string) => {
+  fansStore.switchMatrixAccount(accountName)
+  showAccountDropdown.value = false
+}
+
+// 切换下拉菜单
+const toggleAccountDropdown = () => {
+  showAccountDropdown.value = !showAccountDropdown.value
+}
 </script>
 
 <template>
   <div id="app" class="min-h-screen bg-gray-50">
     <!-- 顶部导航栏 -->
-    <header class="bg-gradient-to-r from-white via-gray-100 to-blue-100 shadow-2xl border-b border-gray-200 sticky top-0 z-50 relative overflow-hidden">
+    <header class="bg-gradient-to-r from-white via-gray-100 to-blue-100 shadow-2xl border-b border-gray-200 sticky top-0 z-40 relative overflow-visible">
       <!-- 背景装饰元素 -->
       <div class="absolute inset-0 opacity-10">
         <!-- 数据曲线 -->
@@ -72,9 +87,43 @@ const currentRoute = computed(() => route.path)
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                 </svg>
               </div>
-              <h1 class="text-3xl font-bold">
-                <span class="bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">掘金安东尼</span>
-              </h1>
+              
+              <!-- 标题和账号切换 -->
+              <div class="flex items-center space-x-3">
+                <h1 class="text-3xl font-bold">
+                  <span class="bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">{{ fansStore.currentMatrixAccount.name }}</span>
+                </h1>
+                
+                <!-- 账号切换下拉选择器 -->
+                <div class="relative">
+                  <button 
+                    @click="toggleAccountDropdown"
+                    class="flex items-center px-2 py-1 bg-white/80 hover:bg-white rounded-lg transition-colors border border-gray-200 shadow-sm"
+                  >
+                    <span class="text-sm mr-1">{{ fansStore.currentMatrixAccount.avatar }}</span>
+                    <ChevronDown class="w-3 h-3 text-gray-500" :class="{ 'rotate-180': showAccountDropdown }" />
+                  </button>
+                  
+                  <!-- 下拉菜单 -->
+                  <div v-if="showAccountDropdown" class="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                    <div class="py-1">
+                      <button 
+                        v-for="account in fansStore.matrixAccounts" 
+                        :key="account.id"
+                        @click="switchMatrixAccount(account.name)"
+                        class="w-full flex items-center px-3 py-2 text-sm hover:bg-gray-50 transition-colors"
+                        :class="{ 'bg-blue-50 text-blue-700': fansStore.activeMatrixAccount === account.name }"
+                      >
+                        <span class="text-sm mr-2">{{ account.avatar }}</span>
+                        <span class="font-medium">{{ account.name }}</span>
+                        <span v-if="account.name === '掘金安东尼'" class="ml-auto text-xs px-1.5 py-0.5 bg-green-100 text-green-700 rounded-full">
+                          主账号
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           

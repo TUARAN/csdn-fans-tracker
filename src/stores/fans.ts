@@ -11,6 +11,44 @@ export const useFansStore = defineStore('fans', () => {
     juejin: {}
   })
 
+  // 矩阵账号状态
+  const activeMatrixAccount = ref('掘金安东尼')
+
+  // 矩阵账号数据
+  const matrixAccounts = [
+    {
+      id: 'anthony',
+      name: '掘金安东尼',
+      description: '主账号 - AI编程与前端架构',
+      avatar: '👨‍💻',
+      status: 'active'
+    },
+    {
+      id: 'code-melo',
+      name: '代码甜瓜',
+      description: '矩阵账号 - AI编程与大模型应用',
+      avatar: '🍈',
+      status: 'active'
+    },
+    {
+      id: 'dev-carmelo',
+      name: '开发卡梅罗',
+      description: '矩阵账号 - 开发实战与架构设计',
+      avatar: '🏀',
+      status: 'active'
+    }
+  ]
+
+  // 当前选中的矩阵账号
+  const currentMatrixAccount = computed(() => {
+    return matrixAccounts.find(acc => acc.name === activeMatrixAccount.value) || matrixAccounts[0]
+  })
+
+  // 切换矩阵账号
+  const switchMatrixAccount = (accountName: string) => {
+    activeMatrixAccount.value = accountName
+  }
+
   // 计算属性
   const currentStats = computed((): CommunityStats => {
     const getStatsForCommunity = (community: CommunityType): Stats => {
@@ -156,15 +194,15 @@ export const useFansStore = defineStore('fans', () => {
   if (fanDataList.value.length === 0) {
     const today = dayjs().format('YYYY-MM-DD')
     
-    // CSDN数据
+    // CSDN数据 - 7月18号更新
     const csdnData: FanData = {
-      date: '2025-07-15',
+      date: '2025-07-18',
       community: 'csdn',
-      fansCount: 115,
-      readCount: 18275,
-      articleCount: 43,
-      dailyFansGrowth: 36,
-      dailyReadGrowth: 4971
+      fansCount: 183,
+      readCount: 27871,
+      articleCount: 58,
+      dailyFansGrowth: 19,
+      dailyReadGrowth: 3100
     }
     
     // 掘金数据（最新）
@@ -262,6 +300,10 @@ export const useFansStore = defineStore('fans', () => {
     goals,
     currentStats,
     chartData,
+    activeMatrixAccount,
+    matrixAccounts,
+    currentMatrixAccount,
+    switchMatrixAccount,
     addFanData,
     updateFanData,
     setGoal,

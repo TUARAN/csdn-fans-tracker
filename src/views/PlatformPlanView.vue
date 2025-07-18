@@ -31,7 +31,8 @@ const plansStore = usePlansStore()
 const fansStore = useFansStore()
 
 const platform = computed(() => route.params.platform as CommunityType)
-const platformPlan = computed(() => plansStore.getPlatformPlan(platform.value))
+const account = computed(() => route.params.account as string)
+const platformPlan = computed(() => plansStore.getPlatformPlan(platform.value, account.value))
 
 // 当前选中的周索引
 const selectedWeekIndex = ref(0)
@@ -144,7 +145,7 @@ onMounted(() => {
                 <span class="text-lg">{{ currentConfig.icon }}</span>
               </div>
               <div>
-                <h1 class="text-xl font-semibold text-gray-900">{{ currentConfig.name }} 计划</h1>
+                <h1 class="text-xl font-semibold text-gray-900">{{ account }} - {{ currentConfig.name }} 计划</h1>
                 <p class="text-sm text-gray-500">平台运营策略与内容规划</p>
               </div>
             </div>

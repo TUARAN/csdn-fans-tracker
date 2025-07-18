@@ -6,29 +6,130 @@ import { ExternalLink, Target, Copy, Check } from 'lucide-vue-next'
 const fansStore = useFansStore()
 const showCopied = ref(false)
 
+// 不同账号的平台数据
+const accountPlatformData: Record<string, Record<string, { currentFans: number; currentReads: number; totalArticles: number; weeklyGrowth: number; username: string }>> = {
+  '掘金安东尼': {
+    csdn: { currentFans: 183, currentReads: 27871, totalArticles: 58, weeklyGrowth: 19, username: '掘金安东尼' },
+    juejin: { currentFans: 3200, currentReads: 45000, totalArticles: 85, weeklyGrowth: 150, username: '掘金安东尼' },
+    toutiao: { currentFans: 2800, currentReads: 38000, totalArticles: 65, weeklyGrowth: 120, username: '掘金安东尼' },
+    zhihu: { currentFans: 1500, currentReads: 22000, totalArticles: 45, weeklyGrowth: 80, username: '三十而立方' },
+    _51cto: { currentFans: 800, currentReads: 12000, totalArticles: 25, weeklyGrowth: 40, username: '掘金安东尼' },
+    infoq: { currentFans: 600, currentReads: 8000, totalArticles: 15, weeklyGrowth: 30, username: '掘金安东尼' },
+    wechat: { currentFans: 1200, currentReads: 18000, totalArticles: 35, weeklyGrowth: 60, username: '掘金安东尼' },
+    segmentfault: { currentFans: 400, currentReads: 6000, totalArticles: 20, weeklyGrowth: 25, username: '掘金安东尼' }
+  },
+  '代码甜瓜': {
+    csdn: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码甜瓜' },
+    juejin: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码甜瓜' },
+    toutiao: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码甜瓜' },
+    zhihu: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码甜瓜' },
+    _51cto: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码甜瓜' },
+    infoq: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码甜瓜' },
+    wechat: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码甜瓜' },
+    segmentfault: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码甜瓜' }
+  },
+  '开发卡梅罗': {
+    csdn: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '开发卡梅罗' },
+    juejin: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '开发卡梅罗' },
+    toutiao: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '开发卡梅罗' },
+    zhihu: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '开发卡梅罗' },
+    _51cto: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '开发卡梅罗' },
+    infoq: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '开发卡梅罗' },
+    wechat: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '开发卡梅罗' },
+    segmentfault: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '开发卡梅罗' }
+  }
+}
+
 const platforms: { 
   key: import('@/types').CommunityType; 
   name: string; 
   color: string; 
   icon: string;
   homepage: string;
-  username: string;
 }[] = [
-  { key: 'csdn', name: 'CSDN', color: 'csdn-red', icon: '📝', homepage: 'https://blog.csdn.net/Anthony1453', username: '掘金安东尼' },
-  { key: 'juejin', name: '掘金', color: 'orange-500', icon: '💎', homepage: 'https://juejin.cn/user/1521379823340792', username: '掘金安东尼' },
-  { key: 'toutiao', name: '头条', color: 'black', icon: '📰', homepage: 'https://www.toutiao.com/c/user/token/CixsElNHkU9SqBXRGQJEufkWqwP0Bje2WqIrl4KnKLbcWnDDfYA44PkBxzIZbxpJCjwAAAAAAAAAAAAATz11eRsCdm0c3I-f9Mzp8EixSaljSiLIZP9fBCrQqaGNZ-GSMRYj2HVNlV3B-jkdJ1sQte_2DRjDxYPqBCIBA7vgaHk=/?', username: '掘金安东尼' },
-  { key: 'zhihu', name: '知乎', color: 'black', icon: '🤔', homepage: 'https://juejin.cn/user/1521379823340792', username: '三十而立方' },
-  { key: '_51cto', name: '51CTO', color: 'black', icon: '💻', homepage: 'https://juejin.cn/user/1521379823340792', username: '掘金安东尼' },
-  { key: 'infoq', name: 'InfoQ', color: 'black', icon: '📊', homepage: 'https://juejin.cn/user/1521379823340792', username: '掘金安东尼' },
-  { key: 'wechat', name: '微信公众号', color: 'black', icon: '📱', homepage: 'https://weixin.sogou.com/weixin?type=1&query=掘金安东尼', username: '掘金安东尼' },
-  { key: 'segmentfault', name: '思否', color: 'black', icon: '🔍', homepage: 'https://segmentfault.com/u/anthony1453', username: '掘金安东尼' }
+  { key: 'csdn', name: 'CSDN', color: 'csdn-red', icon: '📝', homepage: 'https://blog.csdn.net/Anthony1453' },
+  { key: 'juejin', name: '掘金', color: 'orange-500', icon: '💎', homepage: 'https://juejin.cn/user/1521379823340792' },
+  { key: 'toutiao', name: '头条', color: 'black', icon: '📰', homepage: 'https://www.toutiao.com/c/user/token/CixsElNHkU9SqBXRGQJEufkWqwP0Bje2WqIrl4KnKLbcWnDDfYA44PkBxzIZbxpJCjwAAAAAAAAAAAAATz11eRsCdm0c3I-f9Mzp8EixSaljSiLIZP9fBCrQqaGNZ-GSMRYj2HVNlV3B-jkdJ1sQte_2DRjDxYPqBCIBA7vgaHk=/?' },
+  { key: 'zhihu', name: '知乎', color: 'black', icon: '🤔', homepage: 'https://juejin.cn/user/1521379823340792' },
+  { key: '_51cto', name: '51CTO', color: 'black', icon: '💻', homepage: 'https://juejin.cn/user/1521379823340792' },
+  { key: 'infoq', name: 'InfoQ', color: 'black', icon: '📊', homepage: 'https://juejin.cn/user/1521379823340792' },
+  { key: 'wechat', name: '微信公众号', color: 'black', icon: '📱', homepage: 'https://weixin.sogou.com/weixin?type=1&query=掘金安东尼' },
+  { key: 'segmentfault', name: '思否', color: 'black', icon: '🔍', homepage: 'https://segmentfault.com/u/anthony1453' }
 ]
 
-// 总计面板数据
+// 当前账号的平台数据
+const currentAccountData = computed(() => {
+  if (fansStore.activeMatrixAccount === '掘金安东尼') {
+    // 使用 store 中的真实数据
+    return {
+      csdn: { 
+        currentFans: fansStore.currentStats.csdn.currentFans, 
+        currentReads: fansStore.currentStats.csdn.currentReads, 
+        totalArticles: fansStore.currentStats.csdn.totalArticles, 
+        weeklyGrowth: fansStore.currentStats.csdn.weeklyGrowth, 
+        username: '掘金安东尼' 
+      },
+      juejin: { 
+        currentFans: fansStore.currentStats.juejin.currentFans, 
+        currentReads: fansStore.currentStats.juejin.currentReads, 
+        totalArticles: fansStore.currentStats.juejin.totalArticles, 
+        weeklyGrowth: fansStore.currentStats.juejin.weeklyGrowth, 
+        username: '掘金安东尼' 
+      },
+      toutiao: { 
+        currentFans: fansStore.currentStats.toutiao.currentFans, 
+        currentReads: fansStore.currentStats.toutiao.currentReads, 
+        totalArticles: fansStore.currentStats.toutiao.totalArticles, 
+        weeklyGrowth: fansStore.currentStats.toutiao.weeklyGrowth, 
+        username: '掘金安东尼' 
+      },
+      zhihu: { 
+        currentFans: fansStore.currentStats.zhihu.currentFans, 
+        currentReads: fansStore.currentStats.zhihu.currentReads, 
+        totalArticles: fansStore.currentStats.zhihu.totalArticles, 
+        weeklyGrowth: fansStore.currentStats.zhihu.weeklyGrowth, 
+        username: '三十而立方' 
+      },
+      _51cto: { 
+        currentFans: fansStore.currentStats._51cto.currentFans, 
+        currentReads: fansStore.currentStats._51cto.currentReads, 
+        totalArticles: fansStore.currentStats._51cto.totalArticles, 
+        weeklyGrowth: fansStore.currentStats._51cto.weeklyGrowth, 
+        username: '掘金安东尼' 
+      },
+      infoq: { 
+        currentFans: fansStore.currentStats.infoq.currentFans, 
+        currentReads: fansStore.currentStats.infoq.currentReads, 
+        totalArticles: fansStore.currentStats.infoq.totalArticles, 
+        weeklyGrowth: fansStore.currentStats.infoq.weeklyGrowth, 
+        username: '掘金安东尼' 
+      },
+      wechat: { 
+        currentFans: fansStore.currentStats.wechat.currentFans, 
+        currentReads: fansStore.currentStats.wechat.currentReads, 
+        totalArticles: fansStore.currentStats.wechat.totalArticles, 
+        weeklyGrowth: fansStore.currentStats.wechat.weeklyGrowth, 
+        username: '掘金安东尼' 
+      },
+      segmentfault: { 
+        currentFans: fansStore.currentStats.segmentfault.currentFans, 
+        currentReads: fansStore.currentStats.segmentfault.currentReads, 
+        totalArticles: fansStore.currentStats.segmentfault.totalArticles, 
+        weeklyGrowth: fansStore.currentStats.segmentfault.weeklyGrowth, 
+        username: '掘金安东尼' 
+      }
+    }
+  } else {
+    // 其他矩阵账号使用预设的0数据
+    return accountPlatformData[fansStore.activeMatrixAccount] || accountPlatformData['代码甜瓜']
+  }
+})
+
+// 总计面板数据 - 基于当前选中的账号
 const totalStats = computed(() => {
   let fans = 0, reads = 0, articles = 0, weekly = 0
   platforms.forEach(p => {
-    const s = fansStore.currentStats[p.key] || { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0 }
+    const s = currentAccountData.value[p.key] || { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0 }
     fans += s.currentFans
     reads += s.currentReads
     articles += s.totalArticles
@@ -56,15 +157,15 @@ const goToHomepage = (url: string) => {
 
 // 复制介绍内容
 const copyIntro = async () => {
-  const introText = `👨‍💻 大家好，我是掘金安东尼，一位专注于 AI 编程、前端架构与数字产品打造的技术创作者。
+  const introText = `> 👨‍💻 大家好，我是掘金安东尼，一位专注于 AI 编程、前端架构与数字产品打造的技术创作者。
 
-🚀 我已经正式开启个人 IP 之路，网站上线 👉 tuaran.pages.dev
+> 🚀 我已经正式开启个人 IP 之路，网站上线 👉 tuaran.pages.dev
 
-🧠 我会持续发布高质量干货内容，覆盖 Vue3 / Python / 大模型落地 / 工程化提升 / 技术创业 等方向。
+> 🧠 我会持续发布高质量干货内容，覆盖 Vue3 / Python / 大模型落地 / 工程化提升 / 技术创业 等方向。
 
-🎁 如果你想进 抽奖群 / 技术群 / 副业群 一起交流成长，欢迎加我微信：atar24 
+> 🎁 如果你想进 抽奖群 / 技术群 / 副业群 一起交流成长，欢迎加我微信：atar24 
 
-🪐 欢迎关注 + 收藏，一起探索程序员进阶的多维可能！`
+> 🪐 欢迎关注 + 收藏，一起探索程序员进阶的多维可能！`
 
   try {
     await navigator.clipboard.writeText(introText)
@@ -81,6 +182,7 @@ const copyIntro = async () => {
 <template>
   <div class="min-h-screen bg-gray-50 p-6">
     <div class="max-w-7xl mx-auto space-y-6">
+      <!-- 个人介绍 -->
       <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
         <div class="flex items-start justify-between">
           <div class="text-sm text-gray-700 space-y-2 flex-1">
@@ -100,11 +202,12 @@ const copyIntro = async () => {
           </button>
         </div>
       </div>
+
       <!-- 总计面板 -->
       <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
         <div class="text-center mb-6">
-          <h2 class="text-xl font-semibold text-gray-900 mb-1">数据总览</h2>
-          <p class="text-gray-500 text-sm">全网技术社区平台数据汇总</p>
+          <h2 class="text-xl font-semibold text-gray-900 mb-1">{{ fansStore.currentMatrixAccount.name }} - 数据总览</h2>
+          <p class="text-gray-500 text-sm">{{ fansStore.currentMatrixAccount.description }}</p>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div class="text-center">
@@ -161,7 +264,7 @@ const copyIntro = async () => {
                 <div>
                   <h3 class="text-sm font-semibold text-gray-900">{{ p.name }}</h3>
                   <div class="text-xs text-gray-500 mt-0.5">
-                    {{ p.username }}
+                    {{ currentAccountData[p.key]?.username || fansStore.currentMatrixAccount.name }}
                     <span class="text-yellow-600 ml-1">{{ 
                       p.key === 'csdn' ? 'CSDN专家' :
                       p.key === 'juejin' ? '社区共建者' :
@@ -182,15 +285,15 @@ const copyIntro = async () => {
             <!-- 核心数据 -->
             <div class="grid grid-cols-3 gap-2 mb-4">
               <div class="text-center">
-                <div class="text-lg font-semibold text-gray-900">{{ formatNumber((fansStore.currentStats[p.key]?.currentFans) || 0) }}</div>
+                <div class="text-lg font-semibold text-gray-900">{{ formatNumber((currentAccountData[p.key]?.currentFans) || 0) }}</div>
                 <div class="text-xs text-gray-500">粉丝</div>
               </div>
               <div class="text-center">
-                <div class="text-lg font-semibold text-gray-900">{{ formatNumber((fansStore.currentStats[p.key]?.currentReads) || 0) }}</div>
+                <div class="text-lg font-semibold text-gray-900">{{ formatNumber((currentAccountData[p.key]?.currentReads) || 0) }}</div>
                 <div class="text-xs text-gray-500">阅读</div>
               </div>
               <div class="text-center">
-                <div class="text-lg font-semibold text-gray-900">{{ formatNumber((fansStore.currentStats[p.key]?.totalArticles) || 0) }}</div>
+                <div class="text-lg font-semibold text-gray-900">{{ formatNumber((currentAccountData[p.key]?.totalArticles) || 0) }}</div>
                 <div class="text-xs text-gray-500">文章</div>
               </div>
             </div>
@@ -207,7 +310,7 @@ const copyIntro = async () => {
                 <ExternalLink class="w-3 h-3 mr-1" />
                 访问主页
               </button>
-              <router-link :to="`/plan/${p.key}`" 
+              <router-link :to="`/plan/${p.key}/${fansStore.activeMatrixAccount}`" 
                            :class="`flex items-center transition-colors ${
                              p.key === 'csdn' || p.key === 'juejin' 
                                ? 'text-blue-600 hover:text-blue-800' 
