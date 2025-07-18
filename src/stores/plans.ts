@@ -503,7 +503,58 @@ export const usePlansStore = defineStore('plans', () => {
             keywords: ['RAG', 'Agent', 'LLM应用', '架构设计'],
             notes: 'AI架构设计与应用模式系列文章',
             platforms: ['csdn'],
-            articles: []
+            articles: [
+              {
+                id: 'arch-1',
+                title: '一文讲透 RAG：大模型为什么需要外部知识库？',
+                description: '讲解 Retrieval-Augmented Generation 的动因、结构与使用场景。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['RAG', '知识库', '检索增强', '大模型应用']
+              },
+              {
+                id: 'arch-2',
+                title: 'LLM Agent 是什么？如何构建一套"会思考"的任务执行流？',
+                description: '从原理到应用，全面拆解 Agent 系统的组成与实战架构。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['LLM Agent', '任务执行', '智能体', '架构设计']
+              },
+              {
+                id: 'arch-3',
+                title: '从 Prompt 到工作流：大模型应用架构的五种范式演进',
+                description: '总结 LLM 应用架构的阶段变化与典型使用方式。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['Prompt工程', '工作流', '架构演进', 'LLM应用']
+              },
+              {
+                id: 'arch-4',
+                title: '大模型能力地图：Tool Calling、RAG、Agent、插件机制全解析',
+                description: '梳理 LLM 应用能力边界及其组合方式对开发者的意义。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['Tool Calling', '插件机制', '能力边界', '开发者工具']
+              },
+              {
+                id: 'arch-5',
+                title: '构建企业内部知识问答系统：从文档库到问答引擎',
+                description: '基于向量库 + RAG 架构，构建企业知识助手的完整流程。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['知识问答', '向量库', '企业应用', 'RAG架构']
+              }
+            ]
           },
           {
             id: 'ai-fine-tuning',
@@ -527,7 +578,58 @@ export const usePlansStore = defineStore('plans', () => {
             keywords: ['LoRA', 'QLoRA', '微调', 'PEFT'],
             notes: 'AI模型微调与参数高效化系列文章',
             platforms: ['csdn'],
-            articles: []
+            articles: [
+              {
+                id: 'tune-1',
+                title: '大模型微调方法全景图：从 SFT 到 LoRA 再到 DPO',
+                description: '比较不同微调策略的适用场景与原理差异。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['SFT', 'LoRA', 'DPO', '微调策略', '参数高效']
+              },
+              {
+                id: 'tune-2',
+                title: 'LoRA 是如何"插管"大模型的？结构、优点与实战指南',
+                description: '深入解析 LoRA 的低秩矩阵注入机制及代码实现细节。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['LoRA', '低秩矩阵', '参数注入', '实战指南']
+              },
+              {
+                id: 'tune-3',
+                title: 'QLoRA：低内存训练的秘诀及 Hugging Face 实战指南',
+                description: '讲解 QLoRA 的核心优化点及其与 vLLM 兼容性问题。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['QLoRA', '低内存训练', 'Hugging Face', 'vLLM']
+              },
+              {
+                id: 'tune-4',
+                title: 'PEFT 框架全解：让你轻松掌控参数高效微调技术',
+                description: '介绍 Hugging Face PEFT 框架的核心 API 与微调策略组合。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['PEFT', 'Hugging Face', '参数高效', '微调框架']
+              },
+              {
+                id: 'tune-5',
+                title: '从 RLHF 到 DPO：大模型对齐方法的技术演化路线图',
+                description: '对比强化学习与直接偏好优化两种对齐路径的理论与实践。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['RLHF', 'DPO', '模型对齐', '强化学习', '偏好优化']
+              }
+            ]
           },
           {
             id: 'ai-frameworks',
@@ -551,7 +653,58 @@ export const usePlansStore = defineStore('plans', () => {
             keywords: ['LangChain', 'DSPy', 'OpenAgents', '开发框架'],
             notes: 'AI开发框架与生态对比系列文章',
             platforms: ['csdn'],
-            articles: []
+            articles: [
+              {
+                id: 'framework-1',
+                title: 'LangChain 入门与项目实战：打造你的第一个 LLM 应用',
+                description: '完整讲解 LangChain 的链式调用、Memory 与 Agent 机制。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['LangChain', 'LLM应用', '链式调用', 'Memory机制']
+              },
+              {
+                id: 'framework-2',
+                title: 'LangChain vs. LlamaIndex：两种数据增强方案的对比分析',
+                description: '针对开发者选型，深入拆解两者在场景适配上的异同。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['LangChain', 'LlamaIndex', '数据增强', '对比分析']
+              },
+              {
+                id: 'framework-3',
+                title: 'DSPy 框架介绍：编程式 Prompt 优化如何提升准确率？',
+                description: '介绍 DSPy 的模块结构与 Prompt 编译范式。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['DSPy', 'Prompt优化', '编程式', '准确率提升']
+              },
+              {
+                id: 'framework-4',
+                title: 'OpenAgents vs AutoGen：开源 Agent 框架该怎么选？',
+                description: '对比两大主流 Agent 编排框架的特性、协议与插件系统。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['OpenAgents', 'AutoGen', 'Agent框架', '开源对比']
+              },
+              {
+                id: 'framework-5',
+                title: '打造你自己的 LLM 接入层：Function Calling、Tools、Router 架构全拆解',
+                description: '围绕 AI 中间层设计与多模型接入策略，提供通用接入方式。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['Function Calling', 'Tools', 'Router', '接入层', '多模型']
+              }
+            ]
           },
           {
             id: 'ai-data',
@@ -575,7 +728,58 @@ export const usePlansStore = defineStore('plans', () => {
             keywords: ['数据处理', '向量库', '模型评估', 'Prompt工程'],
             notes: '大模型与数据处理系列文章',
             platforms: ['csdn'],
-            articles: []
+            articles: [
+              {
+                id: 'data-1',
+                title: '如何构建一个高质量的语料库供 LLM 使用？',
+                description: '讲解数据去重、清洗、对齐与格式化全过程。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['语料库', '数据清洗', '数据对齐', 'LLM训练']
+              },
+              {
+                id: 'data-2',
+                title: '向量库入门指南：从原理到实际部署',
+                description: '介绍向量检索核心算法、常见库（FAISS、Milvus）与部署建议。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['向量库', 'FAISS', 'Milvus', '向量检索', '部署']
+              },
+              {
+                id: 'data-3',
+                title: '评估大模型效果的三把标尺：BLEU、ROUGE、BERTScore详解',
+                description: '语言模型评估常用指标的算法逻辑与适用场景。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['BLEU', 'ROUGE', 'BERTScore', '模型评估', '指标']
+              },
+              {
+                id: 'data-4',
+                title: 'Prompt 测试与调优实战：从 AB 实验到 Prompt Injection 防御',
+                description: '探索 Prompt 的稳定性评估与攻击防御策略。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['Prompt测试', 'AB实验', 'Prompt Injection', '防御策略']
+              },
+              {
+                id: 'data-5',
+                title: '如何设计大模型评估任务集？从能力、准确率到可控性全面覆盖',
+                description: '结合 OpenAI Evals、HELMeval 等工具设计全流程评估机制。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['评估任务集', 'OpenAI Evals', 'HELMeval', '全流程评估']
+              }
+            ]
           },
           {
             id: 'ai-product',
@@ -599,7 +803,58 @@ export const usePlansStore = defineStore('plans', () => {
             keywords: ['AI产品', '产品设计', '业务落地', 'SaaS'],
             notes: 'AI产品设计与落地系列文章',
             platforms: ['csdn'],
-            articles: []
+            articles: [
+              {
+                id: 'product-1',
+                title: 'AI 产品经理的第一课：从 Chat 到 Copilot 的产品结构拆解',
+                description: '产品角度看大模型应用的设计范式与交互模式。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['AI产品经理', 'Chat', 'Copilot', '产品结构', '交互模式']
+              },
+              {
+                id: 'product-2',
+                title: '大模型在企业中的五种典型落地方式与误区',
+                description: '总结 Chatbot、知识库问答、流程自动化等典型案例。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['企业落地', 'Chatbot', '知识库问答', '流程自动化', '误区']
+              },
+              {
+                id: 'product-3',
+                title: '打造可控的 AI 助手：如何设计 Prompt Guardrail 与行为约束机制？',
+                description: '用真实案例讲解 Prompt Injection、越权行为的防控策略。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['AI助手', 'Prompt Guardrail', '行为约束', '安全防控']
+              },
+              {
+                id: 'product-4',
+                title: '自动生成文档、合同、代码：大模型的"生成场景大全"',
+                description: '梳理生成式 AI 在业务端的所有可能变革方向。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['自动生成', '文档生成', '代码生成', '业务变革', '生成场景']
+              },
+              {
+                id: 'product-5',
+                title: '从 SaaS 到 GPT 驱动：产品形态如何因大模型而演化？',
+                description: '从架构、接口、商业模式讲解 AI 如何影响 SaaS 产品设计。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['SaaS', 'GPT驱动', '产品演化', '商业模式', '架构设计']
+              }
+            ]
           },
           {
             id: 'ai-security',
@@ -623,7 +878,58 @@ export const usePlansStore = defineStore('plans', () => {
             keywords: ['AI安全', '隐私保护', '合规', '风险管理'],
             notes: 'AI安全、隐私与治理系列文章',
             platforms: ['csdn'],
-            articles: []
+            articles: [
+              {
+                id: 'security-1',
+                title: '大模型的安全风险全解：Prompt Injection、信息泄露与幻觉问题',
+                description: '系统总结大模型带来的新型风险点与对策。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['安全风险', 'Prompt Injection', '信息泄露', '幻觉问题', '风险对策']
+              },
+              {
+                id: 'security-2',
+                title: '如何构建一个企业级的大模型使用权限系统？',
+                description: '从角色权限、日志审计到输出过滤的全链路设计。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['权限系统', '角色权限', '日志审计', '输出过滤', '企业级']
+              },
+              {
+                id: 'security-3',
+                title: '大模型的数据隐私保护方法：脱敏、同态加密、联邦学习',
+                description: '解析在敏感数据场景下的大模型使用安全策略。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['数据隐私', '脱敏', '同态加密', '联邦学习', '安全策略']
+              },
+              {
+                id: 'security-4',
+                title: 'AI 合规指南：如何让大模型系统符合监管要求？',
+                description: '从欧盟 AI 法规到国内数据安全法的落地建议。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['AI合规', '监管要求', '欧盟AI法规', '数据安全法', '落地建议']
+              },
+              {
+                id: 'security-5',
+                title: '企业部署开源大模型时，必须规避的五个隐性风险',
+                description: '从网络、模型源头、依赖项到更新策略的系统检查清单。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['开源大模型', '部署风险', '系统检查', '安全清单', '企业部署']
+              }
+            ]
           },
           {
             id: 'ai-multimodal',
@@ -647,7 +953,58 @@ export const usePlansStore = defineStore('plans', () => {
             keywords: ['多模态', '视觉AI', '图像生成', '视频生成'],
             notes: 'AI多模态与视觉系列文章',
             platforms: ['csdn'],
-            articles: []
+            articles: [
+              {
+                id: 'multimodal-1',
+                title: '多模态大模型是什么？从 CLIP 到 Gemini 的跨模态理解',
+                description: '解析图文、图像、视频、代码的理解融合机制。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['多模态', 'CLIP', 'Gemini', '跨模态理解', '融合机制']
+              },
+              {
+                id: 'multimodal-2',
+                title: '如何构建一个图文问答系统？多模态 RAG 架构实战',
+                description: '结合图像处理与向量检索实现图文问答系统。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['图文问答', '多模态RAG', '图像处理', '向量检索', '实战']
+              },
+              {
+                id: 'multimodal-3',
+                title: '开源视觉大模型盘点：BLIP、LLaVA、MiniGPT4 全解析',
+                description: '比较多模态模型能力、应用方向与落地现状。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['BLIP', 'LLaVA', 'MiniGPT4', '视觉大模型', '开源对比']
+              },
+              {
+                id: 'multimodal-4',
+                title: '图像生成技术演进史：从 GAN 到 Diffusion 再到 Sora',
+                description: '讲解图像生成模型的三大阶段与代表模型。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['GAN', 'Diffusion', 'Sora', '图像生成', '技术演进']
+              },
+              {
+                id: 'multimodal-5',
+                title: 'AI 视频生成入门指南：如何使用 Sora、Runway 或 Stable Video',
+                description: '对比不同 AI 视频生成平台的能力、限制与适配场景。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['Sora', 'Runway', 'Stable Video', '视频生成', '平台对比']
+              }
+            ]
           },
           {
             id: 'ai-automation',
@@ -671,7 +1028,58 @@ export const usePlansStore = defineStore('plans', () => {
             keywords: ['AI编程', '自动化', '代码生成', '测试'],
             notes: 'AI编程与自动化系列文章',
             platforms: ['csdn'],
-            articles: []
+            articles: [
+              {
+                id: 'automation-1',
+                title: '用 GPT 自动生成 Python 脚本：实用场景与限制点',
+                description: '讲解 GPT 在代码生成中的能力边界与正确用法。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['GPT', 'Python', '代码生成', '自动化脚本', '能力边界']
+              },
+              {
+                id: 'automation-2',
+                title: '打造一个能自动化办公的 AI Agent 助理（含邮件、文档处理）',
+                description: '构建基于 Agent 的"数字员工"实战案例。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['AI Agent', '自动化办公', '邮件处理', '文档处理', '数字员工']
+              },
+              {
+                id: 'automation-3',
+                title: '从 VSCode 插件到 AI Copilot：如何嵌入 AI 到开发工具中？',
+                description: '讲解开发者工具与 GPT 的整合方式与插件机制。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['VSCode', 'AI Copilot', '开发工具', '插件机制', 'GPT整合']
+              },
+              {
+                id: 'automation-4',
+                title: '如何构建低代码平台中的 AI 智能体模块？',
+                description: '介绍在 Retool、Budibase、轻流等平台集成 AI 的方法。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['低代码平台', 'Retool', 'Budibase', '轻流', 'AI智能体']
+              },
+              {
+                id: 'automation-5',
+                title: 'AI 自动化测试入门：让 GPT 帮你生成测试用例与逻辑断言',
+                description: '结合 Cypress/Playwright 实现 GPT 自动测试代码生成。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['自动化测试', 'Cypress', 'Playwright', '测试用例', '逻辑断言']
+              }
+            ]
           },
           {
             id: 'ai-strategy',
@@ -695,7 +1103,58 @@ export const usePlansStore = defineStore('plans', () => {
             keywords: ['AI趋势', '认知升级', '技术演进', '未来展望'],
             notes: 'AI策略、趋势与认知系列文章',
             platforms: ['csdn'],
-            articles: []
+            articles: [
+              {
+                id: 'strategy-1',
+                title: '为什么大模型正在成为"新操作系统"？',
+                description: '分析大模型对 UI、接口、交互范式的底层冲击。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['大模型', '新操作系统', 'UI范式', '交互范式', '技术冲击']
+              },
+              {
+                id: 'strategy-2',
+                title: 'AI 的十年周期规律：从专家系统到大模型，下一步是什么？',
+                description: '历史与未来视角下的 AI 技术周期洞察。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['AI周期', '专家系统', '大模型', '技术演进', '未来预测']
+              },
+              {
+                id: 'strategy-3',
+                title: '模型即人类接口：为什么我们正在进入后命令行时代？',
+                description: '探讨自然语言交互的革命性影响。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['自然语言交互', '后命令行时代', '人机接口', '革命性影响']
+              },
+              {
+                id: 'strategy-4',
+                title: '从 LLM 到多智能体：未来十年 AI 架构怎么走？',
+                description: '描绘多 Agent 协作、系统调度的未来形态。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['LLM', '多智能体', 'Agent协作', '系统调度', '未来架构']
+              },
+              {
+                id: 'strategy-5',
+                title: 'AI 不是工具，是思维方式的变化',
+                description: '从开发者视角探讨如何用"AI native"的方式构建系统。',
+                status: 'planned',
+                publishDate: '',
+                readCount: 0,
+                likeCount: 0,
+                tags: ['AI思维', '思维方式', 'AI native', '系统构建', '开发者视角']
+              }
+            ]
           }
         ],
         thoughtNotes: []
