@@ -1,10 +1,25 @@
 <script setup lang="ts">
 import { useFansStore } from '@/stores/fans'
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { ExternalLink, Target, Copy, Check, Send } from 'lucide-vue-next'
 
 const fansStore = useFansStore()
 const showCopied = ref(false)
+const isIntroCollapsed = ref(false)
+
+// 滚动监听
+const handleScroll = () => {
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+  isIntroCollapsed.value = scrollTop > 100
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 
 // 不同账号的平台数据
 const accountPlatformData: Record<string, Record<string, { currentFans: number; currentReads: number; totalArticles: number; weeklyGrowth: number; username: string }>> = {
@@ -185,17 +200,24 @@ const copyIntro = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 p-6">
-    <div class="max-w-7xl mx-auto space-y-6">
-      <!-- 个人介绍 -->
-      <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+  <div class="min-h-screen bg-gray-50">
+    <div class="max-w-7xl mx-auto p-6 space-y-6">
+      <!-- 个人介绍 - 带收缩效果 -->
+      <div 
+        class="bg-white rounded-lg shadow-sm border border-gray-200 transition-all duration-300 ease-in-out"
+        :class="isIntroCollapsed ? 'p-2' : 'p-4'"
+      >
         <div class="flex items-start justify-between">
-          <div class="text-sm text-gray-700 space-y-2 flex-1">
-            <div>👨‍💻 大家好，我是掘金安东尼，一位专注于 AI 编程、前端架构与数字产品打造的技术创作者。</div>
-            <div>🚀 我已经正式开启个人 IP 之路，网站上线 👉 <a href="https://tuaran.pages.dev" target="_blank" class="text-blue-600 hover:text-blue-800">tuaran.pages.dev</a></div>
-            <div>🧠 我会持续发布高质量干货内容，覆盖 Vue3 / Python / 大模型落地 / 工程化提升 / 技术创业 等方向。</div>
-            <div>🎁 如果你想进 抽奖群 / 技术群 / 副业群 一起交流成长，欢迎加我微信：<span class="font-mono text-gray-900">atar24</span></div>
-            <div>🪐 欢迎关注 + 收藏，一起探索程序员进阶的多维可能！</div>
+          <div 
+            class="text-gray-700 space-y-2 flex-1 transition-all duration-300"
+            :class="isIntroCollapsed ? 'text-xs space-y-1' : 'text-sm space-y-2'"
+          >
+            <div v-show="!isIntroCollapsed">👨‍💻 大家好，我是掘金安东尼，一位专注于 AI 编程、前端架构与数字产品打造的技术创作者。</div>
+            <div v-show="!isIntroCollapsed">🚀 我已经正式开启个人 IP 之路，网站上线 👉 <a href="https://tuaran.pages.dev" target="_blank" class="text-blue-600 hover:text-blue-800">tuaran.pages.dev</a></div>
+            <div v-show="!isIntroCollapsed">🧠 我会持续发布高质量干货内容，覆盖 Vue3 / Python / 大模型落地 / 工程化提升 / 技术创业 等方向。</div>
+            <div v-show="!isIntroCollapsed">🎁 如果你想进 抽奖群 / 技术群 / 副业群 一起交流成长，欢迎加我微信：<span class="font-mono text-gray-900">atar24</span></div>
+            <div v-show="!isIntroCollapsed">🪐 欢迎关注 + 收藏，一起探索程序员进阶的多维可能！</div>
+            <div v-show="isIntroCollapsed" class="font-semibold text-gray-900">👨‍💻 掘金安东尼 - AI编程技术创作者</div>
           </div>
           <div class="flex items-center space-x-2">
             <router-link 
@@ -217,48 +239,46 @@ const copyIntro = async () => {
         </div>
       </div>
 
-      <!-- 总计面板 -->
-      <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-        <div class="text-center mb-6">
-          <h2 class="text-xl font-semibold text-gray-900 mb-1">{{ fansStore.currentMatrixAccount.name }} - 数据总览</h2>
-          <p class="text-gray-500 text-sm">{{ fansStore.currentMatrixAccount.description }}</p>
+      <!-- 总计面板 - 优化样式 -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold text-gray-900">数据总览</h2>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div class="text-center">
-            <div class="bg-red-50 rounded-lg p-3 mb-2">
-              <span class="text-xl">👥</span>
-            </div>
-            <div class="text-gray-900">
-              <div class="text-xs text-gray-500 mb-1">总粉丝数</div>
-              <div class="text-lg font-semibold text-red-600">{{ formatNumber(totalStats.fans) }}</div>
-            </div>
-          </div>
-          <div class="text-center">
-            <div class="bg-blue-50 rounded-lg p-3 mb-2">
-              <span class="text-xl">👁️</span>
-            </div>
-            <div class="text-gray-900">
-              <div class="text-xs text-gray-500 mb-1">总阅读量</div>
-              <div class="text-lg font-semibold text-blue-600">{{ formatNumber(totalStats.reads) }}</div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div class="text-center transform hover:scale-105 transition-transform duration-200">
+            <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-6 mb-4 shadow-sm">
+              <div class="text-gray-900">
+                <div class="text-lg font-semibold text-gray-700 mb-2">总粉丝数</div>
+                <div class="text-3xl font-bold text-red-600 mb-1">{{ formatNumber(totalStats.fans) }}</div>
+                <div class="text-sm text-gray-500">累计关注者</div>
+              </div>
             </div>
           </div>
-          <div class="text-center">
-            <div class="bg-green-50 rounded-lg p-3 mb-2">
-              <span class="text-xl">📄</span>
-            </div>
-            <div class="text-gray-900">
-              <div class="text-xs text-gray-500 mb-1">总文章数</div>
-              <div class="text-lg font-semibold text-green-600">{{ formatNumber(dedupedArticles) }}</div>
-              <div class="text-xs text-gray-400 mt-1">文章数已去重</div>
+          <div class="text-center transform hover:scale-105 transition-transform duration-200">
+            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 mb-4 shadow-sm">
+              <div class="text-gray-900">
+                <div class="text-lg font-semibold text-gray-700 mb-2">总阅读量</div>
+                <div class="text-3xl font-bold text-blue-600 mb-1">{{ formatNumber(totalStats.reads) }}</div>
+                <div class="text-sm text-gray-500">内容曝光度</div>
+              </div>
             </div>
           </div>
-          <div class="text-center">
-            <div class="bg-purple-50 rounded-lg p-3 mb-2">
-              <span class="text-xl">📈</span>
+          <div class="text-center transform hover:scale-105 transition-transform duration-200">
+            <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 mb-4 shadow-sm">
+              <div class="text-gray-900">
+                <div class="text-lg font-semibold text-gray-700 mb-2">总文章数</div>
+                <div class="text-3xl font-bold text-green-600 mb-1">{{ formatNumber(dedupedArticles) }}</div>
+                <div class="text-sm text-gray-500">文章数已去重</div>
+              </div>
             </div>
-            <div class="text-gray-900">
-              <div class="text-xs text-gray-500 mb-1">增长率</div>
-              <div class="text-lg font-semibold text-purple-600">{{ growthRate }}</div>
+          </div>
+          <div class="text-center transform hover:scale-105 transition-transform duration-200">
+            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 mb-4 shadow-sm">
+              <div class="text-gray-900">
+                <div class="text-lg font-semibold text-gray-700 mb-2">增长率</div>
+                <div class="text-3xl font-bold text-purple-600 mb-1">{{ growthRate }}</div>
+                <div class="text-sm text-gray-500">本周增长</div>
+              </div>
             </div>
           </div>
         </div>
@@ -272,12 +292,12 @@ const copyIntro = async () => {
             <!-- 平台头部 -->
             <div class="flex items-center justify-between mb-4">
               <div class="flex items-center">
-                <div class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center mr-2">
-                  <span class="text-sm">{{ p.icon }}</span>
+                <div class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center mr-3">
+                  <span class="text-xl">{{ p.icon }}</span>
                 </div>
-                <div>
-                  <h3 class="text-sm font-semibold text-gray-900">{{ p.name }}</h3>
-                  <div class="text-xs text-gray-500 mt-0.5">
+                <div class="text-center">
+                  <h3 class="text-lg font-bold text-gray-900">{{ p.name }}</h3>
+                  <div class="text-xs text-gray-500 mt-1">
                     {{ currentAccountData[p.key]?.username || fansStore.currentMatrixAccount.name }}
                     <span class="text-yellow-600 ml-1">{{ 
                       p.key === 'csdn' ? 'CSDN专家' :

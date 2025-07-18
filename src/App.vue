@@ -17,10 +17,34 @@ import {
 const route = useRoute()
 const fansStore = useFansStore()
 const showAccountDropdown = ref(false)
+const easterEggCount = ref(0)
+const showEasterEggMessage = ref(false)
 
 const navItems = [
   { path: '/publish', name: '一键发布', icon: Send }
 ]
+
+// 彩蛋功能
+const triggerEasterEgg = () => {
+  easterEggCount.value++
+  
+  if (easterEggCount.value === 1) {
+    showEasterEggMessage.value = true
+    setTimeout(() => {
+      showEasterEggMessage.value = false
+    }, 3000)
+  } else if (easterEggCount.value === 5) {
+    // 连续点击5次触发特殊效果
+    document.body.style.animation = 'rainbow 2s ease-in-out'
+    setTimeout(() => {
+      document.body.style.animation = ''
+    }, 2000)
+  } else if (easterEggCount.value === 10) {
+    // 连续点击10次触发终极彩蛋
+    alert('🎉 恭喜你发现了终极彩蛋！\n\n你是一个细心的开发者！\n\n继续加油，代码写得好，bug少不了！ 😄')
+    easterEggCount.value = 0
+  }
+}
 
 const currentRoute = computed(() => route.path)
 
@@ -83,15 +107,15 @@ const toggleAccountDropdown = () => {
           <div class="flex items-center">
             <div class="flex items-center space-x-4">
               <!-- 数据图标 -->
-              <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-8 h-8 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center shadow-lg cursor-pointer transition-transform hover:scale-110" @click="triggerEasterEgg">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                 </svg>
               </div>
               
               <!-- 标题和账号切换 -->
               <div class="flex items-center space-x-3">
-                <h1 class="text-3xl font-bold">
+                <h1 class="text-xl font-bold">
                   <span class="bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">{{ fansStore.currentMatrixAccount.name }}</span>
                 </h1>
                 
@@ -151,6 +175,13 @@ const toggleAccountDropdown = () => {
     <main class="flex-1">
       <router-view />
     </main>
+    
+    <!-- 彩蛋消息 -->
+    <div v-if="showEasterEggMessage" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50">
+      <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-full shadow-lg animate-bounce">
+        <span class="text-sm font-medium">🎯 发现彩蛋！继续点击有惊喜...</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -171,5 +202,14 @@ const toggleAccountDropdown = () => {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
+}
+
+/* 彩虹动画 */
+@keyframes rainbow {
+  0% { filter: hue-rotate(0deg); }
+  25% { filter: hue-rotate(90deg); }
+  50% { filter: hue-rotate(180deg); }
+  75% { filter: hue-rotate(270deg); }
+  100% { filter: hue-rotate(360deg); }
 }
 </style>
