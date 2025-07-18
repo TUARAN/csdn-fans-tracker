@@ -24,7 +24,7 @@ onUnmounted(() => {
 // 不同账号的平台数据
 const accountPlatformData: Record<string, Record<string, { currentFans: number; currentReads: number; totalArticles: number; weeklyGrowth: number; username: string }>> = {
   '掘金安东尼': {
-    csdn: { currentFans: 183, currentReads: 27871, totalArticles: 58, weeklyGrowth: 19, username: '掘金安东尼' },
+    csdn: { currentFans: 196, currentReads: 30973, totalArticles: 59, weeklyGrowth: 13, username: '掘金安东尼' },
     juejin: { currentFans: 3200, currentReads: 45000, totalArticles: 85, weeklyGrowth: 150, username: '掘金安东尼' },
     toutiao: { currentFans: 2800, currentReads: 38000, totalArticles: 65, weeklyGrowth: 120, username: '掘金安东尼' },
     zhihu: { currentFans: 1500, currentReads: 22000, totalArticles: 45, weeklyGrowth: 80, username: '三十而立方' },

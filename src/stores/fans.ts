@@ -198,11 +198,11 @@ export const useFansStore = defineStore('fans', () => {
     const csdnData: FanData = {
       date: '2025-07-18',
       community: 'csdn',
-      fansCount: 183,
-      readCount: 27871,
-      articleCount: 58,
-      dailyFansGrowth: 19,
-      dailyReadGrowth: 3100
+      fansCount: 196,
+      readCount: 30973,
+      articleCount: 59,
+      dailyFansGrowth: 13,
+      dailyReadGrowth: 3102
     }
     
     // 掘金数据（最新）
