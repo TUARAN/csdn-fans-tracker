@@ -194,15 +194,15 @@ export const useFansStore = defineStore('fans', () => {
   if (fanDataList.value.length === 0) {
     const today = dayjs().format('YYYY-MM-DD')
     
-    // CSDN数据 - 7月18号更新
+    // CSDN数据 - 掘金安东尼账号 7月26号
     const csdnData: FanData = {
-      date: '2025-07-18',
+      date: '2025-07-26',
       community: 'csdn',
-      fansCount: 196,
-      readCount: 30973,
-      articleCount: 59,
-      dailyFansGrowth: 13,
-      dailyReadGrowth: 3102
+      fansCount: 265,
+      readCount: 41583,
+      articleCount: 72,
+      dailyFansGrowth: 7,
+      dailyReadGrowth: 926
     }
     
     // 掘金数据（最新）

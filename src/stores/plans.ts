@@ -52,10 +52,10 @@ export const usePlansStore = defineStore('plans', () => {
       csdn: {
         platform: 'csdn',
         currentStatus: {
-          fans: 8500,
-          reads: 1200000,
-          articles: 150,
-          level: 'CSDN专家'
+          fans: 265,
+          reads: 41583,
+          articles: 72,
+          level: '初级创作者'
         },
         goals: {
           shortTerm: ['粉丝数突破1万', '每周发布2-3篇高质量文章', '提升文章互动率'],
@@ -378,10 +378,10 @@ export const usePlansStore = defineStore('plans', () => {
       csdn: {
         platform: 'csdn',
         currentStatus: {
-          fans: 0,
-          reads: 0,
-          articles: 0,
-          level: '新用户'
+          fans: 151,
+          reads: 22654,
+          articles: 35,
+          level: '初级创作者'
         },
         goals: {
           shortTerm: ['建立账号基础', '发布AI编程相关内容', '积累初始粉丝'],

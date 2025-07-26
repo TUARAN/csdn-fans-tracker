@@ -71,14 +71,14 @@ const currentConfig = computed(() => platformConfig[platform.value])
 
 // 当前统计数据
 const currentStats = computed(() => {
-  // 如果是"代码AI弗森"账号，显示真实的CSDN数据
-  if (account.value === '代码AI弗森') {
+  // 如果是"掘金安东尼"账号，显示真实的CSDN数据
+  if (account.value === '掘金安东尼') {
     if (platform.value === 'csdn') {
       return {
-        currentFans: 2,
-        currentReads: 360,
-        totalArticles: 1,
-        weeklyGrowth: 2
+        currentFans: 265,
+        currentReads: 41583,
+        totalArticles: 72,
+        weeklyGrowth: 7
       }
     }
     return {
