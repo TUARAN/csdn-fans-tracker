@@ -77,65 +77,379 @@ export const usePlansStore = defineStore('plans', () => {
           'AI技术快速发展',
           '技术社区活跃度高',
           '个人品牌建设机会'
-        ],
+         ],
         weeklySummaries: [
           {
             id: '1',
-            weekStart: '2025-07-10',
-            weekEnd: '2025-07-16',
+            version: 'v0.0.1',
+            weekStart: '2025-07-24',
+            weekEnd: '2025-07-30',
             achievements: [
-              'CSDN起号第一周，成功建立账号基础',
-              '输出40+篇高质量技术文章',
-              '设计并创建3个技术专栏',
-              '阅读量突破2万，数据表现亮眼',
-              '粉丝数稳步增长，建立初步影响力'
+              '完成面试文章系列规划',
+              '建立内容发布节奏',
+              '初步积累读者群体',
+              '成功发布35篇面试和技术文章',
+              '累计获得120位粉丝关注',
+              '总阅读量突破1.8万'
             ],
             challenges: [
-              '粉丝数增长后期变缓慢，需要优化内容策略',
-              '需要平衡创作速度与内容质量',
-              '时间管理需要进一步优化',
-              '需要建立更稳定的创作节奏'
+              '面试文章竞争激烈',
+              '内容同质化严重',
+              '读者增长缓慢'
             ],
             learnings: [
-              '大模型结合个人构想的创作模式效果显著',
-              '持续创作能带来正反馈，激发创作热情',
-              '第一周的高激情状态需要转化为可持续的创作习惯',
-              '数据真实性验证后，坚定了继续创作的信心'
+              '面试文章虽然有需求但竞争激烈',
+              '需要寻找差异化内容方向',
+              '热点文章可能有更好的传播效果'
             ],
             nextWeekGoals: [
-              '设计系列文章，建立定时发布机制',
-              '集中时间段完成创作，提高效率',
-              '观察数据变化，优化发布策略',
-              '重点发展四个方向：面试文章、工具集合、热点文章、基础知识系列'
+              '继续发布热点技术文章',
+              '提升内容原创性',
+              '增加互动性内容',
+              '目标粉丝数突破200，阅读量突破3万',
+              '优化文章质量和发布频率'
             ],
             metrics: {
-              articlesPublished: 40,
-              fansGrowth: 115,
-              readGrowth: 20000,
-              engagementRate: 12.5
-            },
-            notes: 'CSDN起号第一周表现超出预期，虽然初期对数据真实性有所怀疑，但持续创作带来的正反馈坚定了继续创作的信心。本周激情充沛，结合大模型和个人构想输出了大量内容，为后续发展奠定了良好基础。下周需要将激情转化为可持续的创作习惯，设计系列文章并建立定时发布机制。'
+               articlesPublished: 35,
+               fansGrowth: 120,
+               readGrowth: 18000,
+               engagementRate: 0.12
+             },
+            notes: '第一阶段已取得显著成果，35篇文章获得120位粉丝关注，总阅读量1.8万，为后续发展奠定了坚实基础'
+          },
+          {
+            id: '2',
+            version: 'v0.0.2',
+            weekStart: '2025-07-31',
+            weekEnd: '2025-08-06',
+            achievements: [
+              '成功转型热点技术文章',
+              '文章发布数量实现翻倍增长',
+              '内容质量显著提升',
+              '读者互动明显增加',
+              '累计发布72篇技术文章（新增37篇）',
+              '粉丝数达到265位（新增145位）',
+              '总阅读量突破4.1万（新增2.3万）'
+            ],
+            challenges: [
+              '更文频率有所降低',
+              '数据增长速度趋于平缓',
+              '热点把握需要更敏锐的嗅觉',
+              '内容深度与时效性的平衡'
+            ],
+            learnings: [
+              '热点文章确实比面试文章有更好的传播效果',
+              '质量比数量更重要，精品内容更受欢迎',
+              '技术热点需要快速响应和深度解析',
+              '读者更喜欢有实际价值的技术分享'
+            ],
+            nextWeekGoals: [
+              '建立热点技术监控机制',
+              '优化内容创作流程',
+              '提升文章发布效率',
+              '加强与读者的互动交流',
+              '目标粉丝数突破350，阅读量突破6万',
+              '持续输出高质量技术内容'
+            ],
+            metrics: {
+               articlesPublished: 37,
+               fansGrowth: 145,
+               readGrowth: 23583,
+               engagementRate: 0.18
+             },
+            notes: '第二阶段成功转型热点文章，新增37篇文章，粉丝增长145位，阅读量增长2.3万，累计72篇文章获得265位粉丝关注，总阅读量4.1万，后续需要持续定时输出优质内容，保持技术敏感度'
           }
         ],
         writingPlans: [
           {
             id: '1',
-            title: '面试文章',
+            title: '前端面试文章系列',
             category: '面试文章',
-            outline: [],
-            targetPublishDate: '',
-            status: 'planning',
-            estimatedReadTime: 0,
-            keywords: ['面试题', '前端开发'],
-            notes: '面试相关文章',
+            outline: [
+              '基础知识面试题精选',
+              '框架相关面试重点',
+              '算法与数据结构',
+              '项目经验分享',
+              '面试技巧与心得'
+            ],
+            targetPublishDate: '2025-08-15',
+            status: 'in_progress',
+            estimatedReadTime: 8,
+            keywords: ['前端面试', 'JavaScript', 'Vue', 'React', '面试题'],
+            notes: '系统性整理前端面试知识点，帮助求职者提升面试成功率',
             platforms: ['csdn'],
             articles: [
               {
                 id: '1',
                 title: '前端面试官最恨的10种CSS写法',
-                description: '你的z-index为什么永远失效？',
+                description: '你的z-index为什么永远失效？深度解析CSS常见陷阱',
+                status: 'published',
+                publishDate: '2025-07-15',
+                readCount: 3200,
+                likeCount: 156,
+                tags: ['CSS', '前端', '面试', '最佳实践']
+              },
+              {
+                id: '2',
+                title: 'JavaScript闭包：99%的面试官都会问的问题',
+                description: '从原理到实战，彻底搞懂闭包的前世今生',
+                status: 'published',
+                publishDate: '2025-07-18',
+                readCount: 2800,
+                likeCount: 142,
+                tags: ['JavaScript', '闭包', '面试', '原理解析']
+              },
+              {
+                id: '3',
+                title: 'Vue3面试必考：Composition API vs Options API',
+                description: '面试官最爱问的Vue3核心概念，一文搞定',
+                status: 'published',
+                publishDate: '2025-07-22',
+                readCount: 2400,
+                likeCount: 118,
+                tags: ['Vue3', 'Composition API', '面试', '前端框架']
+              },
+              {
+                id: '4',
+                title: 'React Hooks面试题：从入门到精通',
+                description: 'useState、useEffect、自定义Hook，面试必备知识点',
+                status: 'published',
+                publishDate: '2025-07-25',
+                readCount: 2100,
+                likeCount: 95,
+                tags: ['React', 'Hooks', '面试', '状态管理']
+              },
+              {
+                id: '5',
+                title: '前端性能优化面试指南：从理论到实践',
+                description: '性能优化不再是难题，面试官最爱问的优化策略',
+                status: 'published',
+                publishDate: '2025-07-28',
+                readCount: 1900,
+                likeCount: 87,
+                tags: ['性能优化', '面试', '前端', 'Web性能']
+              },
+              {
+                id: '6',
+                title: 'TypeScript面试题精选：类型系统深度解析',
+                description: '掌握TypeScript核心概念，轻松应对面试挑战',
                 status: 'planned',
-                tags: ['CSS', '前端', '面试']
+                tags: ['TypeScript', '类型系统', '面试', '静态类型']
+              },
+              {
+                id: '7',
+                title: '前端工程化面试必备：Webpack、Vite配置详解',
+                description: '构建工具原理与实践，面试官最关心的工程化能力',
+                status: 'planned',
+                tags: ['工程化', 'Webpack', 'Vite', '面试']
+              },
+              {
+                id: '8',
+                title: '算法与数据结构：前端面试中的编程题解析',
+                description: '常见算法题目与解题思路，提升编程面试通过率',
+                status: 'planned',
+                tags: ['算法', '数据结构', '面试', '编程题']
+              }
+            ]
+          },
+          {
+            id: '2',
+            title: '技术热点文章系列',
+            category: '技术热点',
+            outline: [
+              '前端技术趋势分析',
+              '新技术深度解读',
+              '开源项目推荐',
+              '行业动态追踪',
+              '技术实践分享'
+            ],
+            targetPublishDate: '2025-08-20',
+            status: 'in_progress',
+            estimatedReadTime: 10,
+            keywords: ['技术热点', '前端趋势', '新技术', '开源', '行业动态'],
+            notes: '紧跟技术发展趋势，分享最新的技术动态和实践经验',
+            platforms: ['csdn'],
+            articles: [
+              {
+                id: '1',
+                title: 'Vue 3.5正式发布！这些新特性让开发效率翻倍',
+                description: 'Reactivity Transform、新的编译器优化，Vue 3.5带来的革命性变化',
+                status: 'published',
+                publishDate: '2025-08-01',
+                readCount: 4200,
+                likeCount: 198,
+                tags: ['Vue3.5', '新特性', '技术热点', '前端框架']
+              },
+              {
+                id: '2',
+                title: 'React 19 Beta深度体验：Compiler让性能优化变得如此简单',
+                description: 'React编译器如何自动优化组件性能，开发者再也不用手动优化',
+                status: 'published',
+                publishDate: '2025-08-03',
+                readCount: 3800,
+                likeCount: 176,
+                tags: ['React19', 'Compiler', '性能优化', '技术热点']
+              },
+              {
+                id: '3',
+                title: 'Bun 1.1发布：比Node.js快3倍的JavaScript运行时',
+                description: 'Bun的性能优势、生态兼容性，以及是否值得在生产环境使用',
+                status: 'published',
+                publishDate: '2025-08-05',
+                readCount: 3200,
+                likeCount: 145,
+                tags: ['Bun', 'JavaScript运行时', '性能', '技术热点']
+              },
+              {
+                id: '4',
+                title: 'AI编程助手大比拼：GitHub Copilot vs Cursor vs Claude',
+                description: '2025年最强AI编程工具对比，哪个最适合前端开发？',
+                status: 'published',
+                publishDate: '2025-08-08',
+                readCount: 2900,
+                likeCount: 132,
+                tags: ['AI编程', 'GitHub Copilot', 'Cursor', '开发工具']
+              },
+              {
+                id: '5',
+                title: 'Vite 6.0即将发布：ESM优化与新的插件系统',
+                description: 'Vite 6.0的重大更新，构建速度再次提升50%',
+                status: 'published',
+                publishDate: '2025-08-10',
+                readCount: 2600,
+                likeCount: 118,
+                tags: ['Vite6', '构建工具', 'ESM', '技术热点']
+              },
+              {
+                id: '6',
+                title: 'WebAssembly在前端的新突破：性能提升10倍的图像处理',
+                description: 'WASM技术在浏览器端的最新应用，前端性能的新边界',
+                status: 'planned',
+                tags: ['WebAssembly', 'WASM', '性能优化', '图像处理']
+              },
+              {
+                id: '7',
+                title: 'Deno 2.0正式发布：Node.js的真正竞争对手来了',
+                description: 'Deno 2.0的重大改进，是否能撼动Node.js的地位？',
+                status: 'planned',
+                tags: ['Deno2', 'JavaScript运行时', 'Node.js', '技术对比']
+              },
+              {
+                id: '8',
+                title: '2025年前端状态管理新趋势：Zustand vs Jotai vs Valtio',
+                description: '轻量级状态管理库的崛起，Redux时代即将结束？',
+                status: 'planned',
+                tags: ['状态管理', 'Zustand', 'Jotai', '前端架构']
+              },
+              {
+                id: '9',
+                title: 'CSS-in-JS的终结？原生CSS嵌套与容器查询的崛起',
+                description: '现代CSS新特性如何改变前端样式开发模式',
+                status: 'planned',
+                tags: ['CSS', 'CSS-in-JS', '原生CSS', '样式开发']
+              },
+              {
+                id: '10',
+                title: 'Micro-frontends 2025：Single-SPA vs Module Federation vs Qiankun',
+                description: '微前端架构的最新发展，大型项目的最佳实践',
+                status: 'planned',
+                tags: ['微前端', 'Single-SPA', 'Module Federation', '架构设计']
+              }
+            ]
+          },
+          {
+            id: '3',
+            title: '前端工具与资源集合',
+            category: '资源集合',
+            outline: [
+              '开发工具推荐',
+              '实用库与框架',
+              '学习资源整理',
+              '开发环境配置',
+              '效率提升技巧'
+            ],
+            targetPublishDate: '2025-08-25',
+            status: 'planning',
+            estimatedReadTime: 6,
+            keywords: ['前端工具', '开发效率', '资源集合', '最佳实践'],
+            notes: '整理和推荐优质的前端开发工具和资源',
+            platforms: ['csdn'],
+            articles: [
+              {
+                id: '1',
+                title: '2025年前端开发必备工具清单：提效50%的神器推荐',
+                description: '从代码编辑器到调试工具，全方位提升开发效率',
+                status: 'planned',
+                tags: ['开发工具', '效率提升', '工具推荐', '前端开发']
+              },
+              {
+                id: '2',
+                title: '前端UI组件库大全：Ant Design vs Element Plus vs Chakra UI',
+                description: '主流UI组件库对比分析，选择最适合你的项目',
+                status: 'planned',
+                tags: ['UI组件库', 'Ant Design', 'Element Plus', '组件设计']
+              },
+              {
+                id: '3',
+                title: '前端动画库推荐：Framer Motion vs Lottie vs GSAP',
+                description: '打造炫酷动效，这些动画库你必须知道',
+                status: 'planned',
+                tags: ['动画库', 'Framer Motion', 'Lottie', 'GSAP']
+              },
+              {
+                id: '4',
+                title: 'VS Code插件精选：前端开发者的效率神器',
+                description: '20个必装插件，让你的开发效率翻倍',
+                status: 'planned',
+                tags: ['VS Code', '插件推荐', '开发效率', '代码编辑器']
+              }
+            ]
+          },
+          {
+            id: '4',
+            title: '前端基础知识深度解析',
+            category: '基础知识文章',
+            outline: [
+              'JavaScript核心概念',
+              'CSS高级特性',
+              'HTML5新特性',
+              '浏览器原理',
+              '网络协议基础'
+            ],
+            targetPublishDate: '2025-09-01',
+            status: 'planning',
+            estimatedReadTime: 12,
+            keywords: ['前端基础', 'JavaScript', 'CSS', 'HTML5', '浏览器原理'],
+            notes: '深入浅出讲解前端基础知识，帮助开发者夯实基础',
+            platforms: ['csdn'],
+            articles: [
+              {
+                id: '1',
+                title: 'JavaScript执行机制深度解析：从编译到执行',
+                description: 'V8引擎如何执行JavaScript代码，执行上下文与作用域链',
+                status: 'planned',
+                tags: ['JavaScript', '执行机制', 'V8引擎', '基础知识']
+              },
+              {
+                id: '2',
+                title: 'CSS盒模型与布局原理：从标准盒模型到Flexbox',
+                description: '深入理解CSS布局机制，掌握现代布局技术',
+                status: 'planned',
+                tags: ['CSS', '盒模型', 'Flexbox', '布局原理']
+              },
+              {
+                id: '3',
+                title: '浏览器渲染原理：从HTML解析到页面绘制',
+                description: '浏览器如何将代码转换为用户看到的页面',
+                status: 'planned',
+                tags: ['浏览器原理', '渲染机制', '性能优化', '基础知识']
+              },
+              {
+                id: '4',
+                title: 'HTTP协议详解：从请求到响应的完整过程',
+                description: '深入理解HTTP协议，掌握前后端通信原理',
+                status: 'planned',
+                tags: ['HTTP协议', '网络通信', 'Web基础', '协议原理']
               }
             ]
           }
@@ -172,7 +486,43 @@ export const usePlansStore = defineStore('plans', () => {
           '内容质量要求高'
         ],
         weeklySummaries: [],
-        writingPlans: [],
+        writingPlans: [
+          {
+            id: '1',
+            title: '热点技术文章',
+            category: '技术热点',
+            outline: [],
+            targetPublishDate: '',
+            status: 'planning',
+            estimatedReadTime: 0,
+            keywords: ['技术热点', '前端开发', '最新技术'],
+            notes: '关注技术热点，快速响应行业动态',
+            platforms: ['juejin'],
+            articles: [
+              {
+                id: '1',
+                title: 'Vue 3.5 正式发布！这些新特性你必须知道',
+                description: '深度解析 Vue 3.5 的重要更新和实际应用',
+                status: 'planned',
+                tags: ['Vue', '前端', '技术热点']
+              },
+              {
+                id: '2',
+                title: 'React 19 Beta 来了！Compiler 让性能优化变得如此简单',
+                description: 'React 19 编译器如何革命性地改变开发体验',
+                status: 'planned',
+                tags: ['React', '性能优化', '编译器']
+              },
+              {
+                id: '3',
+                title: 'TypeScript 5.6 发布：这个新功能让类型推断更智能',
+                description: 'TypeScript 最新版本的核心特性详解',
+                status: 'planned',
+                tags: ['TypeScript', '类型系统', '开发工具']
+              }
+            ]
+          }
+        ],
         thoughtNotes: []
       },
       toutiao: {
@@ -204,7 +554,46 @@ export const usePlansStore = defineStore('plans', () => {
           '专家体系完善',
           '内容质量要求高'
         ],
-        weeklySummaries: [],
+        weeklySummaries: [
+          {
+            id: '0',
+            version: 'v0.0.1',
+            weekStart: '2025-07-01',
+            weekEnd: '2025-07-14',
+            achievements: [
+              '矩阵账号第一阶段成功启动，建立账号基础设施',
+              '累计发布接近50篇高质量大模型相关文章',
+              '阅读量突破3.5万，数据表现与主账号相当',
+              '粉丝数接近300，初步建立技术影响力',
+              '全面拥抱AI写作，探索大模型辅助创作模式'
+            ],
+            challenges: [
+              '完全依赖GPT-4o写作，内容风格相对单一',
+              '大模型文章竞争激烈，需要寻找差异化定位',
+              '创作效率虽高但缺乏个人特色',
+              '需要平衡AI辅助与原创思考的比例'
+            ],
+            learnings: [
+              'GPT-4o在技术文章创作方面表现出色，效率显著提升',
+              '大模型写作如同"洗衣机"，解放了重复性劳动',
+              '矩阵账号策略可行，数据表现验证了方向正确性',
+              'AI辅助创作需要人工引导和质量把控'
+            ],
+            nextWeekGoals: [
+              '引入Claude-4的写作能力，丰富创作风格',
+              '探索GPT-4o与Claude-4的协同创作模式',
+              '建立更完善的AI写作工作流',
+              '提升内容的原创性和深度'
+            ],
+            metrics: {
+              articlesPublished: 48,
+              fansGrowth: 295,
+              readGrowth: 35000,
+              engagementRate: 11.2
+            },
+            notes: '矩阵账号第一阶段（约2周时间）表现超出预期，数据与主账号基本持平。全程使用GPT-4o进行大模型文章创作，验证了"用洗衣机而不是手洗"的理念。下一阶段计划结合Claude-4的写作能力，形成多模型协同创作的新模式，进一步提升内容质量和创作效率。'
+          }
+        ],
         writingPlans: [],
         thoughtNotes: []
       },
@@ -404,7 +793,48 @@ export const usePlansStore = defineStore('plans', () => {
           'AI开发者社区活跃',
           'AI编程领域机会多'
         ],
-        weeklySummaries: [],
+        weeklySummaries: [
+          {
+            id: 'ai-frosen-v0.0.1',
+            version: 'v0.0.1',
+            weekStart: '2024-01-01',
+            weekEnd: '2024-01-07',
+            achievements: [
+              '完成账号基础设置和个人资料优化',
+              '制定了AI编程内容创作策略',
+              '规划了三大系列文章：基础概念、架构设计、模型微调',
+              '建立了内容发布节奏和质量标准',
+              '成功发布35篇AI编程相关文章',
+              '累计获得151位粉丝关注',
+              '总阅读量突破2.2万'
+            ],
+            challenges: [
+              'AI技术发展迅速，需要持续跟进最新动态',
+              '技术内容创作需要平衡深度和可读性',
+              '粉丝增长速度需要进一步提升',
+              '需要优化文章标题和内容质量以提升阅读量'
+            ],
+            learnings: [
+              '深入理解了大模型技术栈和应用场景',
+              '掌握了技术文章的结构化写作方法',
+              '学会了如何将复杂技术概念通俗化表达'
+            ],
+            nextWeekGoals: [
+              '继续发布"基础概念与底层机制篇"系列文章',
+              '优化文章质量和标题吸引力',
+              '积极参与AI技术社区讨论',
+              '建立稳定的内容更新频率',
+              '目标粉丝数突破200，阅读量突破3万'
+            ],
+            metrics: {
+              articlesPublished: 35,
+              fansGrowth: 151,
+              readGrowth: 22654,
+              engagementRate: 0.15
+            },
+            notes: '矩阵账号已取得初步成果，35篇文章获得151位粉丝关注，总阅读量2.2万，后续需要持续优化内容质量和发布频率'
+          }
+        ],
         writingPlans: [
           {
             id: 'ai-basic-concepts',
@@ -1390,272 +1820,6 @@ export const usePlansStore = defineStore('plans', () => {
         writingPlans: [],
         thoughtNotes: []
       }
-    },
-    '开发卡梅罗': {
-      csdn: {
-        platform: 'csdn',
-        currentStatus: {
-          fans: 0,
-          reads: 0,
-          articles: 0,
-          level: '新用户'
-        },
-        goals: {
-          shortTerm: ['建立账号基础', '发布技术开发相关内容', '积累初始粉丝'],
-          mediumTerm: ['建立技术影响力', '开设开发专栏', '参与技术社区讨论'],
-          longTerm: ['成为技术开发专家', '建立个人品牌', '影响更多开发者']
-        },
-        strategies: [
-          '专注技术开发与工程实践',
-          '保持稳定的更新频率',
-          '与开发者积极互动',
-          '关注技术热点和趋势'
-        ],
-        challenges: [
-          '技术发展快速，需要持续学习',
-          '内容创作需要深度技术理解',
-          '竞争激烈，需要差异化定位'
-        ],
-        opportunities: [
-          '技术快速发展',
-          '开发者社区活跃',
-          '技术开发领域机会多'
-        ],
-        weeklySummaries: [],
-        writingPlans: [],
-        thoughtNotes: []
-      },
-      juejin: {
-        platform: 'juejin',
-        currentStatus: {
-          fans: 0,
-          reads: 0,
-          articles: 0,
-          level: '新用户'
-        },
-        goals: {
-          shortTerm: ['建立账号基础', '发布技术开发相关内容', '积累初始粉丝'],
-          mediumTerm: ['建立技术影响力', '开设开发专栏', '参与技术社区讨论'],
-          longTerm: ['成为技术开发专家', '建立个人品牌', '影响更多开发者']
-        },
-        strategies: [
-          '专注技术开发与工程实践',
-          '保持更新频率',
-          '积极参与讨论',
-          '建立专业形象'
-        ],
-        challenges: [
-          '技术发展快速',
-          '需要持续输出',
-          '影响力建立需要时间'
-        ],
-        opportunities: [
-          '技术氛围浓厚',
-          '专家体系完善',
-          '内容质量要求高'
-        ],
-        weeklySummaries: [],
-        writingPlans: [],
-        thoughtNotes: []
-      },
-      toutiao: {
-        platform: 'toutiao',
-        currentStatus: {
-          fans: 0,
-          reads: 0,
-          articles: 0,
-          level: '新用户'
-        },
-        goals: {
-          shortTerm: ['建立账号基础', '发布技术开发相关内容', '积累初始粉丝'],
-          mediumTerm: ['建立技术影响力', '开设开发专栏', '参与技术社区讨论'],
-          longTerm: ['成为技术开发专家', '建立个人品牌', '影响更多开发者']
-        },
-        strategies: [
-          '专注技术开发与工程实践',
-          '保持更新频率',
-          '积极参与讨论',
-          '建立专业形象'
-        ],
-        challenges: [
-          '技术发展快速',
-          '需要持续输出',
-          '影响力建立需要时间'
-        ],
-        opportunities: [
-          '技术氛围浓厚',
-          '专家体系完善',
-          '内容质量要求高'
-        ],
-        weeklySummaries: [],
-        writingPlans: [],
-        thoughtNotes: []
-      },
-      zhihu: {
-        platform: 'zhihu',
-        currentStatus: {
-          fans: 0,
-          reads: 0,
-          articles: 0,
-          level: '新用户'
-        },
-        goals: {
-          shortTerm: ['建立账号基础', '发布技术开发相关内容', '积累初始粉丝'],
-          mediumTerm: ['建立技术影响力', '开设开发专栏', '参与技术社区讨论'],
-          longTerm: ['成为技术开发专家', '建立个人品牌', '影响更多开发者']
-        },
-        strategies: [
-          '专注技术开发与工程实践',
-          '保持更新频率',
-          '积极参与讨论',
-          '建立专业形象'
-        ],
-        challenges: [
-          '技术发展快速',
-          '需要持续输出',
-          '影响力建立需要时间'
-        ],
-        opportunities: [
-          '技术氛围浓厚',
-          '专家体系完善',
-          '内容质量要求高'
-        ],
-        weeklySummaries: [],
-        writingPlans: [],
-        thoughtNotes: []
-      },
-      _51cto: {
-        platform: '_51cto',
-        currentStatus: {
-          fans: 0,
-          reads: 0,
-          articles: 0,
-          level: '新用户'
-        },
-        goals: {
-          shortTerm: ['建立账号基础', '发布技术开发相关内容', '积累初始粉丝'],
-          mediumTerm: ['建立技术影响力', '开设开发专栏', '参与技术社区讨论'],
-          longTerm: ['成为技术开发专家', '建立个人品牌', '影响更多开发者']
-        },
-        strategies: [
-          '专注技术开发与工程实践',
-          '保持更新频率',
-          '积极参与讨论',
-          '建立专业形象'
-        ],
-        challenges: [
-          '技术发展快速',
-          '需要持续输出',
-          '影响力建立需要时间'
-        ],
-        opportunities: [
-          '技术氛围浓厚',
-          '专家体系完善',
-          '内容质量要求高'
-        ],
-        weeklySummaries: [],
-        writingPlans: [],
-        thoughtNotes: []
-      },
-      wechat: {
-        platform: 'wechat',
-        currentStatus: {
-          fans: 0,
-          reads: 0,
-          articles: 0,
-          level: '新用户'
-        },
-        goals: {
-          shortTerm: ['建立账号基础', '发布技术开发相关内容', '积累初始粉丝'],
-          mediumTerm: ['建立技术影响力', '开设开发专栏', '参与技术社区讨论'],
-          longTerm: ['成为技术开发专家', '建立个人品牌', '影响更多开发者']
-        },
-        strategies: [
-          '专注技术开发与工程实践',
-          '保持更新频率',
-          '与读者互动',
-          '优化用户体验'
-        ],
-        challenges: [
-          '技术发展快速',
-          '需要持续创新',
-          '竞争激烈'
-        ],
-        opportunities: [
-          '用户粘性高',
-          '变现机会多',
-          '内容形式丰富'
-        ],
-        weeklySummaries: [],
-        writingPlans: [],
-        thoughtNotes: []
-      },
-      segmentfault: {
-        platform: 'segmentfault',
-        currentStatus: {
-          fans: 0,
-          reads: 0,
-          articles: 0,
-          level: '新用户'
-        },
-        goals: {
-          shortTerm: ['建立账号基础', '发布技术开发相关内容', '积累初始粉丝'],
-          mediumTerm: ['建立技术影响力', '开设开发专栏', '参与技术社区讨论'],
-          longTerm: ['成为技术开发专家', '建立个人品牌', '影响更多开发者']
-        },
-        strategies: [
-          '专注技术开发与工程实践',
-          '保持更新频率',
-          '积极参与讨论',
-          '建立专业形象'
-        ],
-        challenges: [
-          '技术发展快速',
-          '需要持续输出',
-          '影响力建立需要时间'
-        ],
-        opportunities: [
-          '技术氛围浓厚',
-          '专家体系完善',
-          '内容质量要求高'
-        ],
-        weeklySummaries: [],
-        writingPlans: [],
-        thoughtNotes: []
-      },
-      infoq: {
-        platform: 'infoq',
-        currentStatus: {
-          fans: 0,
-          reads: 0,
-          articles: 0,
-          level: '新用户'
-        },
-        goals: {
-          shortTerm: ['建立账号基础', '发布技术开发相关内容', '积累初始粉丝'],
-          mediumTerm: ['建立技术影响力', '开设开发专栏', '参与技术社区讨论'],
-          longTerm: ['成为技术开发专家', '建立个人品牌', '影响更多开发者']
-        },
-        strategies: [
-          '专注技术开发与工程实践',
-          '保持更新频率',
-          '积极参与讨论',
-          '建立专业形象'
-        ],
-        challenges: [
-          '技术发展快速',
-          '需要持续输出',
-          '影响力建立需要时间'
-        ],
-        opportunities: [
-          '技术氛围浓厚',
-          '专家体系完善',
-          '内容质量要求高'
-        ],
-        weeklySummaries: [],
-        writingPlans: [],
-        thoughtNotes: []
-      }
     }
   })
 
@@ -1677,7 +1841,7 @@ export const usePlansStore = defineStore('plans', () => {
     return platformPlans.value[account][platform]
   }
 
-  // 添加周总结
+  // 添加阶段总结
   const addWeeklySummary = (platform: CommunityType, summary: WeeklySummary, account: string = '掘金安东尼') => {
     const plan = getPlatformPlan(platform, account)
     plan.weeklySummaries.push(summary)
@@ -1739,4 +1903,4 @@ export const usePlansStore = defineStore('plans', () => {
     updateWritingPlanStatus,
     getPlansStats
   }
-}) 
+})

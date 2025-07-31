@@ -29,13 +29,6 @@ export const useFansStore = defineStore('fans', () => {
       description: '矩阵账号 - AI编程与大模型应用',
       avatar: '🧠',
       status: 'active'
-    },
-    {
-      id: 'dev-carmelo',
-      name: '开发卡梅罗',
-      description: '矩阵账号 - 开发实战与架构设计',
-      avatar: '🏀',
-      status: 'active'
     }
   ]
 
@@ -194,9 +187,9 @@ export const useFansStore = defineStore('fans', () => {
   if (fanDataList.value.length === 0) {
     const today = dayjs().format('YYYY-MM-DD')
     
-    // CSDN数据 - 掘金安东尼账号 7月26号
+    // CSDN数据 - 掘金安东尼账号 7月31号
     const csdnData: FanData = {
-      date: '2025-07-26',
+      date: '2025-07-31',
       community: 'csdn',
       fansCount: 265,
       readCount: 41583,
@@ -311,4 +304,4 @@ export const useFansStore = defineStore('fans', () => {
     importFromCSV,
     exportToCSV
   }
-}) 
+})

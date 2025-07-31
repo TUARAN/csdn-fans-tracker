@@ -49,7 +49,7 @@ const selectedWeekIndex = ref(0)
 // 当前选中的内容标签页
 const selectedContentTab = ref('')
 
-// 当前选中的周总结
+// 当前选中的阶段总结
 const currentWeeklySummary = computed(() => {
   if (platformPlan.value.weeklySummaries.length === 0) return null
   return platformPlan.value.weeklySummaries[selectedWeekIndex.value]
@@ -225,13 +225,13 @@ const getCategoryColor = (title: string) => {
     </div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <!-- 第一行：周总结 -->
+      <!-- 第一行：阶段总结 -->
       <div class="mb-8">
         <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
           <div class="flex items-center justify-between mb-8">
             <h3 class="text-xl font-bold text-gray-900 flex items-center">
               <Calendar class="w-6 h-6 mr-3 text-blue-600" />
-              周总结
+              阶段总结
             </h3>
             <div class="flex items-center space-x-4">
               <!-- 周选择器 -->
@@ -269,7 +269,7 @@ const getCategoryColor = (title: string) => {
           </div>
           <div v-if="platformPlan.weeklySummaries.length === 0" class="text-center py-12">
             <Calendar class="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <p class="text-gray-500 text-lg">暂无周总结</p>
+            <p class="text-gray-500 text-lg">暂无阶段总结</p>
           </div>
           <div v-else-if="currentWeeklySummary" class="space-y-6">
             <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-200/50">
@@ -278,8 +278,8 @@ const getCategoryColor = (title: string) => {
                   {{ currentWeeklySummary.weekStart }} - {{ currentWeeklySummary.weekEnd }}
                 </h4>
                 <div class="flex items-center space-x-3">
-                  <span class="text-sm bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-xl font-medium">周总结</span>
-                  <span class="text-sm text-gray-500">第 {{ selectedWeekIndex + 1 }} 周</span>
+                  <span class="text-sm bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-xl font-medium">阶段总结{{ currentWeeklySummary.version }}</span>
+                  <span class="text-sm text-gray-500">第 {{ selectedWeekIndex + 1 }} 阶段</span>
                 </div>
               </div>
               <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
@@ -573,4 +573,4 @@ const getCategoryColor = (title: string) => {
 .animate-fade-in {
   animation: fadeIn 0.3s ease-out;
 }
-</style> 
+</style>

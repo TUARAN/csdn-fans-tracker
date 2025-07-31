@@ -34,7 +34,7 @@ const accountPlatformData: Record<string, Record<string, { currentFans: number; 
     segmentfault: { currentFans: 400, currentReads: 6000, totalArticles: 20, weeklyGrowth: 25, username: '掘金安东尼' }
   },
   '代码AI弗森': {
-    csdn: { currentFans: 151, currentReads: 22654, totalArticles: 35, weeklyGrowth: 19, username: '代码AI弗森' },
+    csdn: { currentFans: 221, currentReads: 33187, totalArticles: 45, weeklyGrowth: 18, username: '代码AI弗森' },
     juejin: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' },
     toutiao: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' },
     zhihu: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' },
@@ -42,16 +42,6 @@ const accountPlatformData: Record<string, Record<string, { currentFans: number; 
     infoq: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' },
     wechat: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' },
     segmentfault: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' }
-  },
-  '开发卡梅罗': {
-    csdn: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '开发卡梅罗' },
-    juejin: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '开发卡梅罗' },
-    toutiao: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '开发卡梅罗' },
-    zhihu: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '开发卡梅罗' },
-    _51cto: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '开发卡梅罗' },
-    infoq: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '开发卡梅罗' },
-    wechat: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '开发卡梅罗' },
-    segmentfault: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '开发卡梅罗' }
   }
 }
 
@@ -136,7 +126,7 @@ const currentAccountData = computed(() => {
     }
   } else {
     // 其他矩阵账号使用预设的0数据
-    return accountPlatformData[fansStore.activeMatrixAccount] || accountPlatformData['代码甜瓜']
+    return accountPlatformData[fansStore.activeMatrixAccount] || accountPlatformData['代码AI弗森']
   }
 })
 
@@ -212,11 +202,9 @@ const copyIntro = async () => {
             class="text-gray-700 space-y-2 flex-1 transition-all duration-300"
             :class="isIntroCollapsed ? 'text-xs space-y-1' : 'text-sm space-y-2'"
           >
-            <div v-show="!isIntroCollapsed">👨‍💻 大家好，我是掘金安东尼，一位专注于 AI 编程、前端架构与数字产品打造的技术创作者。</div>
-            <div v-show="!isIntroCollapsed">🚀 我已经正式开启个人 IP 之路，网站上线 👉 <a href="https://tuaran.pages.dev" target="_blank" class="text-blue-600 hover:text-blue-800">tuaran.pages.dev</a></div>
-            <div v-show="!isIntroCollapsed">🧠 我会持续发布高质量干货内容，覆盖 Vue3 / Python / 大模型落地 / 工程化提升 / 技术创业 等方向。</div>
-            <div v-show="!isIntroCollapsed">🎁 如果你想进 抽奖群 / 技术群 / 副业群 一起交流成长，欢迎加我微信：<span class="font-mono text-gray-900">atar24</span></div>
-            <div v-show="!isIntroCollapsed">🪐 欢迎关注 + 收藏，一起探索程序员进阶的多维可能！</div>
+            <div v-show="!isIntroCollapsed">👨‍💻 大家好，我是掘金安东尼，专注于 AI 编程、前端架构与数字产品打造的技术创作者。</div>
+            <div v-show="!isIntroCollapsed">🚀 个人网站上线 👉 <a href="https://tuaran.pages.dev" target="_blank" class="text-blue-600 hover:text-blue-800">tuaran.pages.dev</a> | 涵盖前沿资讯、技术分享、副业创收等多元内容。</div>
+            <div v-show="!isIntroCollapsed">🎁 欢迎加微信 <span class="font-mono text-gray-900">atar24</span> 进技术群交流，一起探索程序员进阶的多维可能！</div>
             <div v-show="isIntroCollapsed" class="font-semibold text-gray-900">👨‍💻 掘金安东尼 - AI编程技术创作者</div>
           </div>
           <div class="flex items-center space-x-2">
@@ -268,7 +256,7 @@ const copyIntro = async () => {
               <div class="text-gray-900">
                 <div class="text-lg font-semibold text-gray-700 mb-2">总文章数</div>
                 <div class="text-3xl font-bold text-green-600 mb-1">{{ formatNumber(dedupedArticles) }}</div>
-                <div class="text-sm text-gray-500">文章数已去重</div>
+                <div class="text-xs text-gray-500">文章数已去重 · 含AIGC辅助文章{{ currentAccountData.csdn?.totalArticles || 0 }}篇</div>
               </div>
             </div>
           </div>
@@ -312,7 +300,7 @@ const copyIntro = async () => {
                 </div>
               </div>
               <div class="text-xs text-gray-400">
-                {{ p.key === 'infoq' ? '2025-07-14' : p.key === 'csdn' ? '2025-07-15' : '2025-07-09' }}
+                {{ p.key === 'infoq' ? '2025-07-14' : p.key === 'csdn' ? '2025-07-31' : '2025-07-09' }}
               </div>
             </div>
             
@@ -365,4 +353,4 @@ const copyIntro = async () => {
 .bg-csdn-red { background: #F13C3C; }
 .bg-orange-500 { background: #f97316; }
 .text-csdn-red { color: #F13C3C; }
-</style> 
+</style>

@@ -1,5 +1,5 @@
 // 文章分类
-export type ArticleCategory = '面试文章' | '资源集合' | '热点文章' | '翻译文章' | '基础知识文章'
+export type ArticleCategory = '面试文章' | '资源集合' | '热点文章' | '翻译文章' | '基础知识文章' | '技术热点'
 
 // 文章数据
 export interface Article {
@@ -89,9 +89,10 @@ export interface PlanItem {
   tags: string[]
 }
 
-// 周总结
+// 阶段总结
 export interface WeeklySummary {
   id: string
+  version: string // 版本号，如 v0.0.1
   weekStart: string
   weekEnd: string
   achievements: string[]
@@ -166,4 +167,4 @@ export interface PlatformPlan {
   weeklySummaries: WeeklySummary[]
   writingPlans: WritingPlan[]
   thoughtNotes: ThoughtNote[]
-} 
+}
