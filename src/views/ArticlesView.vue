@@ -69,7 +69,8 @@ const getCategoryColor = (category: ArticleCategory) => {
     '资源集合': 'bg-purple-100 text-purple-800',
     '热点文章': 'bg-orange-100 text-orange-800',
     '翻译文章': 'bg-green-100 text-green-800',
-    '基础知识文章': 'bg-gray-100 text-gray-800'
+    '基础知识文章': 'bg-gray-100 text-gray-800',
+    '技术热点': 'bg-purple-100 text-purple-800'
   }
   return colors[category]
 }
@@ -99,7 +100,7 @@ const getCategoryColor = (category: ArticleCategory) => {
           全部 ({{ articlesStore.articles.length }})
         </button>
         <button
-          v-for="category in (['面试文章', '资源集合', '热点文章', '翻译文章', '基础知识文章'] as ArticleCategory[])"
+          v-for="category in (['面试文章', '资源集合', '热点文章', '翻译文章', '基础知识文章', '技术热点'] as ArticleCategory[])"
           :key="category"
           @click="selectedCategory = category"
           class="px-4 py-2 rounded-lg text-sm font-medium transition-colors"

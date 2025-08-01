@@ -22,7 +22,8 @@ export const useArticlesStore = defineStore('articles', () => {
       '资源集合': [],
       '热点文章': [],
       '翻译文章': [],
-      '基础知识文章': []
+      '基础知识文章': [],
+      '技术热点': []
     }
     
     articles.value.forEach(article => {
@@ -38,7 +39,8 @@ export const useArticlesStore = defineStore('articles', () => {
       '资源集合': 0,
       '热点文章': 0,
       '翻译文章': 0,
-      '基础知识文章': 0
+      '基础知识文章': 0,
+      '技术热点': 0
     }
     
     articles.value.forEach(article => {
