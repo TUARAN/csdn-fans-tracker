@@ -84,7 +84,7 @@ export const useFansStore = defineStore('fans', () => {
       zhihu: getStatsForCommunity('zhihu'),
       _51cto: getStatsForCommunity('_51cto'),
       wechat: getStatsForCommunity('wechat'),
-      segmentfault: getStatsForCommunity('segmentfault'),
+      weibo: getStatsForCommunity('weibo'),
       infoq: getStatsForCommunity('infoq')
     }
   })
@@ -241,10 +241,10 @@ export const useFansStore = defineStore('fans', () => {
       dailyReadGrowth: 0
     }
     
-    // 思否数据
-    const segmentfaultData: FanData = {
+    // 微博数据
+    const weiboData: FanData = {
       date: today,
-      community: 'segmentfault',
+      community: 'weibo',
       fansCount: 0,
       readCount: 0,
       articleCount: 0,
@@ -263,7 +263,7 @@ export const useFansStore = defineStore('fans', () => {
       dailyReadGrowth: 0
     }
     
-    fanDataList.value.push(csdnData, juejinData, zhihuData, toutiaoData, _51ctoData, segmentfaultData, infoqData)
+    fanDataList.value.push(csdnData, juejinData, zhihuData, toutiaoData, _51ctoData, weiboData, infoqData)
   } else {
     // 检查现有数据是否包含community字段，如果没有则添加
     const needsUpdate = fanDataList.value.some(data => !('community' in data))

@@ -6,6 +6,7 @@ import { ExternalLink, Target, Copy, Check } from 'lucide-vue-next'
 const fansStore = useFansStore()
 const showCopied = ref(false)
 const isIntroCollapsed = ref(false)
+const activeAccount = ref('掘金安东尼') // 当前激活的账号
 
 // 滚动监听
 const handleScroll = () => {
@@ -22,26 +23,26 @@ onUnmounted(() => {
 })
 
 // 不同账号的平台数据
-const accountPlatformData: Record<string, Record<string, { currentFans: number; currentReads: number; totalArticles: number; weeklyGrowth: number; username: string }>> = {
+const accountPlatformData: Record<string, Record<string, { currentFans: number; currentReads: number; totalArticles: number; weeklyGrowth: number; username: string; tags: number | string }>> = {
   '安东尼漫长岁月': {
-    csdn: { currentFans: 535, currentReads: 71725, totalArticles: 124, weeklyGrowth: 5, username: '安东尼漫长岁月' },
-    juejin: { currentFans: 10871, currentReads: 2188696, totalArticles: 536, weeklyGrowth: 4, username: '安东尼漫长岁月' },
-    toutiao: { currentFans: 2800, currentReads: 38000, totalArticles: 65, weeklyGrowth: 120, username: '安东尼漫长岁月' },
-    zhihu: { currentFans: 1500, currentReads: 22000, totalArticles: 45, weeklyGrowth: 80, username: '三十而立方' },
-    _51cto: { currentFans: 800, currentReads: 12000, totalArticles: 25, weeklyGrowth: 40, username: '安东尼漫长岁月' },
-    infoq: { currentFans: 600, currentReads: 8000, totalArticles: 15, weeklyGrowth: 30, username: '安东尼漫长岁月' },
-    wechat: { currentFans: 1200, currentReads: 18000, totalArticles: 35, weeklyGrowth: 60, username: '安东尼漫长岁月' },
-    segmentfault: { currentFans: 400, currentReads: 6000, totalArticles: 20, weeklyGrowth: 25, username: '安东尼漫长岁月' }
+    csdn: { currentFans: 535, currentReads: 71725, totalArticles: 124, weeklyGrowth: 5, username: '安东尼漫长岁月', tags: 187 },
+    juejin: { currentFans: 10871, currentReads: 2188696, totalArticles: 536, weeklyGrowth: 4, username: '安东尼漫长岁月', tags: 187 },
+    toutiao: { currentFans: 2800, currentReads: 38000, totalArticles: 65, weeklyGrowth: 120, username: '安东尼漫长岁月', tags: 187 },
+    zhihu: { currentFans: 1500, currentReads: 22000, totalArticles: 45, weeklyGrowth: 80, username: '三十而立方', tags: 187 },
+    _51cto: { currentFans: 800, currentReads: 12000, totalArticles: 25, weeklyGrowth: 40, username: '安东尼漫长岁月', tags: '187微信' },
+    infoq: { currentFans: 600, currentReads: 8000, totalArticles: 15, weeklyGrowth: 30, username: '安东尼漫长岁月', tags: 198 },
+    wechat: { currentFans: 1200, currentReads: 18000, totalArticles: 35, weeklyGrowth: 60, username: '安东尼漫长岁月', tags: '187微信' },
+    weibo: { currentFans: 400, currentReads: 6000, totalArticles: 20, weeklyGrowth: 25, username: '安东尼漫长岁月', tags: 198 }
   },
   '代码AI弗森': {
-    csdn: { currentFans: 638, currentReads: 78249, totalArticles: 92, weeklyGrowth: 19, username: '代码AI弗森' },
-    juejin: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' },
-    toutiao: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' },
-    zhihu: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' },
-    _51cto: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' },
-    infoq: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' },
-    wechat: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' },
-    segmentfault: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森' }
+    csdn: { currentFans: 638, currentReads: 78249, totalArticles: 92, weeklyGrowth: 19, username: '代码AI弗森', tags: 198 },
+    juejin: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 198 },
+    toutiao: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 0 },
+    zhihu: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 0 },
+    _51cto: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 0 },
+    infoq: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 0 },
+    wechat: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 0 },
+    weibo: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 0 }
   }
 }
 
@@ -59,7 +60,7 @@ const platforms: {
   { key: '_51cto', name: '51CTO', color: 'black', icon: '💻', homepage: 'https://juejin.cn/user/1521379823340792' },
   { key: 'infoq', name: 'InfoQ', color: 'black', icon: '📊', homepage: 'https://juejin.cn/user/1521379823340792' },
   { key: 'wechat', name: '微信公众号', color: 'black', icon: '📱', homepage: 'https://weixin.sogou.com/weixin?type=1&query=掘金安东尼' },
-  { key: 'segmentfault', name: '思否', color: 'black', icon: '🔍', homepage: 'https://segmentfault.com/u/anthony1453' }
+  { key: 'weibo', name: '微博', color: 'black', icon: '📱', homepage: 'https://weibo.com/anthony1453' }
 ]
 
 // 掘金安东尼账号数据
@@ -70,56 +71,64 @@ const anthonyData = computed(() => {
       currentReads: fansStore.currentStats.csdn.currentReads, 
       totalArticles: fansStore.currentStats.csdn.totalArticles, 
       weeklyGrowth: fansStore.currentStats.csdn.weeklyGrowth, 
-      username: '安东尼漫长岁月' 
+      username: '安东尼漫长岁月',
+      tags: 187
     },
     juejin: { 
       currentFans: fansStore.currentStats.juejin.currentFans, 
       currentReads: fansStore.currentStats.juejin.currentReads, 
       totalArticles: fansStore.currentStats.juejin.totalArticles, 
       weeklyGrowth: fansStore.currentStats.juejin.weeklyGrowth, 
-      username: '安东尼漫长岁月' 
+      username: '安东尼漫长岁月',
+      tags: 187
     },
     toutiao: { 
       currentFans: fansStore.currentStats.toutiao.currentFans, 
       currentReads: fansStore.currentStats.toutiao.currentReads, 
       totalArticles: fansStore.currentStats.toutiao.totalArticles, 
       weeklyGrowth: fansStore.currentStats.toutiao.weeklyGrowth, 
-      username: '安东尼漫长岁月' 
+      username: '安东尼漫长岁月',
+      tags: 187
     },
     zhihu: { 
       currentFans: fansStore.currentStats.zhihu.currentFans, 
       currentReads: fansStore.currentStats.zhihu.currentReads, 
       totalArticles: fansStore.currentStats.zhihu.totalArticles, 
       weeklyGrowth: fansStore.currentStats.zhihu.weeklyGrowth, 
-      username: '三十而立方' 
+      username: '三十而立方',
+      tags: 187
     },
     _51cto: { 
       currentFans: fansStore.currentStats._51cto.currentFans, 
       currentReads: fansStore.currentStats._51cto.currentReads, 
       totalArticles: fansStore.currentStats._51cto.totalArticles, 
       weeklyGrowth: fansStore.currentStats._51cto.weeklyGrowth, 
-      username: '安东尼漫长岁月' 
+      username: '安东尼漫长岁月',
+      tags: '187微信'
     },
     infoq: { 
       currentFans: fansStore.currentStats.infoq.currentFans, 
       currentReads: fansStore.currentStats.infoq.currentReads, 
       totalArticles: fansStore.currentStats.infoq.totalArticles, 
       weeklyGrowth: fansStore.currentStats.infoq.weeklyGrowth, 
-      username: '安东尼漫长岁月' 
+      username: '安东尼漫长岁月',
+      tags: 198
     },
     wechat: { 
       currentFans: fansStore.currentStats.wechat.currentFans, 
       currentReads: fansStore.currentStats.wechat.currentReads, 
       totalArticles: fansStore.currentStats.wechat.totalArticles, 
       weeklyGrowth: fansStore.currentStats.wechat.weeklyGrowth, 
-      username: '安东尼漫长岁月' 
+      username: '安东尼漫长岁月',
+      tags: '187微信'
     },
-    segmentfault: { 
-      currentFans: fansStore.currentStats.segmentfault.currentFans, 
-      currentReads: fansStore.currentStats.segmentfault.currentReads, 
-      totalArticles: fansStore.currentStats.segmentfault.totalArticles, 
-      weeklyGrowth: fansStore.currentStats.segmentfault.weeklyGrowth, 
-      username: '安东尼漫长岁月' 
+    weibo: { 
+      currentFans: fansStore.currentStats.weibo.currentFans, 
+      currentReads: fansStore.currentStats.weibo.currentReads, 
+      totalArticles: fansStore.currentStats.weibo.totalArticles, 
+      weeklyGrowth: fansStore.currentStats.weibo.weeklyGrowth, 
+      username: '安东尼漫长岁月',
+      tags: 198
     }
   }
 })
@@ -160,6 +169,11 @@ const calculateGrowthRate = (stats: any) => {
 
 const formatNumber = (num: number) => new Intl.NumberFormat('zh-CN').format(num)
 
+// 切换账号
+const switchAccount = (accountName: string) => {
+  activeAccount.value = accountName
+}
+
 // 跳转到平台主页
 const goToHomepage = (url: string, accountName: string) => {
   // 如果是CSDN且是代码AI弗森账号，使用对应的链接
@@ -196,7 +210,49 @@ const copyIntro = async () => {
 
 <template>
   <div class="min-h-screen bg-gray-50">
-    <div class="max-w-7xl mx-auto p-6 space-y-6">
+    <div class="flex">
+      <!-- 左侧目录 -->
+      <div class="w-64 bg-white shadow-lg border-r border-gray-200 min-h-screen p-4">
+        <div class="mb-6">
+          <h3 class="text-lg font-bold text-gray-900 mb-4">📊 数据视窗</h3>
+          <div class="space-y-2">
+            <button 
+              @click="switchAccount('掘金安东尼')"
+              class="w-full flex items-center p-3 rounded-lg transition-all duration-200 text-left"
+              :class="activeAccount === '掘金安东尼' 
+                ? 'bg-blue-50 border border-blue-200 text-blue-700 shadow-sm' 
+                : 'bg-gray-50 hover:bg-gray-100 text-gray-700'"
+            >
+              <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center mr-3">
+                <span class="text-white text-sm">👨‍💻</span>
+              </div>
+              <div>
+                <div class="font-medium">掘金安东尼</div>
+                <div class="text-xs text-gray-500">AI编程技术创作者</div>
+              </div>
+            </button>
+            
+            <button 
+              @click="switchAccount('代码AI弗森')"
+              class="w-full flex items-center p-3 rounded-lg transition-all duration-200 text-left"
+              :class="activeAccount === '代码AI弗森' 
+                ? 'bg-indigo-50 border border-indigo-200 text-indigo-700 shadow-sm' 
+                : 'bg-gray-50 hover:bg-gray-100 text-gray-700'"
+            >
+              <div class="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center mr-3">
+                <span class="text-white text-sm">🤖</span>
+              </div>
+              <div>
+                <div class="font-medium">代码AI弗森</div>
+                <div class="text-xs text-gray-500">AI编程助手</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 主内容区域 -->
+      <div class="flex-1 p-6 space-y-6">
       <!-- 个人介绍 - 带收缩效果 -->
       <div 
         class="bg-white rounded-lg shadow-sm border border-gray-200 transition-all duration-300 ease-in-out"
@@ -218,7 +274,7 @@ const copyIntro = async () => {
               class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
               :title="showCopied ? '已复制' : '复制介绍内容'"
             >
-              <Check v-if="showCopied" class="w-4 h-4 text-green-600" />
+              <Check v-if="showCopied" class="w-4 h-4 text-blue-600" />
               <Copy v-else class="w-4 h-4" />
             </button>
           </div>
@@ -226,9 +282,9 @@ const copyIntro = async () => {
       </div>
 
       <!-- 掘金安东尼账号区块 -->
-      <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-200">
+      <div v-if="activeAccount === '掘金安东尼'" class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-200">
         <div class="text-center mb-6">
-          <h2 class="text-2xl font-bold text-blue-900 mb-2">👨‍💻 安东尼漫长岁月</h2>
+          <h2 class="text-2xl font-bold text-blue-900 mb-2">👨‍💻 掘金安东尼</h2>
           <p class="text-blue-700">AI编程技术创作者 | 前端架构师</p>
         </div>
         
@@ -257,10 +313,10 @@ const copyIntro = async () => {
               </div>
             </div>
             <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 mb-3 shadow-sm">
+              <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 mb-3 shadow-sm">
                 <div class="text-gray-900">
                   <div class="text-sm font-semibold text-gray-700 mb-1">总文章数</div>
-                  <div class="text-2xl font-bold text-green-600 mb-1">{{ formatNumber(dedupedArticles(anthonyTotalStats.articles)) }}</div>
+                  <div class="text-2xl font-bold text-blue-600 mb-1">{{ formatNumber(dedupedArticles(anthonyTotalStats.articles)) }}</div>
                   <div class="text-xs text-gray-500">文章数已去重</div>
                 </div>
               </div>
@@ -290,9 +346,12 @@ const copyIntro = async () => {
                   </div>
                   <div>
                     <h4 class="text-sm font-bold text-gray-900">{{ p.name }}</h4>
-                                         <div class="text-xs text-gray-500">
-                       {{ anthonyData[p.key]?.username || '安东尼漫长岁月' }}
-                     </div>
+                    <div class="text-xs text-gray-500">
+                      {{ anthonyData[p.key]?.username || '安东尼漫长岁月' }}
+                    </div>
+                                    <div v-if="anthonyData[p.key]?.tags" class="text-xs text-blue-600 font-medium mt-1">
+                  🏷️ {{ anthonyData[p.key]?.tags }}
+                </div>
                   </div>
                 </div>
               </div>
@@ -336,10 +395,10 @@ const copyIntro = async () => {
       </div>
 
       <!-- 代码AI弗森账号区块 -->
-      <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-6 border border-green-200">
+      <div v-if="activeAccount === '代码AI弗森'" class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg p-6 border border-indigo-200">
         <div class="text-center mb-6">
-          <h2 class="text-2xl font-bold text-green-900 mb-2">🤖 代码AI弗森</h2>
-          <p class="text-green-700">AI编程助手 | 技术内容创作者</p>
+          <h2 class="text-2xl font-bold text-indigo-900 mb-2">🤖 代码AI弗森</h2>
+                          <p class="text-indigo-700">AI编程范式｜大模型内容创作者</p>
         </div>
         
         <!-- 代码AI弗森总计面板 -->
@@ -367,10 +426,10 @@ const copyIntro = async () => {
               </div>
             </div>
             <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 mb-3 shadow-sm">
+              <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-4 mb-3 shadow-sm">
                 <div class="text-gray-900">
                   <div class="text-sm font-semibold text-gray-700 mb-1">总文章数</div>
-                  <div class="text-2xl font-bold text-green-600 mb-1">{{ formatNumber(dedupedArticles(aifsTotalStats.articles)) }}</div>
+                  <div class="text-2xl font-bold text-indigo-600 mb-1">{{ formatNumber(dedupedArticles(aifsTotalStats.articles)) }}</div>
                   <div class="text-xs text-gray-500">文章数已去重</div>
                 </div>
               </div>
@@ -403,6 +462,9 @@ const copyIntro = async () => {
                     <div class="text-xs text-gray-500">
                       {{ aifsData[p.key]?.username || '代码AI弗森' }}
                     </div>
+                                    <div v-if="aifsData[p.key]?.tags" class="text-xs text-indigo-600 font-medium mt-1">
+                  🏷️ {{ aifsData[p.key]?.tags }}
+                </div>
                   </div>
                 </div>
               </div>
@@ -443,6 +505,7 @@ const copyIntro = async () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   </div>

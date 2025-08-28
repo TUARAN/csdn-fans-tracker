@@ -13,30 +13,6 @@ import {
 } from 'lucide-vue-next'
 
 const route = useRoute()
-const easterEggCount = ref(0)
-const showEasterEggMessage = ref(false)
-
-// 彩蛋功能
-const triggerEasterEgg = () => {
-  easterEggCount.value++
-  
-  if (easterEggCount.value === 1) {
-    showEasterEggMessage.value = true
-    setTimeout(() => {
-      showEasterEggMessage.value = false
-    }, 3000)
-  } else if (easterEggCount.value === 5) {
-    // 连续点击5次触发特殊效果
-    document.body.style.animation = 'rainbow 2s ease-in-out'
-    setTimeout(() => {
-      document.body.style.animation = ''
-    }, 2000)
-  } else if (easterEggCount.value === 10) {
-    // 连续点击10次触发终极彩蛋
-    alert('🎉 恭喜你发现了终极彩蛋！\n\n你是一个细心的开发者！\n\n继续加油，代码写得好，bug少不了！ 😄')
-    easterEggCount.value = 0
-  }
-}
 
 const currentRoute = computed(() => route.path)
 
@@ -89,22 +65,31 @@ const currentRoute = computed(() => route.path)
           <!-- 左侧标题区域 -->
           <div class="flex items-center">
             <div class="flex items-center space-x-4">
-              <!-- 数据图标 -->
-              <div class="w-8 h-8 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center shadow-lg cursor-pointer transition-transform hover:scale-110" @click="triggerEasterEgg">
-                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                </svg>
-              </div>
-              
               <!-- 标题和图标 -->
               <div class="flex items-center space-x-3">
                 <h1 class="text-xl font-bold">
-                  <span class="bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">安东尼漫长岁月</span>
+                  <span class="bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-700 bg-clip-text text-transparent transition-all duration-300 hover:scale-105">
+                    安东尼的漫长编程岁月
+                  </span>
                 </h1>
                 
-                <!-- 账号图标 -->
-                <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg">
-                  <span class="text-white text-sm">👨‍💻</span>
+                <!-- 炫酷账号图标组 -->
+                <div class="flex items-center space-x-2">
+                  <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg animate-bounce" style="animation-delay: 0s">
+                    <span class="text-white text-sm">👨‍💻</span>
+                  </div>
+                  <div class="w-6 h-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg animate-bounce" style="animation-delay: 0.2s">
+                    <span class="text-white text-xs">⚡</span>
+                  </div>
+                  <div class="w-6 h-6 bg-gradient-to-br from-purple-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg animate-bounce" style="animation-delay: 0.4s">
+                    <span class="text-white text-xs">🔥</span>
+                  </div>
+                  <div class="w-6 h-6 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-lg flex items-center justify-center shadow-lg animate-bounce" style="animation-delay: 0.6s">
+                    <span class="text-white text-xs">🎯</span>
+                  </div>
+                  <div class="w-6 h-6 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-lg flex items-center justify-center shadow-lg animate-bounce" style="animation-delay: 0.8s">
+                    <span class="text-white text-xs">✨</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -134,12 +119,7 @@ const currentRoute = computed(() => route.path)
       <router-view />
     </main>
     
-    <!-- 彩蛋消息 -->
-    <div v-if="showEasterEggMessage" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50">
-      <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-full shadow-lg animate-bounce">
-        <span class="text-sm font-medium">🎯 发现彩蛋！继续点击有惊喜...</span>
-      </div>
-    </div>
+
   </div>
 </template>
 
@@ -170,4 +150,6 @@ const currentRoute = computed(() => route.path)
   75% { filter: hue-rotate(270deg); }
   100% { filter: hue-rotate(360deg); }
 }
+
+
 </style>
