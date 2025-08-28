@@ -16,11 +16,6 @@ const router = createRouter({
       path: '/plan/:platform/:account',
       name: '平台计划',
       component: () => import('@/views/PlatformPlanView.vue')
-    },
-    {
-      path: '/publish',
-      name: '一键发布',
-      component: () => import('@/views/PublishView.vue')
     }
   ],
 })

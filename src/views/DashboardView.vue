@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useFansStore } from '@/stores/fans'
 import { computed, ref, onMounted, onUnmounted } from 'vue'
-import { ExternalLink, Target, Copy, Check, Send } from 'lucide-vue-next'
+import { ExternalLink, Target, Copy, Check } from 'lucide-vue-next'
 
 const fansStore = useFansStore()
 const showCopied = ref(false)
@@ -24,8 +24,8 @@ onUnmounted(() => {
 // 不同账号的平台数据
 const accountPlatformData: Record<string, Record<string, { currentFans: number; currentReads: number; totalArticles: number; weeklyGrowth: number; username: string }>> = {
   '掘金安东尼': {
-    csdn: { currentFans: 265, currentReads: 41583, totalArticles: 72, weeklyGrowth: 7, username: '掘金安东尼' },
-    juejin: { currentFans: 3200, currentReads: 45000, totalArticles: 85, weeklyGrowth: 150, username: '掘金安东尼' },
+    csdn: { currentFans: 535, currentReads: 71725, totalArticles: 124, weeklyGrowth: 5, username: '掘金安东尼' },
+    juejin: { currentFans: 10871, currentReads: 2188696, totalArticles: 536, weeklyGrowth: 4, username: '掘金安东尼' },
     toutiao: { currentFans: 2800, currentReads: 38000, totalArticles: 65, weeklyGrowth: 120, username: '掘金安东尼' },
     zhihu: { currentFans: 1500, currentReads: 22000, totalArticles: 45, weeklyGrowth: 80, username: '三十而立方' },
     _51cto: { currentFans: 800, currentReads: 12000, totalArticles: 25, weeklyGrowth: 40, username: '掘金安东尼' },
@@ -208,13 +208,6 @@ const copyIntro = async () => {
             <div v-show="isIntroCollapsed" class="font-semibold text-gray-900">👨‍💻 掘金安东尼 - AI编程技术创作者</div>
           </div>
           <div class="flex items-center space-x-2">
-            <router-link 
-              to="/publish"
-              class="flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
-            >
-              <Send class="w-4 h-4 mr-2" />
-              发布工具
-            </router-link>
             <button 
               @click="copyIntro"
               class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
@@ -300,7 +293,7 @@ const copyIntro = async () => {
                 </div>
               </div>
               <div class="text-xs text-gray-400">
-                {{ p.key === 'infoq' ? '2025-07-14' : p.key === 'csdn' ? '2025-07-31' : '2025-07-09' }}
+                {{ p.key === 'infoq' ? '2025-07-14' : p.key === 'csdn' ? '2025-08-28' : p.key === 'juejin' ? '2025-08-28' : '2025-07-09' }}
               </div>
             </div>
             

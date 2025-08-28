@@ -10,8 +10,7 @@ import {
   TrendingUp,
   User,
   Target,
-  ChevronDown,
-  Send
+  ChevronDown
 } from 'lucide-vue-next'
 
 const route = useRoute()
@@ -19,10 +18,6 @@ const fansStore = useFansStore()
 const showAccountDropdown = ref(false)
 const easterEggCount = ref(0)
 const showEasterEggMessage = ref(false)
-
-const navItems = [
-  { path: '/publish', name: '一键发布', icon: Send }
-]
 
 // 彩蛋功能
 const triggerEasterEgg = () => {

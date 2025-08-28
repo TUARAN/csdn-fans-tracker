@@ -187,26 +187,26 @@ export const useFansStore = defineStore('fans', () => {
   if (fanDataList.value.length === 0) {
     const today = dayjs().format('YYYY-MM-DD')
     
-    // CSDN数据 - 掘金安东尼账号 7月31号
+    // CSDN数据 - 掘金安东尼账号 最新数据 (8月28号更新)
     const csdnData: FanData = {
-      date: '2025-07-31',
+      date: '2025-08-28',
       community: 'csdn',
-      fansCount: 265,
-      readCount: 41583,
-      articleCount: 72,
-      dailyFansGrowth: 7,
-      dailyReadGrowth: 926
+      fansCount: 535,
+      readCount: 71725,
+      articleCount: 124,
+      dailyFansGrowth: 5,
+      dailyReadGrowth: 2061
     }
     
-    // 掘金数据（最新）
+    // 掘金数据（8月28号更新）
     const juejinData: FanData = {
-      date: '2024-06-19',
+      date: '2025-08-28',
       community: 'juejin',
-      fansCount: 10589,
-      readCount: 2143289,
-      articleCount: 490,
-      dailyFansGrowth: 200,
-      dailyReadGrowth: 1755
+      fansCount: 10871,
+      readCount: 2188696,
+      articleCount: 536,
+      dailyFansGrowth: 4,
+      dailyReadGrowth: 1486
     }
     
     // 知乎数据
