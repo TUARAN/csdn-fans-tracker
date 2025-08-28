@@ -12,13 +12,13 @@ export const useFansStore = defineStore('fans', () => {
   })
 
   // 矩阵账号状态
-  const activeMatrixAccount = ref('掘金安东尼')
+  const activeMatrixAccount = ref('安东尼漫长岁月')
 
   // 矩阵账号数据
   const matrixAccounts = [
     {
       id: 'anthony',
-      name: '掘金安东尼',
+      name: '安东尼漫长岁月',
       description: '主账号 - AI编程与前端架构',
       avatar: '👨‍💻',
       status: 'active'
@@ -187,7 +187,7 @@ export const useFansStore = defineStore('fans', () => {
   if (fanDataList.value.length === 0) {
     const today = dayjs().format('YYYY-MM-DD')
     
-    // CSDN数据 - 掘金安东尼账号 最新数据 (8月28号更新)
+    // CSDN数据 - 安东尼漫长岁月账号 最新数据 (8月28号更新)
     const csdnData: FanData = {
       date: '2025-08-28',
       community: 'csdn',

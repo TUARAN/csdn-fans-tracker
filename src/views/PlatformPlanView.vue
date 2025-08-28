@@ -71,8 +71,8 @@ const currentConfig = computed(() => platformConfig[platform.value])
 
 // 当前统计数据
 const currentStats = computed(() => {
-  // 如果是"掘金安东尼"账号，显示真实的CSDN数据
-  if (account.value === '掘金安东尼') {
+  // 如果是"安东尼漫长岁月"账号，显示真实的CSDN数据
+if (account.value === '安东尼漫长岁月') {
     if (platform.value === 'csdn') {
       return {
         currentFans: 265,

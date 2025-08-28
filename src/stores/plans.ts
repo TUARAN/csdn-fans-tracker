@@ -48,7 +48,7 @@ export const usePlansStore = defineStore('plans', () => {
 
   // 平台计划数据 - 按账号和平台组织
   const platformPlans = ref<Record<string, Record<CommunityType, PlatformPlan>>>({
-    '掘金安东尼': {
+    '安东尼漫长岁月': {
       csdn: {
         platform: 'csdn',
         currentStatus: {
@@ -1824,7 +1824,7 @@ export const usePlansStore = defineStore('plans', () => {
   })
 
   // 获取指定账号和平台的计划
-  const getPlatformPlan = (platform: CommunityType, account: string = '掘金安东尼') => {
+  const getPlatformPlan = (platform: CommunityType, account: string = '安东尼漫长岁月') => {
     if (!platformPlans.value[account]) {
       // 如果账号不存在，创建默认结构
       platformPlans.value[account] = {
@@ -1842,25 +1842,25 @@ export const usePlansStore = defineStore('plans', () => {
   }
 
   // 添加阶段总结
-  const addWeeklySummary = (platform: CommunityType, summary: WeeklySummary, account: string = '掘金安东尼') => {
+  const addWeeklySummary = (platform: CommunityType, summary: WeeklySummary, account: string = '安东尼漫长岁月') => {
     const plan = getPlatformPlan(platform, account)
     plan.weeklySummaries.push(summary)
   }
 
   // 添加写作计划
-  const addWritingPlan = (platform: CommunityType, plan: WritingPlan, account: string = '掘金安东尼') => {
+  const addWritingPlan = (platform: CommunityType, plan: WritingPlan, account: string = '安东尼漫长岁月') => {
     const platformPlan = getPlatformPlan(platform, account)
     platformPlan.writingPlans.push(plan)
   }
 
   // 添加思考笔记
-  const addThoughtNote = (platform: CommunityType, note: ThoughtNote, account: string = '掘金安东尼') => {
+  const addThoughtNote = (platform: CommunityType, note: ThoughtNote, account: string = '安东尼漫长岁月') => {
     const platformPlan = getPlatformPlan(platform, account)
     platformPlan.thoughtNotes.push(note)
   }
 
   // 更新写作计划状态
-  const updateWritingPlanStatus = (platform: CommunityType, planId: string, status: string, account: string = '掘金安东尼') => {
+  const updateWritingPlanStatus = (platform: CommunityType, planId: string, status: string, account: string = '安东尼漫长岁月') => {
     const platformPlan = getPlatformPlan(platform, account)
     const plan = platformPlan.writingPlans.find(p => p.id === planId)
     if (plan) {

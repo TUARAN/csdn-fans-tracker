@@ -2,20 +2,17 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { useRoute } from 'vue-router'
 import { computed, ref } from 'vue'
-import { useFansStore } from '@/stores/fans'
+
 import { 
   BarChart3, 
   FileText, 
   Calendar, 
   TrendingUp,
   User,
-  Target,
-  ChevronDown
+  Target
 } from 'lucide-vue-next'
 
 const route = useRoute()
-const fansStore = useFansStore()
-const showAccountDropdown = ref(false)
 const easterEggCount = ref(0)
 const showEasterEggMessage = ref(false)
 
@@ -43,16 +40,7 @@ const triggerEasterEgg = () => {
 
 const currentRoute = computed(() => route.path)
 
-// 切换矩阵账号
-const switchMatrixAccount = (accountName: string) => {
-  fansStore.switchMatrixAccount(accountName)
-  showAccountDropdown.value = false
-}
 
-// 切换下拉菜单
-const toggleAccountDropdown = () => {
-  showAccountDropdown.value = !showAccountDropdown.value
-}
 </script>
 
 <template>
@@ -108,40 +96,15 @@ const toggleAccountDropdown = () => {
                 </svg>
               </div>
               
-              <!-- 标题和账号切换 -->
+              <!-- 标题和图标 -->
               <div class="flex items-center space-x-3">
                 <h1 class="text-xl font-bold">
-                  <span class="bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">{{ fansStore.currentMatrixAccount.name }}</span>
+                  <span class="bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">安东尼漫长岁月</span>
                 </h1>
                 
-                <!-- 账号切换下拉选择器 -->
-                <div class="relative">
-                  <button 
-                    @click="toggleAccountDropdown"
-                    class="flex items-center px-2 py-1 bg-white/80 hover:bg-white rounded-lg transition-colors border border-gray-200 shadow-sm"
-                  >
-                    <span class="text-sm mr-1">{{ fansStore.currentMatrixAccount.avatar }}</span>
-                    <ChevronDown class="w-3 h-3 text-gray-500" :class="{ 'rotate-180': showAccountDropdown }" />
-                  </button>
-                  
-                  <!-- 下拉菜单 -->
-                  <div v-if="showAccountDropdown" class="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                    <div class="py-1">
-                      <button 
-                        v-for="account in fansStore.matrixAccounts" 
-                        :key="account.id"
-                        @click="switchMatrixAccount(account.name)"
-                        class="w-full flex items-center px-3 py-2 text-sm hover:bg-gray-50 transition-colors"
-                        :class="{ 'bg-blue-50 text-blue-700': fansStore.activeMatrixAccount === account.name }"
-                      >
-                        <span class="text-sm mr-2">{{ account.avatar }}</span>
-                        <span class="font-medium">{{ account.name }}</span>
-                        <span v-if="account.name === '掘金安东尼'" class="ml-auto text-xs px-1.5 py-0.5 bg-green-100 text-green-700 rounded-full">
-                          主账号
-                        </span>
-                      </button>
-                    </div>
-                  </div>
+                <!-- 账号图标 -->
+                <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg">
+                  <span class="text-white text-sm">👨‍💻</span>
                 </div>
               </div>
             </div>
