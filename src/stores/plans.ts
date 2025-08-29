@@ -696,13 +696,14 @@ export const usePlansStore = defineStore('plans', () => {
         writingPlans: [],
         thoughtNotes: []
       },
-      segmentfault: {
-        platform: 'segmentfault',
+
+      infoq: {
+        platform: 'infoq',
         currentStatus: {
-          fans: 400,
-          reads: 6000,
-          articles: 20,
-          level: '思否专家'
+          fans: 600,
+          reads: 8000,
+          articles: 15,
+          level: 'InfoQ专家'
         },
         goals: {
           shortTerm: ['提升文章质量', '增加粉丝数量', '参与技术讨论'],
@@ -729,21 +730,21 @@ export const usePlansStore = defineStore('plans', () => {
         writingPlans: [],
         thoughtNotes: []
       },
-      infoq: {
-        platform: 'infoq',
+      weibo: {
+        platform: 'weibo',
         currentStatus: {
-          fans: 600,
-          reads: 8000,
-          articles: 15,
-          level: 'InfoQ专家'
+          fans: 0,
+          reads: 0,
+          articles: 0,
+          level: '新用户'
         },
         goals: {
-          shortTerm: ['提升文章质量', '增加粉丝数量', '参与技术讨论'],
-          mediumTerm: ['建立技术影响力', '开设技术专栏', '参与平台活动'],
-          longTerm: ['成为技术专家', '建立个人品牌', '影响更多开发者']
+          shortTerm: ['建立账号基础', '发布技术相关内容', '积累初始粉丝'],
+          mediumTerm: ['建立技术影响力', '开设技术话题', '参与技术讨论'],
+          longTerm: ['成为技术博主', '建立个人品牌', '影响更多技术爱好者']
         },
         strategies: [
-          '专注技术内容',
+          '专注技术内容分享',
           '保持更新频率',
           '积极参与讨论',
           '建立专业形象'
@@ -1754,8 +1755,8 @@ export const usePlansStore = defineStore('plans', () => {
         writingPlans: [],
         thoughtNotes: []
       },
-      segmentfault: {
-        platform: 'segmentfault',
+      weibo: {
+        platform: 'weibo',
         currentStatus: {
           fans: 0,
           reads: 0,
@@ -1764,7 +1765,7 @@ export const usePlansStore = defineStore('plans', () => {
         },
         goals: {
           shortTerm: ['建立账号基础', '发布AI编程相关内容', '积累初始粉丝'],
-          mediumTerm: ['建立AI技术影响力', '开设AI编程专栏', '参与AI社区讨论'],
+          mediumTerm: ['建立AI技术影响力', '开设AI编程话题', '参与AI社区讨论'],
           longTerm: ['成为AI编程专家', '建立个人品牌', '影响更多AI开发者']
         },
         strategies: [
@@ -1787,6 +1788,7 @@ export const usePlansStore = defineStore('plans', () => {
         writingPlans: [],
         thoughtNotes: []
       },
+
       infoq: {
         platform: 'infoq',
         currentStatus: {
@@ -1834,7 +1836,7 @@ export const usePlansStore = defineStore('plans', () => {
         zhihu: createDefaultPlatformPlan('zhihu'),
         _51cto: createDefaultPlatformPlan('_51cto'),
         wechat: createDefaultPlatformPlan('wechat'),
-        segmentfault: createDefaultPlatformPlan('segmentfault'),
+        weibo: createDefaultPlatformPlan('weibo'),
         infoq: createDefaultPlatformPlan('infoq')
       }
     }

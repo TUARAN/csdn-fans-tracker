@@ -63,7 +63,7 @@ const platformConfig = {
   zhihu: { name: '知乎', color: 'blue', icon: '🤔', bgColor: 'bg-gradient-to-br from-blue-50 to-blue-100', textColor: 'text-blue-600', borderColor: 'border-blue-200' },
   _51cto: { name: '51CTO', color: 'purple', icon: '💻', bgColor: 'bg-gradient-to-br from-purple-50 to-purple-100', textColor: 'text-purple-600', borderColor: 'border-purple-200' },
   wechat: { name: '微信公众号', color: 'green', icon: '📱', bgColor: 'bg-gradient-to-br from-green-50 to-green-100', textColor: 'text-green-600', borderColor: 'border-green-200' },
-  segmentfault: { name: '思否', color: 'indigo', icon: '🔍', bgColor: 'bg-gradient-to-br from-indigo-50 to-indigo-100', textColor: 'text-indigo-600', borderColor: 'border-indigo-200' },
+  weibo: { name: '微博', color: 'pink', icon: '🐦', bgColor: 'bg-gradient-to-br from-pink-50 to-pink-100', textColor: 'text-pink-600', borderColor: 'border-pink-200' },
   infoq: { name: 'InfoQ', color: 'teal', icon: '📊', bgColor: 'bg-gradient-to-br from-teal-50 to-teal-100', textColor: 'text-teal-600', borderColor: 'border-teal-200' }
 }
 
