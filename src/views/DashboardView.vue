@@ -1,17 +1,21 @@
 <script setup lang="ts">
 import { useFansStore } from '@/stores/fans'
 import { computed, ref, onMounted, onUnmounted } from 'vue'
-import { ExternalLink, Target, Copy, Check } from 'lucide-vue-next'
+import { ExternalLink, Target } from 'lucide-vue-next'
 
 const fansStore = useFansStore()
-const showCopied = ref(false)
-const isIntroCollapsed = ref(false)
-const activeAccount = ref('掘金安东尼') // 当前激活的账号
+
+// 从store获取当前激活的账号
+const activeAccount = computed(() => fansStore.currentSelectedAccount)
+
+// 监听账号切换，这里可以添加响应逻辑
+const switchAccount = (account: string) => {
+  fansStore.switchSelectedAccount(account)
+}
 
 // 滚动监听
 const handleScroll = () => {
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop
-  isIntroCollapsed.value = scrollTop > 100
+  // 保留滚动监听功能，可能用于其他用途
 }
 
 onMounted(() => {
@@ -21,6 +25,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
+
 
 // 不同账号的平台数据
 const accountPlatformData: Record<string, Record<string, { currentFans: number; currentReads: number; totalArticles: number; weeklyGrowth: number; username: string; tags: number | string }>> = {
@@ -39,9 +44,9 @@ const accountPlatformData: Record<string, Record<string, { currentFans: number; 
     juejin: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 198 },
     toutiao: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 0 },
     zhihu: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 0 },
-    _51cto: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 0 },
+    _51cto: { currentFans: 20, currentReads: 160000, totalArticles: 218, weeklyGrowth: 10, username: '代码AI弗森', tags: 0 },
     infoq: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 0 },
-    wechat: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 0 },
+    wechat: { currentFans: 3500, currentReads: 10000, totalArticles: 10, weeklyGrowth: 0, username: '前端周看', tags: 0 },
     weibo: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 0 }
   }
 }
@@ -60,7 +65,8 @@ const platforms: {
   { key: '_51cto', name: '51CTO', color: 'black', icon: '💻', homepage: 'https://juejin.cn/user/1521379823340792' },
   { key: 'infoq', name: 'InfoQ', color: 'black', icon: '📊', homepage: 'https://juejin.cn/user/1521379823340792' },
   { key: 'wechat', name: '微信公众号', color: 'black', icon: '📱', homepage: 'https://weixin.sogou.com/weixin?type=1&query=掘金安东尼' },
-  { key: 'weibo', name: '微博', color: 'black', icon: '📱', homepage: 'https://weibo.com/anthony1453' }
+  { key: 'weibo', name: '微博', color: 'black', icon: '📱', homepage: 'https://weibo.com/anthony1453' },
+  { key: 'xiaohongshu', name: '小红书', color: 'red', icon: '📖', homepage: 'https://www.xiaohongshu.com' }
 ]
 
 // 掘金安东尼账号数据
@@ -71,7 +77,7 @@ const anthonyData = computed(() => {
       currentReads: fansStore.currentStats.csdn.currentReads, 
       totalArticles: fansStore.currentStats.csdn.totalArticles, 
       weeklyGrowth: fansStore.currentStats.csdn.weeklyGrowth, 
-      username: '安东尼漫长岁月',
+      username: '掘金安东尼',
       tags: 187
     },
     juejin: { 
@@ -79,7 +85,7 @@ const anthonyData = computed(() => {
       currentReads: fansStore.currentStats.juejin.currentReads, 
       totalArticles: fansStore.currentStats.juejin.totalArticles, 
       weeklyGrowth: fansStore.currentStats.juejin.weeklyGrowth, 
-      username: '安东尼漫长岁月',
+      username: '掘金安东尼',
       tags: 187
     },
     toutiao: { 
@@ -87,7 +93,7 @@ const anthonyData = computed(() => {
       currentReads: fansStore.currentStats.toutiao.currentReads, 
       totalArticles: fansStore.currentStats.toutiao.totalArticles, 
       weeklyGrowth: fansStore.currentStats.toutiao.weeklyGrowth, 
-      username: '安东尼漫长岁月',
+      username: '掘金安东尼',
       tags: 187
     },
     zhihu: { 
@@ -98,20 +104,20 @@ const anthonyData = computed(() => {
       username: '三十而立方',
       tags: 187
     },
-    _51cto: { 
-      currentFans: fansStore.currentStats._51cto.currentFans, 
-      currentReads: fansStore.currentStats._51cto.currentReads, 
-      totalArticles: fansStore.currentStats._51cto.totalArticles, 
-      weeklyGrowth: fansStore.currentStats._51cto.weeklyGrowth, 
-      username: '安东尼漫长岁月',
-      tags: '187微信'
+    xiaohongshu: { 
+      currentFans: 2400, 
+      currentReads: 100000, 
+      totalArticles: 50, 
+      weeklyGrowth: 0, 
+      username: '安东尼404',
+      tags: 187
     },
     infoq: { 
       currentFans: fansStore.currentStats.infoq.currentFans, 
       currentReads: fansStore.currentStats.infoq.currentReads, 
       totalArticles: fansStore.currentStats.infoq.totalArticles, 
       weeklyGrowth: fansStore.currentStats.infoq.weeklyGrowth, 
-      username: '安东尼漫长岁月',
+      username: '掘金安东尼',
       tags: 198
     },
     wechat: { 
@@ -119,7 +125,7 @@ const anthonyData = computed(() => {
       currentReads: fansStore.currentStats.wechat.currentReads, 
       totalArticles: fansStore.currentStats.wechat.totalArticles, 
       weeklyGrowth: fansStore.currentStats.wechat.weeklyGrowth, 
-      username: '安东尼漫长岁月',
+      username: '掘金安东尼',
       tags: '187微信'
     },
     weibo: { 
@@ -127,7 +133,7 @@ const anthonyData = computed(() => {
       currentReads: fansStore.currentStats.weibo.currentReads, 
       totalArticles: fansStore.currentStats.weibo.totalArticles, 
       weeklyGrowth: fansStore.currentStats.weibo.weeklyGrowth, 
-      username: '安东尼漫长岁月',
+      username: '掘金安东尼',
       tags: 198
     }
   }
@@ -169,10 +175,27 @@ const calculateGrowthRate = (stats: any) => {
 
 const formatNumber = (num: number) => new Intl.NumberFormat('zh-CN').format(num)
 
-// 切换账号
-const switchAccount = (accountName: string) => {
-  activeAccount.value = accountName
-}
+// 过滤有粉丝的平台并按粉丝量排序
+const anthonyPlatformsWithFans = computed(() => {
+  return platforms
+    .filter(p => (anthonyData.value as any)[p.key]?.currentFans > 0)
+    .sort((a, b) => {
+      const fansA = (anthonyData.value as any)[a.key]?.currentFans || 0
+      const fansB = (anthonyData.value as any)[b.key]?.currentFans || 0
+      return fansB - fansA // 降序排序，粉丝多的在前
+    })
+})
+
+const aifsPlatformsWithFans = computed(() => {
+  return platforms
+    .filter(p => (aifsData.value as any)[p.key]?.currentFans > 0)
+    .sort((a, b) => {
+      const fansA = (aifsData.value as any)[a.key]?.currentFans || 0
+      const fansB = (aifsData.value as any)[b.key]?.currentFans || 0
+      return fansB - fansA // 降序排序，粉丝多的在前
+    })
+})
+
 
 // 跳转到平台主页
 const goToHomepage = (url: string, accountName: string) => {
@@ -184,108 +207,18 @@ const goToHomepage = (url: string, accountName: string) => {
   }
 }
 
-// 复制介绍内容
-const copyIntro = async () => {
-  const introText = `> 👨‍💻 大家好，我是安东尼漫长岁月，一位专注于 AI 编程、前端架构与数字产品打造的技术创作者。
-
-> 🚀 我已经正式开启个人 IP 之路，网站上线 👉 tuaran.pages.dev
-
-> 🧠 我会持续发布高质量干货内容，覆盖 Vue3 / Python / 大模型落地 / 工程化提升 / 技术创业 等方向。
-
-> 🎁 如果你想进 抽奖群 / 技术群 / 副业群 一起交流成长，欢迎加我微信：atar24 
-
-> 🪐 欢迎关注 + 收藏，一起探索程序员进阶的多维可能！`
-
-  try {
-    await navigator.clipboard.writeText(introText)
-    showCopied.value = true
-    setTimeout(() => {
-      showCopied.value = false
-    }, 2000)
-  } catch (err) {
-    console.error('复制失败:', err)
-  }
-}
 </script>
 
 <template>
   <div class="min-h-screen bg-gray-50">
-    <div class="flex">
-      <!-- 左侧目录 -->
-      <div class="w-64 bg-white shadow-lg border-r border-gray-200 min-h-screen p-4">
-        <div class="mb-6">
-          <h3 class="text-lg font-bold text-gray-900 mb-4">📊 数据视窗</h3>
-          <div class="space-y-2">
-            <button 
-              @click="switchAccount('掘金安东尼')"
-              class="w-full flex items-center p-3 rounded-lg transition-all duration-200 text-left"
-              :class="activeAccount === '掘金安东尼' 
-                ? 'bg-blue-50 border border-blue-200 text-blue-700 shadow-sm' 
-                : 'bg-gray-50 hover:bg-gray-100 text-gray-700'"
-            >
-              <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center mr-3">
-                <span class="text-white text-sm">👨‍💻</span>
-              </div>
-              <div>
-                <div class="font-medium">掘金安东尼</div>
-                <div class="text-xs text-gray-500">AI编程技术创作者</div>
-              </div>
-            </button>
-            
-            <button 
-              @click="switchAccount('代码AI弗森')"
-              class="w-full flex items-center p-3 rounded-lg transition-all duration-200 text-left"
-              :class="activeAccount === '代码AI弗森' 
-                ? 'bg-indigo-50 border border-indigo-200 text-indigo-700 shadow-sm' 
-                : 'bg-gray-50 hover:bg-gray-100 text-gray-700'"
-            >
-              <div class="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center mr-3">
-                <span class="text-white text-sm">🤖</span>
-              </div>
-              <div>
-                <div class="font-medium">代码AI弗森</div>
-                <div class="text-xs text-gray-500">AI编程助手</div>
-              </div>
-            </button>
-          </div>
-        </div>
-      </div>
-      
-      <!-- 主内容区域 -->
-      <div class="flex-1 p-6 space-y-6">
-      <!-- 个人介绍 - 带收缩效果 -->
-      <div 
-        class="bg-white rounded-lg shadow-sm border border-gray-200 transition-all duration-300 ease-in-out"
-        :class="isIntroCollapsed ? 'p-2' : 'p-4'"
-      >
-        <div class="flex items-start justify-between">
-          <div 
-            class="text-gray-700 space-y-2 flex-1 transition-all duration-300"
-            :class="isIntroCollapsed ? 'text-xs space-y-1' : 'text-sm space-y-2'"
-          >
-            <div v-show="!isIntroCollapsed">👨‍💻 大家好，我是安东尼漫长岁月，专注于 AI 编程、前端架构与数字产品打造的技术创作者。</div>
-            <div v-show="!isIntroCollapsed">🚀 个人网站上线 👉 <a href="https://tuaran.pages.dev" target="_blank" class="text-blue-600 hover:text-blue-800">tuaran.pages.dev</a> | 涵盖前沿资讯、技术分享、副业创收等多元内容。</div>
-            <div v-show="!isIntroCollapsed">🎁 欢迎加微信 <span class="font-mono text-gray-900">atar24</span> 进技术群交流，一起探索程序员进阶的多维可能！</div>
-            <div v-show="isIntroCollapsed" class="font-semibold text-gray-900">👨‍💻 安东尼漫长岁月 - AI编程技术创作者</div>
-          </div>
-          <div class="flex items-center space-x-2">
-            <button 
-              @click="copyIntro"
-              class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-              :title="showCopied ? '已复制' : '复制介绍内容'"
-            >
-              <Check v-if="showCopied" class="w-4 h-4 text-blue-600" />
-              <Copy v-else class="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </div>
+    <!-- 主内容区域 -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
       <!-- 掘金安东尼账号区块 -->
-      <div v-if="activeAccount === '掘金安东尼'" class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-200">
+      <div v-if="activeAccount === '掘金安东尼'" class="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg p-6 border border-orange-200">
         <div class="text-center mb-6">
-          <h2 class="text-2xl font-bold text-blue-900 mb-2">👨‍💻 掘金安东尼</h2>
-          <p class="text-blue-700">AI编程技术创作者 | 前端架构师</p>
+          <h2 class="text-2xl font-bold text-orange-900 mb-2">👨‍💻 掘金安东尼</h2>
+          <p class="text-orange-700">技术创作者 | 前端架构师</p>
         </div>
         
         <!-- 掘金安东尼总计面板 -->
@@ -295,37 +228,37 @@ const copyIntro = async () => {
           </div>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-4 mb-3 shadow-sm">
+              <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 mb-3 shadow-sm">
                 <div class="text-gray-900">
                   <div class="text-sm font-semibold text-gray-700 mb-1">总粉丝数</div>
-                  <div class="text-2xl font-bold text-red-600 mb-1">{{ formatNumber(anthonyTotalStats.fans) }}</div>
+                  <div class="text-2xl font-bold text-orange-600 mb-1">{{ formatNumber(anthonyTotalStats.fans) }}</div>
                   <div class="text-xs text-gray-500">累计关注者</div>
                 </div>
               </div>
             </div>
             <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 mb-3 shadow-sm">
+              <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-4 mb-3 shadow-sm">
                 <div class="text-gray-900">
                   <div class="text-sm font-semibold text-gray-700 mb-1">总阅读量</div>
-                  <div class="text-2xl font-bold text-blue-600 mb-1">{{ formatNumber(anthonyTotalStats.reads) }}</div>
+                  <div class="text-2xl font-bold text-yellow-600 mb-1">{{ formatNumber(anthonyTotalStats.reads) }}</div>
                   <div class="text-xs text-gray-500">内容曝光度</div>
                 </div>
               </div>
             </div>
             <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 mb-3 shadow-sm">
+              <div class="bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl p-4 mb-3 shadow-sm">
                 <div class="text-gray-900">
                   <div class="text-sm font-semibold text-gray-700 mb-1">总文章数</div>
-                  <div class="text-2xl font-bold text-blue-600 mb-1">{{ formatNumber(dedupedArticles(anthonyTotalStats.articles)) }}</div>
+                  <div class="text-2xl font-bold text-amber-600 mb-1">{{ formatNumber(dedupedArticles(anthonyTotalStats.articles)) }}</div>
                   <div class="text-xs text-gray-500">文章数已去重</div>
                 </div>
               </div>
             </div>
             <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 mb-3 shadow-sm">
+              <div class="bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl p-4 mb-3 shadow-sm">
                 <div class="text-gray-900">
                   <div class="text-sm font-semibold text-gray-700 mb-1">增长率</div>
-                  <div class="text-2xl font-bold text-purple-600 mb-1">{{ calculateGrowthRate(anthonyTotalStats) }}</div>
+                  <div class="text-2xl font-bold text-orange-700 mb-1">{{ calculateGrowthRate(anthonyTotalStats) }}</div>
                   <div class="text-xs text-gray-500">本周增长</div>
                 </div>
               </div>
@@ -335,7 +268,7 @@ const copyIntro = async () => {
 
         <!-- 掘金安东尼各平台面板 -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div v-for="p in platforms" :key="`anthony-${p.key}`" 
+          <div v-for="p in anthonyPlatformsWithFans" :key="`anthony-${p.key}`" 
                class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
             <div class="p-4">
               <!-- 平台头部 -->
@@ -347,10 +280,10 @@ const copyIntro = async () => {
                   <div>
                     <h4 class="text-sm font-bold text-gray-900">{{ p.name }}</h4>
                     <div class="text-xs text-gray-500">
-                      {{ anthonyData[p.key]?.username || '安东尼漫长岁月' }}
+                      {{ (anthonyData as any)[p.key]?.username || '安东尼漫长岁月' }}
                     </div>
-                                    <div v-if="anthonyData[p.key]?.tags" class="text-xs text-blue-600 font-medium mt-1">
-                  🏷️ {{ anthonyData[p.key]?.tags }}
+                                    <div v-if="(anthonyData as any)[p.key]?.tags" class="text-xs text-blue-600 font-medium mt-1">
+                  🏷️ {{ (anthonyData as any)[p.key]?.tags }}
                 </div>
                   </div>
                 </div>
@@ -359,15 +292,15 @@ const copyIntro = async () => {
               <!-- 核心数据 -->
               <div class="grid grid-cols-3 gap-2 mb-3">
                 <div class="text-center">
-                  <div class="text-sm font-semibold text-gray-900">{{ formatNumber((anthonyData[p.key]?.currentFans) || 0) }}</div>
+                  <div class="text-sm font-semibold text-gray-900">{{ formatNumber(((anthonyData as any)[p.key]?.currentFans) || 0) }}</div>
                   <div class="text-xs text-gray-500">粉丝</div>
                 </div>
                 <div class="text-center">
-                  <div class="text-sm font-semibold text-gray-900">{{ formatNumber((anthonyData[p.key]?.currentReads) || 0) }}</div>
+                  <div class="text-sm font-semibold text-gray-900">{{ formatNumber(((anthonyData as any)[p.key]?.currentReads) || 0) }}</div>
                   <div class="text-xs text-gray-500">阅读</div>
                 </div>
                 <div class="text-center">
-                  <div class="text-sm font-semibold text-gray-900">{{ formatNumber((anthonyData[p.key]?.totalArticles) || 0) }}</div>
+                  <div class="text-sm font-semibold text-gray-900">{{ formatNumber(((anthonyData as any)[p.key]?.totalArticles) || 0) }}</div>
                   <div class="text-xs text-gray-500">文章</div>
                 </div>
               </div>
@@ -395,10 +328,10 @@ const copyIntro = async () => {
       </div>
 
       <!-- 代码AI弗森账号区块 -->
-      <div v-if="activeAccount === '代码AI弗森'" class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg p-6 border border-indigo-200">
+      <div v-if="activeAccount === '代码AI弗森'" class="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg p-6 border border-amber-200">
         <div class="text-center mb-6">
-          <h2 class="text-2xl font-bold text-indigo-900 mb-2">🤖 代码AI弗森</h2>
-                          <p class="text-indigo-700">AI编程范式｜大模型内容创作者</p>
+          <h2 class="text-2xl font-bold text-amber-900 mb-2">🤖 代码AI弗森</h2>
+          <p class="text-amber-700">Vibe编程 | 大模型实践者</p>
         </div>
         
         <!-- 代码AI弗森总计面板 -->
@@ -408,37 +341,37 @@ const copyIntro = async () => {
           </div>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-4 mb-3 shadow-sm">
+              <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 mb-3 shadow-sm">
                 <div class="text-gray-900">
                   <div class="text-sm font-semibold text-gray-700 mb-1">总粉丝数</div>
-                  <div class="text-2xl font-bold text-red-600 mb-1">{{ formatNumber(aifsTotalStats.fans) }}</div>
+                  <div class="text-2xl font-bold text-orange-600 mb-1">{{ formatNumber(aifsTotalStats.fans) }}</div>
                   <div class="text-xs text-gray-500">累计关注者</div>
                 </div>
               </div>
             </div>
             <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 mb-3 shadow-sm">
+              <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-4 mb-3 shadow-sm">
                 <div class="text-gray-900">
                   <div class="text-sm font-semibold text-gray-700 mb-1">总阅读量</div>
-                  <div class="text-2xl font-bold text-blue-600 mb-1">{{ formatNumber(aifsTotalStats.reads) }}</div>
+                  <div class="text-2xl font-bold text-yellow-600 mb-1">{{ formatNumber(aifsTotalStats.reads) }}</div>
                   <div class="text-xs text-gray-500">内容曝光度</div>
                 </div>
               </div>
             </div>
             <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-4 mb-3 shadow-sm">
+              <div class="bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl p-4 mb-3 shadow-sm">
                 <div class="text-gray-900">
                   <div class="text-sm font-semibold text-gray-700 mb-1">总文章数</div>
-                  <div class="text-2xl font-bold text-indigo-600 mb-1">{{ formatNumber(dedupedArticles(aifsTotalStats.articles)) }}</div>
+                  <div class="text-2xl font-bold text-amber-600 mb-1">{{ formatNumber(dedupedArticles(aifsTotalStats.articles)) }}</div>
                   <div class="text-xs text-gray-500">文章数已去重</div>
                 </div>
               </div>
             </div>
             <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 mb-3 shadow-sm">
+              <div class="bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl p-4 mb-3 shadow-sm">
                 <div class="text-gray-900">
                   <div class="text-sm font-semibold text-gray-700 mb-1">增长率</div>
-                  <div class="text-2xl font-bold text-purple-600 mb-1">{{ calculateGrowthRate(aifsTotalStats) }}</div>
+                  <div class="text-2xl font-bold text-orange-700 mb-1">{{ calculateGrowthRate(aifsTotalStats) }}</div>
                   <div class="text-xs text-gray-500">本周增长</div>
                 </div>
               </div>
@@ -448,7 +381,7 @@ const copyIntro = async () => {
 
         <!-- 代码AI弗森各平台面板 -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div v-for="p in platforms" :key="`aifs-${p.key}`" 
+          <div v-for="p in aifsPlatformsWithFans" :key="`aifs-${p.key}`" 
                class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
             <div class="p-4">
               <!-- 平台头部 -->
@@ -488,14 +421,14 @@ const copyIntro = async () => {
               <!-- 操作链接 -->
               <div class="flex items-center justify-between text-xs">
                 <button @click="goToHomepage(p.homepage, '代码AI弗森')" 
-                        class="flex items-center text-red-500 hover:text-red-700 transition-colors">
+                        class="flex items-center text-orange-500 hover:text-orange-700 transition-colors">
                   <ExternalLink class="w-3 h-3 mr-1" />
                   访问主页
                 </button>
                 <router-link :to="`/plan/${p.key}/代码AI弗森`" 
                              :class="`flex items-center transition-colors ${
                                p.key === 'csdn' || p.key === 'juejin' 
-                                 ? 'text-blue-600 hover:text-blue-800' 
+                                 ? 'text-orange-600 hover:text-orange-800' 
                                  : 'text-gray-400 cursor-not-allowed'
                              }`">
                   <Target class="w-3 h-3 mr-1" />
@@ -506,7 +439,6 @@ const copyIntro = async () => {
           </div>
         </div>
       </div>
-      </div>
     </div>
   </div>
 </template>
@@ -515,4 +447,14 @@ const copyIntro = async () => {
 .bg-csdn-red { background: #F13C3C; }
 .bg-orange-500 { background: #f97316; }
 .text-csdn-red { color: #F13C3C; }
+
+/* 统一温暖色系配色 */
+.warm-gradient {
+  background: linear-gradient(135deg, #fed7aa 0%, #fde68a 100%);
+}
+
+.warm-card {
+  background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
+  border: 1px solid #fed7aa;
+}
 </style>

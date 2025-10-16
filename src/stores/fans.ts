@@ -13,6 +13,9 @@ export const useFansStore = defineStore('fans', () => {
 
   // 矩阵账号状态
   const activeMatrixAccount = ref('安东尼漫长岁月')
+  
+  // 当前选中的账号（用于UI显示）
+  const currentSelectedAccount = ref('掘金安东尼')
 
   // 矩阵账号数据
   const matrixAccounts = [
@@ -40,6 +43,11 @@ export const useFansStore = defineStore('fans', () => {
   // 切换矩阵账号
   const switchMatrixAccount = (accountName: string) => {
     activeMatrixAccount.value = accountName
+  }
+
+  // 切换当前选中的账号
+  const switchSelectedAccount = (accountName: string) => {
+    currentSelectedAccount.value = accountName
   }
 
   // 计算属性
@@ -85,7 +93,8 @@ export const useFansStore = defineStore('fans', () => {
       _51cto: getStatsForCommunity('_51cto'),
       wechat: getStatsForCommunity('wechat'),
       weibo: getStatsForCommunity('weibo'),
-      infoq: getStatsForCommunity('infoq')
+      infoq: getStatsForCommunity('infoq'),
+      xiaohongshu: getStatsForCommunity('xiaohongshu')
     }
   })
 
@@ -297,6 +306,8 @@ export const useFansStore = defineStore('fans', () => {
     matrixAccounts,
     currentMatrixAccount,
     switchMatrixAccount,
+    currentSelectedAccount,
+    switchSelectedAccount,
     addFanData,
     updateFanData,
     setGoal,

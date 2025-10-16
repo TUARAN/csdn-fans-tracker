@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import { useRoute } from 'vue-router'
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
+import { useFansStore } from '@/stores/fans'
 
 import { 
   BarChart3, 
@@ -13,106 +14,177 @@ import {
 } from 'lucide-vue-next'
 
 const route = useRoute()
+const fansStore = useFansStore()
 
 const currentRoute = computed(() => route.path)
 
+// 自动计算全网总粉丝数（所有矩阵账号的总和）
+const totalFans = computed(() => {
+  return anthonyTotalFans.value + aifsTotalFans.value
+})
+
+// 动画粉丝数
+const animatedFans = ref(0)
+
+// 数字动画函数
+const animateNumber = (start: number, end: number, duration: number = 2000) => {
+  const startTime = Date.now()
+  const range = end - start
+  
+  const updateNumber = () => {
+    const elapsed = Date.now() - startTime
+    const progress = Math.min(elapsed / duration, 1)
+    
+    // 使用缓动函数让动画更自然
+    const easeOutCubic = 1 - Math.pow(1 - progress, 3)
+    const currentValue = Math.floor(start + range * easeOutCubic)
+    
+    animatedFans.value = currentValue
+    
+    if (progress < 1) {
+      requestAnimationFrame(updateNumber)
+    } else {
+      animatedFans.value = end
+    }
+  }
+  
+  requestAnimationFrame(updateNumber)
+}
+
+// 账号选择状态
+const activeAccount = computed(() => fansStore.currentSelectedAccount)
+
+
+// 掘金安东尼账号数据（源数据）
+const anthonyAccountData = {
+  csdn: { currentFans: 535 },
+  juejin: { currentFans: 10871 },
+  zhihu: { currentFans: 318 },
+  toutiao: { currentFans: 692 },
+  xiaohongshu: { currentFans: 2400 },
+  infoq: { currentFans: 12 },
+  wechat: { currentFans: 1200 },
+  weibo: { currentFans: 400 }
+}
+
+// 代码AI弗森账号数据（源数据）
+const aifsAccountData = {
+  csdn: { currentFans: 638 },
+  _51cto: { currentFans: 20 },
+  wechat: { currentFans: 3500 }
+}
+
+// 自动计算各账号的总粉丝数
+const anthonyTotalFans = computed(() => {
+  return Object.values(anthonyAccountData).reduce((total, platform) => total + platform.currentFans, 0)
+})
+
+const aifsTotalFans = computed(() => {
+  return Object.values(aifsAccountData).reduce((total, platform) => total + platform.currentFans, 0)
+})
+
+// 切换账号
+const switchAccount = (account: string) => {
+  fansStore.switchSelectedAccount(account)
+}
+
+// 组件挂载后开始动画
+onMounted(() => {
+  // 延迟一点开始动画，让页面先渲染
+  setTimeout(() => {
+    animateNumber(0, totalFans.value, 2500)
+  }, 500)
+})
 
 </script>
 
 <template>
   <div id="app" class="min-h-screen bg-gray-50">
     <!-- 顶部导航栏 -->
-    <header class="bg-gradient-to-r from-white via-gray-100 to-blue-100 shadow-2xl border-b border-gray-200 sticky top-0 z-40 relative overflow-visible">
-      <!-- 背景装饰元素 -->
-      <div class="absolute inset-0 opacity-10">
-        <!-- 数据曲线 -->
-        <svg class="absolute top-4 right-20 w-32 h-16" viewBox="0 0 128 64" fill="none">
-          <path d="M0 32 L20 20 L40 40 L60 10 L80 30 L100 25 L120 35 L128 28" stroke="#F13C3C" stroke-width="2" fill="none"/>
-          <circle cx="20" cy="20" r="2" fill="#F13C3C"/>
-          <circle cx="40" cy="40" r="2" fill="#F13C3C"/>
-          <circle cx="60" cy="10" r="2" fill="#F13C3C"/>
-          <circle cx="80" cy="30" r="2" fill="#F13C3C"/>
-          <circle cx="100" cy="25" r="2" fill="#F13C3C"/>
-          <circle cx="120" cy="35" r="2" fill="#F13C3C"/>
-        </svg>
+    <!-- 优化的Banner区域 -->
+    <div class="relative bg-gradient-to-br from-orange-50 via-yellow-50/50 to-amber-100/30 overflow-hidden">
+      <!-- 现代化背景装饰 -->
+      <div class="absolute inset-0">
+        <!-- 浮动几何图形 -->
+        <div class="absolute top-10 right-20 w-32 h-32 bg-orange-200/30 rounded-full blur-xl animate-pulse"></div>
+        <div class="absolute top-20 right-40 w-20 h-20 bg-yellow-200/30 rounded-full blur-lg animate-pulse" style="animation-delay: 1s"></div>
+        <div class="absolute top-5 left-20 w-24 h-24 bg-amber-300/30 rounded-full blur-xl animate-pulse" style="animation-delay: 2s"></div>
         
-        <!-- 柱状图 -->
-        <svg class="absolute top-6 right-60 w-24 h-16" viewBox="0 0 96 64" fill="none">
-          <rect x="8" y="40" width="8" height="24" fill="#F13C3C" opacity="0.8"/>
-          <rect x="24" y="30" width="8" height="34" fill="#F13C3C" opacity="0.6"/>
-          <rect x="40" y="20" width="8" height="44" fill="#F13C3C" opacity="0.9"/>
-          <rect x="56" y="35" width="8" height="29" fill="#F13C3C" opacity="0.7"/>
-          <rect x="72" y="25" width="8" height="39" fill="#F13C3C" opacity="0.5"/>
-          <rect x="88" y="15" width="8" height="49" fill="#F13C3C" opacity="0.8"/>
-        </svg>
-        
-        <!-- 数据点 -->
-        <div class="absolute top-8 right-40 w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
-        <div class="absolute top-12 right-36 w-1 h-1 bg-red-300 rounded-full animate-pulse" style="animation-delay: 0.5s"></div>
-        <div class="absolute top-6 right-44 w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" style="animation-delay: 1s"></div>
-        
-        <!-- 左侧装饰 -->
-        <svg class="absolute top-4 left-20 w-20 h-12" viewBox="0 0 80 48" fill="none">
-          <path d="M0 24 L15 15 L30 30 L45 8 L60 20 L75 18 L80 22" stroke="#6366F1" stroke-width="1.5" fill="none"/>
-        </svg>
-        
-        <!-- 网格背景 -->
-        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.04) 1px, transparent 0); background-size: 20px 20px;"></div>
+        <!-- 网格图案 -->
+        <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 2px 2px, rgba(251, 146, 60, 0.15) 1px, transparent 0); background-size: 24px 24px;"></div>
       </div>
       
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="flex justify-between items-center h-20">
-          <!-- 左侧标题区域 -->
-          <div class="flex items-center">
-            <div class="flex items-center space-x-4">
-              <!-- 标题和图标 -->
-              <div class="flex items-center space-x-3">
-                <h1 class="text-xl font-bold">
-                  <span class="bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-700 bg-clip-text text-transparent transition-all duration-300 hover:scale-105">
-                    安东尼的漫长编程岁月
-                  </span>
-                </h1>
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- 右上角联系信息 -->
+        <div class="absolute top-4 right-4 flex items-center space-x-4 text-sm">
+          <a href="https://tuaran.pages.dev" target="_blank" 
+             class="flex items-center space-x-1 text-gray-700 hover:text-orange-600 transition-colors duration-200">
+            <span class="text-orange-500">🚀</span>
+            <span class="font-medium">tuaran.pages.dev</span>
+          </a>
+          <div class="flex items-center space-x-1 text-gray-700">
+            <span class="text-orange-500">🎁</span>
+            <span class="font-medium">微信: </span>
+            <span class="font-bold text-orange-800 bg-orange-100 px-2 py-1 rounded text-xs">atar24</span>
+          </div>
+        </div>
+        
+        <!-- 主要内容区域 -->
+        <div class="text-center space-y-6">
+          <!-- 主要标题：全网粉丝量 -->
+          <div>
+            <h1 class="text-5xl font-bold mb-3">
+              <span class="text-gray-800 transition-all duration-300 hover:scale-105 inline-block">
+                全网粉丝量：<span class="text-orange-600">{{ animatedFans.toLocaleString() }}</span>
+              </span>
+            </h1>
+            <div class="w-32 h-1.5 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full mx-auto"></div>
+          </div>
+          
+          <!-- IP号有区域 -->
+          <div>
+            <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-orange-200/50 p-6 max-w-4xl mx-auto">
+              <div class="flex items-center justify-center space-x-8">
+                <span class="text-xl font-bold text-gray-800">📊 矩阵IP</span>
+                <button 
+                  @click="switchAccount('掘金安东尼')"
+                  class="flex items-center px-6 py-4 rounded-xl transition-all duration-200 transform hover:scale-105"
+                  :class="activeAccount === '掘金安东尼' 
+                    ? 'bg-orange-500 text-white shadow-lg' 
+                    : 'bg-white hover:bg-orange-50 text-gray-700 border border-orange-200 shadow-md'"
+                >
+                  <div class="w-12 h-12 bg-orange-600 rounded-xl flex items-center justify-center mr-4 shadow-md">
+                    <span class="text-white text-lg">👨‍💻</span>
+                  </div>
+                  <div class="text-left">
+                    <div class="font-bold text-lg">掘金安东尼</div>
+                    <div class="text-sm opacity-75">粉丝：{{ anthonyTotalFans.toLocaleString() }}</div>
+                  </div>
+                </button>
                 
-                <!-- 炫酷账号图标组 -->
-                <div class="flex items-center space-x-2">
-                  <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg animate-bounce" style="animation-delay: 0s">
-                    <span class="text-white text-sm">👨‍💻</span>
+                <button 
+                  @click="switchAccount('代码AI弗森')"
+                  class="flex items-center px-6 py-4 rounded-xl transition-all duration-200 transform hover:scale-105"
+                  :class="activeAccount === '代码AI弗森' 
+                    ? 'bg-amber-500 text-white shadow-lg' 
+                    : 'bg-white hover:bg-amber-50 text-gray-700 border border-amber-200 shadow-md'"
+                >
+                  <div class="w-12 h-12 bg-amber-600 rounded-xl flex items-center justify-center mr-4 shadow-md">
+                    <span class="text-white text-lg">🤖</span>
                   </div>
-                  <div class="w-6 h-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg animate-bounce" style="animation-delay: 0.2s">
-                    <span class="text-white text-xs">⚡</span>
+                  <div class="text-left">
+                    <div class="font-bold text-lg">代码AI弗森</div>
+                    <div class="text-sm opacity-75">粉丝：{{ aifsTotalFans.toLocaleString() }}</div>
                   </div>
-                  <div class="w-6 h-6 bg-gradient-to-br from-purple-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg animate-bounce" style="animation-delay: 0.4s">
-                    <span class="text-white text-xs">🔥</span>
-                  </div>
-                  <div class="w-6 h-6 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-lg flex items-center justify-center shadow-lg animate-bounce" style="animation-delay: 0.6s">
-                    <span class="text-white text-xs">🎯</span>
-                  </div>
-                  <div class="w-6 h-6 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-lg flex items-center justify-center shadow-lg animate-bounce" style="animation-delay: 0.8s">
-                    <span class="text-white text-xs">✨</span>
-                  </div>
-                </div>
+                </button>
               </div>
             </div>
           </div>
           
-          <!-- 右侧数据装饰 -->
-          <div class="flex items-center space-x-6 text-gray-500">
-            <div class="flex items-center space-x-2">
-              <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span class="text-sm">实时数据</span>
-            </div>
-            <div class="flex items-center space-x-2">
-              <div class="w-2 h-2 bg-blue-400 rounded-full animate-pulse" style="animation-delay: 0.5s"></div>
-              <span class="text-sm">多平台</span>
-            </div>
-            <div class="flex items-center space-x-2">
-              <div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style="animation-delay: 1s"></div>
-              <span class="text-sm">数据同步</span>
-            </div>
-          </div>
         </div>
       </div>
-    </header>
+    </div>
+
 
     <!-- 主内容区域 -->
     <main class="flex-1">
@@ -149,6 +221,22 @@ const currentRoute = computed(() => route.path)
   50% { filter: hue-rotate(180deg); }
   75% { filter: hue-rotate(270deg); }
   100% { filter: hue-rotate(360deg); }
+}
+
+/* 淡入动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
 }
 
 
