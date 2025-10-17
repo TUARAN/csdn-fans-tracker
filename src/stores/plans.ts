@@ -762,6 +762,40 @@ export const usePlansStore = defineStore('plans', () => {
         weeklySummaries: [],
         writingPlans: [],
         thoughtNotes: []
+      },
+
+      xiaohongshu: {
+        platform: 'xiaohongshu',
+        currentStatus: {
+          fans: 2400,
+          reads: 100000,
+          articles: 50,
+          level: '活跃创作者'
+        },
+        goals: {
+          shortTerm: ['建立小红书账号基础', '发布技术内容', '积累初始粉丝'],
+          mediumTerm: ['建立技术影响力', '开设技术专栏', '参与社区讨论'],
+          longTerm: ['成为技术专家', '建立个人品牌', '影响更多用户']
+        },
+        strategies: [
+          '专注技术内容分享',
+          '保持更新频率',
+          '积极参与讨论',
+          '建立专业形象'
+        ],
+        challenges: [
+          '需要持续输出优质内容',
+          '影响力建立需要时间',
+          '平台算法变化'
+        ],
+        opportunities: [
+          '年轻用户群体活跃',
+          '内容形式多样化',
+          '社区氛围良好'
+        ],
+        weeklySummaries: [],
+        writingPlans: [],
+        thoughtNotes: []
       }
     },
     '代码AI弗森': {
@@ -1821,6 +1855,40 @@ export const usePlansStore = defineStore('plans', () => {
         weeklySummaries: [],
         writingPlans: [],
         thoughtNotes: []
+      },
+
+      xiaohongshu: {
+        platform: 'xiaohongshu',
+        currentStatus: {
+          fans: 0,
+          reads: 0,
+          articles: 0,
+          level: '新用户'
+        },
+        goals: {
+          shortTerm: ['建立账号基础', '发布AI编程相关内容', '积累初始粉丝'],
+          mediumTerm: ['建立AI技术影响力', '开设AI编程专栏', '参与AI社区讨论'],
+          longTerm: ['成为AI编程专家', '建立个人品牌', '影响更多AI开发者']
+        },
+        strategies: [
+          '专注AI编程与大模型应用',
+          '保持更新频率',
+          '积极参与讨论',
+          '建立专业形象'
+        ],
+        challenges: [
+          'AI技术发展快速',
+          '需要持续输出',
+          '影响力建立需要时间'
+        ],
+        opportunities: [
+          'AI技术氛围浓厚',
+          '专家体系完善',
+          '内容质量要求高'
+        ],
+        weeklySummaries: [],
+        writingPlans: [],
+        thoughtNotes: []
       }
     }
   })
@@ -1837,7 +1905,8 @@ export const usePlansStore = defineStore('plans', () => {
         _51cto: createDefaultPlatformPlan('_51cto'),
         wechat: createDefaultPlatformPlan('wechat'),
         weibo: createDefaultPlatformPlan('weibo'),
-        infoq: createDefaultPlatformPlan('infoq')
+        infoq: createDefaultPlatformPlan('infoq'),
+        xiaohongshu: createDefaultPlatformPlan('xiaohongshu')
       }
     }
     return platformPlans.value[account][platform]

@@ -64,7 +64,8 @@ const platformConfig = {
   _51cto: { name: '51CTO', color: 'purple', icon: '💻', bgColor: 'bg-gradient-to-br from-purple-50 to-purple-100', textColor: 'text-purple-600', borderColor: 'border-purple-200' },
   wechat: { name: '微信公众号', color: 'green', icon: '📱', bgColor: 'bg-gradient-to-br from-green-50 to-green-100', textColor: 'text-green-600', borderColor: 'border-green-200' },
   weibo: { name: '微博', color: 'pink', icon: '🐦', bgColor: 'bg-gradient-to-br from-pink-50 to-pink-100', textColor: 'text-pink-600', borderColor: 'border-pink-200' },
-  infoq: { name: 'InfoQ', color: 'teal', icon: '📊', bgColor: 'bg-gradient-to-br from-teal-50 to-teal-100', textColor: 'text-teal-600', borderColor: 'border-teal-200' }
+  infoq: { name: 'InfoQ', color: 'teal', icon: '📊', bgColor: 'bg-gradient-to-br from-teal-50 to-teal-100', textColor: 'text-teal-600', borderColor: 'border-teal-200' },
+  xiaohongshu: { name: '小红书', color: 'red', icon: '📖', bgColor: 'bg-gradient-to-br from-red-50 to-red-100', textColor: 'text-red-600', borderColor: 'border-red-200' }
 }
 
 const currentConfig = computed(() => platformConfig[platform.value])
