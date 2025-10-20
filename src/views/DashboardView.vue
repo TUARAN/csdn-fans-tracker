@@ -1,439 +1,343 @@
 <script setup lang="ts">
 import { useFansStore } from '@/stores/fans'
-import { computed, ref, onMounted, onUnmounted } from 'vue'
-import { ExternalLink, Target } from 'lucide-vue-next'
+import { computed } from 'vue'
+import { ExternalLink, Users, Eye, FileText, TrendingUp, Sparkles } from 'lucide-vue-next'
+import type { CommunityType } from '@/types'
 
 const fansStore = useFansStore()
 
 // 从store获取当前激活的账号
-const activeAccount = computed(() => fansStore.currentSelectedAccount)
+const currentAccount = computed(() => fansStore.currentMatrixAccount)
 
-// 监听账号切换，这里可以添加响应逻辑
-const switchAccount = (account: string) => {
-  fansStore.switchSelectedAccount(account)
-}
-
-// 滚动监听
-const handleScroll = () => {
-  // 保留滚动监听功能，可能用于其他用途
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
+// 获取当前账号的平台数据
+const currentAccountStats = computed(() => {
+  const accountId = fansStore.activeMatrixAccount
+  return fansStore.getAccountStats(accountId)
 })
 
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
-
-
-// 不同账号的平台数据
-const accountPlatformData: Record<string, Record<string, { currentFans: number; currentReads: number; totalArticles: number; weeklyGrowth: number; username: string; tags: number | string }>> = {
-  '安东尼漫长岁月': {
-    csdn: { currentFans: 535, currentReads: 71725, totalArticles: 124, weeklyGrowth: 5, username: '安东尼漫长岁月', tags: 187 },
-    juejin: { currentFans: 10871, currentReads: 2188696, totalArticles: 536, weeklyGrowth: 4, username: '安东尼漫长岁月', tags: 187 },
-    toutiao: { currentFans: 2800, currentReads: 38000, totalArticles: 65, weeklyGrowth: 120, username: '安东尼漫长岁月', tags: 187 },
-    zhihu: { currentFans: 1500, currentReads: 22000, totalArticles: 45, weeklyGrowth: 80, username: '三十而立方', tags: 187 },
-    _51cto: { currentFans: 800, currentReads: 12000, totalArticles: 25, weeklyGrowth: 40, username: '安东尼漫长岁月', tags: '187微信' },
-    infoq: { currentFans: 600, currentReads: 8000, totalArticles: 15, weeklyGrowth: 30, username: '安东尼漫长岁月', tags: 198 },
-    wechat: { currentFans: 1200, currentReads: 18000, totalArticles: 35, weeklyGrowth: 60, username: '安东尼漫长岁月', tags: '187微信' },
-    weibo: { currentFans: 400, currentReads: 6000, totalArticles: 20, weeklyGrowth: 25, username: '安东尼漫长岁月', tags: 198 }
+// 平台配置信息
+const platformConfigs: Record<CommunityType, { name: string; icon: string; color: string; url: string; gradient: string }> = {
+  csdn: { 
+    name: 'CSDN', 
+    icon: '📝', 
+    color: 'red', 
+    url: 'https://blog.csdn.net',
+    gradient: 'from-red-500 to-pink-500'
   },
-  '代码AI弗森': {
-    csdn: { currentFans: 638, currentReads: 78249, totalArticles: 92, weeklyGrowth: 19, username: '代码AI弗森', tags: 198 },
-    juejin: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 198 },
-    toutiao: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 0 },
-    zhihu: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 0 },
-    _51cto: { currentFans: 20, currentReads: 160000, totalArticles: 218, weeklyGrowth: 10, username: '代码AI弗森', tags: 0 },
-    infoq: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 0 },
-    wechat: { currentFans: 3500, currentReads: 10000, totalArticles: 10, weeklyGrowth: 0, username: '前端周看', tags: 0 },
-    weibo: { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0, username: '代码AI弗森', tags: 0 }
+  juejin: { 
+    name: '掘金', 
+    icon: '⛏️', 
+    color: 'blue', 
+    url: 'https://juejin.cn',
+    gradient: 'from-blue-500 to-cyan-500'
+  },
+  toutiao: { 
+    name: '头条', 
+    icon: '📰', 
+    color: 'orange', 
+    url: 'https://www.toutiao.com',
+    gradient: 'from-orange-500 to-yellow-500'
+  },
+  zhihu: { 
+    name: '知乎', 
+    icon: '🧠', 
+    color: 'cyan', 
+    url: 'https://www.zhihu.com',
+    gradient: 'from-cyan-500 to-blue-500'
+  },
+  _51cto: { 
+    name: '51CTO', 
+    icon: '💻', 
+    color: 'green', 
+    url: 'https://www.51cto.com',
+    gradient: 'from-green-500 to-emerald-500'
+  },
+  wechat: { 
+    name: '微信', 
+    icon: '💬', 
+    color: 'green', 
+    url: 'https://mp.weixin.qq.com',
+    gradient: 'from-green-500 to-teal-500'
+  },
+  weibo: { 
+    name: '微博', 
+    icon: '🐦', 
+    color: 'red', 
+    url: 'https://weibo.com',
+    gradient: 'from-red-500 to-rose-500'
+  },
+  infoq: { 
+    name: 'InfoQ', 
+    icon: 'ℹ️', 
+    color: 'purple', 
+    url: 'https://www.infoq.cn',
+    gradient: 'from-purple-500 to-violet-500'
+  },
+  xiaohongshu: { 
+    name: '小红书', 
+    icon: '📖', 
+    color: 'pink', 
+    url: 'https://www.xiaohongshu.com',
+    gradient: 'from-pink-500 to-rose-500'
   }
 }
 
-const platforms: { 
-  key: import('@/types').CommunityType; 
-  name: string; 
-  color: string; 
-  icon: string;
-  homepage: string;
-}[] = [
-  { key: 'csdn', name: 'CSDN', color: 'csdn-red', icon: '📝', homepage: 'https://blog.csdn.net/Anthony1453' },
-  { key: 'juejin', name: '掘金', color: 'orange-500', icon: '💎', homepage: 'https://juejin.cn/user/1521379823340792' },
-  { key: 'toutiao', name: '头条', color: 'black', icon: '📰', homepage: 'https://www.toutiao.com/c/user/token/CixsElNHkU9SqBXRGQJEufkWqwP0Bje2WqIrl4KnKLbcWnDDfYA44PkBxzIZbxpJCjwAAAAAAAAAAAAATz11eRsCdm0c3I-f9Mzp8EixSaljSiLIZP9fBCrQqaGNZ-GSMRYj2HVNlV3B-jkdJ1sQte_2DRjDxYPqBCIBA7vgaHk=/?' },
-  { key: 'zhihu', name: '知乎', color: 'black', icon: '🤔', homepage: 'https://juejin.cn/user/1521379823340792' },
-  { key: '_51cto', name: '51CTO', color: 'black', icon: '💻', homepage: 'https://juejin.cn/user/1521379823340792' },
-  { key: 'infoq', name: 'InfoQ', color: 'black', icon: '📊', homepage: 'https://juejin.cn/user/1521379823340792' },
-  { key: 'wechat', name: '微信公众号', color: 'black', icon: '📱', homepage: 'https://weixin.sogou.com/weixin?type=1&query=掘金安东尼' },
-  { key: 'weibo', name: '微博', color: 'black', icon: '📱', homepage: 'https://weibo.com/anthony1453' },
-  { key: 'xiaohongshu', name: '小红书', color: 'red', icon: '📖', homepage: 'https://www.xiaohongshu.com' }
-]
-
-// 掘金安东尼账号数据
-const anthonyData = computed(() => {
-  return {
-    csdn: { 
-      currentFans: fansStore.currentStats.csdn.currentFans, 
-      currentReads: fansStore.currentStats.csdn.currentReads, 
-      totalArticles: fansStore.currentStats.csdn.totalArticles, 
-      weeklyGrowth: fansStore.currentStats.csdn.weeklyGrowth, 
-      username: '掘金安东尼',
-      tags: 187
-    },
-    juejin: { 
-      currentFans: fansStore.currentStats.juejin.currentFans, 
-      currentReads: fansStore.currentStats.juejin.currentReads, 
-      totalArticles: fansStore.currentStats.juejin.totalArticles, 
-      weeklyGrowth: fansStore.currentStats.juejin.weeklyGrowth, 
-      username: '掘金安东尼',
-      tags: 187
-    },
-    toutiao: { 
-      currentFans: fansStore.currentStats.toutiao.currentFans, 
-      currentReads: fansStore.currentStats.toutiao.currentReads, 
-      totalArticles: fansStore.currentStats.toutiao.totalArticles, 
-      weeklyGrowth: fansStore.currentStats.toutiao.weeklyGrowth, 
-      username: '掘金安东尼',
-      tags: 187
-    },
-    zhihu: { 
-      currentFans: fansStore.currentStats.zhihu.currentFans, 
-      currentReads: fansStore.currentStats.zhihu.currentReads, 
-      totalArticles: fansStore.currentStats.zhihu.totalArticles, 
-      weeklyGrowth: fansStore.currentStats.zhihu.weeklyGrowth, 
-      username: '三十而立方',
-      tags: 187
-    },
-    xiaohongshu: { 
-      currentFans: 2400, 
-      currentReads: 100000, 
-      totalArticles: 50, 
-      weeklyGrowth: 0, 
-      username: '安东尼404',
-      tags: 187
-    },
-    infoq: { 
-      currentFans: fansStore.currentStats.infoq.currentFans, 
-      currentReads: fansStore.currentStats.infoq.currentReads, 
-      totalArticles: fansStore.currentStats.infoq.totalArticles, 
-      weeklyGrowth: fansStore.currentStats.infoq.weeklyGrowth, 
-      username: '掘金安东尼',
-      tags: 198
-    },
-    wechat: { 
-      currentFans: fansStore.currentStats.wechat.currentFans, 
-      currentReads: fansStore.currentStats.wechat.currentReads, 
-      totalArticles: fansStore.currentStats.wechat.totalArticles, 
-      weeklyGrowth: fansStore.currentStats.wechat.weeklyGrowth, 
-      username: '掘金安东尼',
-      tags: '187微信'
-    },
-    weibo: { 
-      currentFans: fansStore.currentStats.weibo.currentFans, 
-      currentReads: fansStore.currentStats.weibo.currentReads, 
-      totalArticles: fansStore.currentStats.weibo.totalArticles, 
-      weeklyGrowth: fansStore.currentStats.weibo.weeklyGrowth, 
-      username: '掘金安东尼',
-      tags: 198
+// 获取平台数据
+const getPlatformData = (platform: CommunityType) => {
+  const platformStats = currentAccountStats.value.platformStats[platform]
+  if (!platformStats) {
+    return {
+      fans: 0,
+      reads: 0,
+      articles: 0,
+      weeklyGrowth: 0,
+      level: '新用户'
     }
   }
-})
-
-// 代码AI弗森账号数据
-const aifsData = computed(() => {
-  return accountPlatformData['代码AI弗森']
-})
-
-// 计算账号总计数据
-const calculateTotalStats = (accountData: any) => {
-  let fans = 0, reads = 0, articles = 0, weekly = 0
-  platforms.forEach(p => {
-    const s = accountData[p.key] || { currentFans: 0, currentReads: 0, totalArticles: 0, weeklyGrowth: 0 }
-    fans += s.currentFans
-    reads += s.currentReads
-    articles += s.totalArticles
-    weekly += s.weeklyGrowth
-  })
-  return { fans, reads, articles, weekly }
+  return platformStats
 }
 
-// 掘金安东尼总计数据
-const anthonyTotalStats = computed(() => calculateTotalStats(anthonyData.value))
-
-// 代码AI弗森总计数据
-const aifsTotalStats = computed(() => calculateTotalStats(aifsData.value))
-
-// 计算去重后的总文章数
-const dedupedArticles = (articles: number) => Math.round(articles * 0.6)
-
-// 计算总增长率
-const calculateGrowthRate = (stats: any) => {
-  if (stats.fans === 0) return '0.0%'
-  const rate = stats.weekly / stats.fans * 100
-  return rate.toFixed(1) + '%'
-}
-
-const formatNumber = (num: number) => new Intl.NumberFormat('zh-CN').format(num)
-
-// 过滤有粉丝的平台并按粉丝量排序
-const anthonyPlatformsWithFans = computed(() => {
-  return platforms
-    .filter(p => (anthonyData.value as any)[p.key]?.currentFans > 0)
-    .sort((a, b) => {
-      const fansA = (anthonyData.value as any)[a.key]?.currentFans || 0
-      const fansB = (anthonyData.value as any)[b.key]?.currentFans || 0
-      return fansB - fansA // 降序排序，粉丝多的在前
-    })
-})
-
-const aifsPlatformsWithFans = computed(() => {
-  return platforms
-    .filter(p => (aifsData.value as any)[p.key]?.currentFans > 0)
-    .sort((a, b) => {
-      const fansA = (aifsData.value as any)[a.key]?.currentFans || 0
-      const fansB = (aifsData.value as any)[b.key]?.currentFans || 0
-      return fansB - fansA // 降序排序，粉丝多的在前
-    })
-})
-
-
-// 跳转到平台主页
-const goToHomepage = (url: string, accountName: string) => {
-  // 如果是CSDN且是代码AI弗森账号，使用对应的链接
-  if (url.includes('csdn.net') && accountName === '代码AI弗森') {
-    window.open('https://blog.csdn.net/aifs2025?spm=1000.2115.3001.5343', '_blank')
-  } else {
-    window.open(url, '_blank')
+// 格式化数字
+const formatNumber = (num: number): string => {
+  if (num >= 10000) {
+    return (num / 10000).toFixed(1) + 'w'
   }
+  return num.toLocaleString()
 }
 
+// 获取增长趋势颜色
+const getGrowthColor = (growth: number): string => {
+  if (growth > 0) return 'text-emerald-500'
+  if (growth < 0) return 'text-red-500'
+  return 'text-gray-400'
+}
+
+// 过滤有数据的平台
+const activePlatforms = computed(() => {
+  return Object.entries(platformConfigs).filter(([platform]) => {
+    const data = getPlatformData(platform as CommunityType)
+    return data.fans > 0 || data.reads > 0 || data.articles > 0
+  })
+})
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50">
-    <!-- 主内容区域 -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-
-      <!-- 掘金安东尼账号区块 -->
-      <div v-if="activeAccount === '掘金安东尼'" class="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg p-6 border border-orange-200">
-        <div class="text-center mb-6">
-          <h2 class="text-2xl font-bold text-orange-900 mb-2">👨‍💻 掘金安东尼</h2>
-          <p class="text-orange-700">技术创作者 | 前端架构师</p>
-        </div>
-        
-        <!-- 掘金安东尼总计面板 -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <div class="text-center mb-6">
-            <h3 class="text-xl font-bold text-gray-900">数据总览</h3>
-          </div>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 mb-3 shadow-sm">
-                <div class="text-gray-900">
-                  <div class="text-sm font-semibold text-gray-700 mb-1">总粉丝数</div>
-                  <div class="text-2xl font-bold text-orange-600 mb-1">{{ formatNumber(anthonyTotalStats.fans) }}</div>
-                  <div class="text-xs text-gray-500">累计关注者</div>
-                </div>
-              </div>
+  <div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <!-- 页面标题 -->
+    <div class="bg-black/20 backdrop-blur-xl border-b border-white/10 sticky top-0 z-10">
+      <div class="max-w-6xl mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <div class="w-10 h-10 bg-gradient-to-br from-pink-500 to-violet-600 rounded-xl flex items-center justify-center shadow-lg">
+              <span class="text-lg">{{ currentAccount.avatar }}</span>
             </div>
-            <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-4 mb-3 shadow-sm">
-                <div class="text-gray-900">
-                  <div class="text-sm font-semibold text-gray-700 mb-1">总阅读量</div>
-                  <div class="text-2xl font-bold text-yellow-600 mb-1">{{ formatNumber(anthonyTotalStats.reads) }}</div>
-                  <div class="text-xs text-gray-500">内容曝光度</div>
-                </div>
-              </div>
-            </div>
-            <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl p-4 mb-3 shadow-sm">
-                <div class="text-gray-900">
-                  <div class="text-sm font-semibold text-gray-700 mb-1">总文章数</div>
-                  <div class="text-2xl font-bold text-amber-600 mb-1">{{ formatNumber(dedupedArticles(anthonyTotalStats.articles)) }}</div>
-                  <div class="text-xs text-gray-500">文章数已去重</div>
-                </div>
-              </div>
-            </div>
-            <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl p-4 mb-3 shadow-sm">
-                <div class="text-gray-900">
-                  <div class="text-sm font-semibold text-gray-700 mb-1">增长率</div>
-                  <div class="text-2xl font-bold text-orange-700 mb-1">{{ calculateGrowthRate(anthonyTotalStats) }}</div>
-                  <div class="text-xs text-gray-500">本周增长</div>
-                </div>
-              </div>
+            <div>
+              <h1 class="text-2xl font-bold text-white">{{ currentAccount.displayName }}</h1>
+              <p class="text-pink-200 text-sm">{{ currentAccount.description }}</p>
             </div>
           </div>
-        </div>
-
-        <!-- 掘金安东尼各平台面板 -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div v-for="p in anthonyPlatformsWithFans" :key="`anthony-${p.key}`" 
-               class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-            <div class="p-4">
-              <!-- 平台头部 -->
-              <div class="flex items-center justify-between mb-3">
-                <div class="flex items-center">
-                  <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center mr-2">
-                    <span class="text-lg">{{ p.icon }}</span>
-                  </div>
-                  <div>
-                    <h4 class="text-sm font-bold text-gray-900">{{ p.name }}</h4>
-                    <div class="text-xs text-gray-500">
-                      {{ (anthonyData as any)[p.key]?.username || '安东尼漫长岁月' }}
-                    </div>
-                                    <div v-if="(anthonyData as any)[p.key]?.tags" class="text-xs text-blue-600 font-medium mt-1">
-                  🏷️ {{ (anthonyData as any)[p.key]?.tags }}
-                </div>
-                  </div>
-                </div>
+          
+          <!-- 账号统计概览 -->
+          <div class="flex items-center space-x-8">
+            <div class="text-center">
+              <div class="text-2xl font-bold bg-gradient-to-r from-pink-400 to-violet-400 bg-clip-text text-transparent counter-animation">
+                {{ formatNumber(currentAccountStats.totalFans) }}
               </div>
-              
-              <!-- 核心数据 -->
-              <div class="grid grid-cols-3 gap-2 mb-3">
-                <div class="text-center">
-                  <div class="text-sm font-semibold text-gray-900">{{ formatNumber(((anthonyData as any)[p.key]?.currentFans) || 0) }}</div>
-                  <div class="text-xs text-gray-500">粉丝</div>
-                </div>
-                <div class="text-center">
-                  <div class="text-sm font-semibold text-gray-900">{{ formatNumber(((anthonyData as any)[p.key]?.currentReads) || 0) }}</div>
-                  <div class="text-xs text-gray-500">阅读</div>
-                </div>
-                <div class="text-center">
-                  <div class="text-sm font-semibold text-gray-900">{{ formatNumber(((anthonyData as any)[p.key]?.totalArticles) || 0) }}</div>
-                  <div class="text-xs text-gray-500">文章</div>
-                </div>
+              <div class="text-pink-200 text-xs">粉丝</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent counter-animation">
+                {{ formatNumber(currentAccountStats.totalReads) }}
               </div>
-
-              <!-- 操作链接 -->
-              <div class="flex items-center justify-between text-xs">
-                <button @click="goToHomepage(p.homepage, '安东尼漫长岁月')" 
-                        class="flex items-center text-red-500 hover:text-red-700 transition-colors">
-                  <ExternalLink class="w-3 h-3 mr-1" />
-                  访问主页
-                </button>
-                <router-link :to="`/plan/${p.key}/安东尼漫长岁月`" 
-                             :class="`flex items-center transition-colors ${
-                               p.key === 'csdn' || p.key === 'juejin' 
-                                 ? 'text-blue-600 hover:text-blue-800' 
-                                 : 'text-gray-400 cursor-not-allowed'
-                             }`">
-                  <Target class="w-3 h-3 mr-1" />
-                  查看计划
-                </router-link>
+              <div class="text-cyan-200 text-xs">阅读</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent counter-animation">
+                {{ currentAccountStats.totalArticles }}
               </div>
+              <div class="text-emerald-200 text-xs">文章</div>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- 代码AI弗森账号区块 -->
-      <div v-if="activeAccount === '代码AI弗森'" class="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg p-6 border border-amber-200">
-        <div class="text-center mb-6">
-          <h2 class="text-2xl font-bold text-amber-900 mb-2">🤖 代码AI弗森</h2>
-          <p class="text-amber-700">Vibe编程 | 大模型实践者</p>
+    <!-- 主要内容 -->
+    <div class="max-w-6xl mx-auto px-6 py-8">
+      <!-- 空状态提示 -->
+      <div v-if="activePlatforms.length === 0" class="text-center py-16">
+        <div class="w-16 h-16 bg-gradient-to-br from-pink-500/20 to-violet-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm border border-pink-400/30">
+          <Sparkles class="w-8 h-8 text-pink-400" />
         </div>
-        
-        <!-- 代码AI弗森总计面板 -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <div class="text-center mb-6">
-            <h3 class="text-xl font-bold text-gray-900">数据总览</h3>
-          </div>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 mb-3 shadow-sm">
-                <div class="text-gray-900">
-                  <div class="text-sm font-semibold text-gray-700 mb-1">总粉丝数</div>
-                  <div class="text-2xl font-bold text-orange-600 mb-1">{{ formatNumber(aifsTotalStats.fans) }}</div>
-                  <div class="text-xs text-gray-500">累计关注者</div>
-                </div>
-              </div>
-            </div>
-            <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-4 mb-3 shadow-sm">
-                <div class="text-gray-900">
-                  <div class="text-sm font-semibold text-gray-700 mb-1">总阅读量</div>
-                  <div class="text-2xl font-bold text-yellow-600 mb-1">{{ formatNumber(aifsTotalStats.reads) }}</div>
-                  <div class="text-xs text-gray-500">内容曝光度</div>
-                </div>
-              </div>
-            </div>
-            <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl p-4 mb-3 shadow-sm">
-                <div class="text-gray-900">
-                  <div class="text-sm font-semibold text-gray-700 mb-1">总文章数</div>
-                  <div class="text-2xl font-bold text-amber-600 mb-1">{{ formatNumber(dedupedArticles(aifsTotalStats.articles)) }}</div>
-                  <div class="text-xs text-gray-500">文章数已去重</div>
-                </div>
-              </div>
-            </div>
-            <div class="text-center transform hover:scale-105 transition-transform duration-200">
-              <div class="bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl p-4 mb-3 shadow-sm">
-                <div class="text-gray-900">
-                  <div class="text-sm font-semibold text-gray-700 mb-1">增长率</div>
-                  <div class="text-2xl font-bold text-orange-700 mb-1">{{ calculateGrowthRate(aifsTotalStats) }}</div>
-                  <div class="text-xs text-gray-500">本周增长</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <h3 class="text-xl font-bold text-white mb-2">暂无平台数据</h3>
+        <p class="text-gray-400">该账号暂未在任何平台发布内容</p>
+      </div>
 
-        <!-- 代码AI弗森各平台面板 -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div v-for="p in aifsPlatformsWithFans" :key="`aifs-${p.key}`" 
-               class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-            <div class="p-4">
+      <!-- 平台数据区域 -->
+      <div v-else>
+        <!-- 平台数据网格 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div 
+            v-for="([platform, config]) in activePlatforms" 
+            :key="platform"
+            class="group relative bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-white/20 shadow-2xl hover:shadow-pink-500/20 transition-all duration-500 transform hover:-translate-y-1 overflow-hidden"
+          >
+            <!-- 渐变背景 -->
+            <div :class="`absolute inset-0 bg-gradient-to-br ${config.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`"></div>
+            
+            <div class="relative p-6">
               <!-- 平台头部 -->
-              <div class="flex items-center justify-between mb-3">
-                <div class="flex items-center">
-                  <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center mr-2">
-                    <span class="text-lg">{{ p.icon }}</span>
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-3">
+                  <div :class="`w-8 h-8 bg-gradient-to-br ${config.gradient} rounded-lg flex items-center justify-center shadow-lg`">
+                    <span class="text-sm">{{ config.icon }}</span>
                   </div>
                   <div>
-                    <h4 class="text-sm font-bold text-gray-900">{{ p.name }}</h4>
-                    <div class="text-xs text-gray-500">
-                      {{ aifsData[p.key]?.username || '代码AI弗森' }}
-                    </div>
-                                    <div v-if="aifsData[p.key]?.tags" class="text-xs text-indigo-600 font-medium mt-1">
-                  🏷️ {{ aifsData[p.key]?.tags }}
+                    <h3 class="text-lg font-bold text-white">{{ config.name }}</h3>
+                    <p class="text-gray-400 text-xs">{{ getPlatformData(platform as CommunityType).level }}</p>
+                  </div>
                 </div>
+                <a 
+                  :href="config.url" 
+                  target="_blank" 
+                  class="p-2 hover:bg-white/10 rounded-lg transition-all duration-300"
+                >
+                  <ExternalLink class="w-4 h-4 text-gray-400" />
+                </a>
+              </div>
+
+              <!-- 数据展示 -->
+              <div class="space-y-4">
+                <!-- 粉丝数 -->
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-gradient-to-br from-pink-500 to-rose-500 rounded-lg flex items-center justify-center">
+                      <Users class="w-4 h-4 text-white" />
+                    </div>
+                    <span class="text-gray-300 text-sm">粉丝</span>
+                  </div>
+                  <div class="text-right">
+                    <div class="text-xl font-bold text-white">
+                      {{ formatNumber(getPlatformData(platform as CommunityType).fans) }}
+                    </div>
+                    <div class="flex items-center space-x-1 text-xs">
+                      <span :class="getGrowthColor(getPlatformData(platform as CommunityType).weeklyGrowth)">
+                        {{ getPlatformData(platform as CommunityType).weeklyGrowth > 0 ? '+' : '' }}{{ getPlatformData(platform as CommunityType).weeklyGrowth }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 阅读量 -->
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center">
+                      <Eye class="w-4 h-4 text-white" />
+                    </div>
+                    <span class="text-gray-300 text-sm">阅读</span>
+                  </div>
+                  <div class="text-xl font-bold text-white">
+                    {{ formatNumber(getPlatformData(platform as CommunityType).reads) }}
+                  </div>
+                </div>
+
+                <!-- 文章数 -->
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-gradient-to-br from-emerald-500 to-green-500 rounded-lg flex items-center justify-center">
+                      <FileText class="w-4 h-4 text-white" />
+                    </div>
+                    <span class="text-gray-300 text-sm">文章</span>
+                  </div>
+                  <div class="text-xl font-bold text-white">
+                    {{ getPlatformData(platform as CommunityType).articles }}
                   </div>
                 </div>
               </div>
-              
-              <!-- 核心数据 -->
-              <div class="grid grid-cols-3 gap-2 mb-3">
-                <div class="text-center">
-                  <div class="text-sm font-semibold text-gray-900">{{ formatNumber((aifsData[p.key]?.currentFans) || 0) }}</div>
-                  <div class="text-xs text-gray-500">粉丝</div>
+
+              <!-- 平台链接按钮 -->
+              <div class="mt-6 pt-4 border-t border-white/10">
+                <a 
+                  :href="config.url" 
+                  target="_blank"
+                  :class="`w-full flex items-center justify-center space-x-2 py-3 px-4 bg-gradient-to-r ${config.gradient} hover:shadow-lg rounded-xl transition-all duration-300 text-white font-medium text-sm transform hover:scale-105`"
+                >
+                  <span>访问{{ config.name }}</span>
+                  <ExternalLink class="w-3 h-3" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 数据统计区域 -->
+        <div v-if="activePlatforms.length > 0" class="mt-12">
+          <!-- 数据统计卡片 -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- 总粉丝数 -->
+            <div class="bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl p-6 text-white shadow-2xl transform hover:scale-105 transition-all duration-300">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-3xl font-bold mb-1">{{ formatNumber(currentAccountStats.totalFans) }}</div>
+                  <div class="text-pink-100 text-sm">总粉丝数</div>
                 </div>
-                <div class="text-center">
-                  <div class="text-sm font-semibold text-gray-900">{{ formatNumber((aifsData[p.key]?.currentReads) || 0) }}</div>
-                  <div class="text-xs text-gray-500">阅读</div>
-                </div>
-                <div class="text-center">
-                  <div class="text-sm font-semibold text-gray-900">{{ formatNumber((aifsData[p.key]?.totalArticles) || 0) }}</div>
-                  <div class="text-xs text-gray-500">文章</div>
+                <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                  <Users class="w-5 h-5" />
                 </div>
               </div>
+            </div>
 
-              <!-- 操作链接 -->
-              <div class="flex items-center justify-between text-xs">
-                <button @click="goToHomepage(p.homepage, '代码AI弗森')" 
-                        class="flex items-center text-orange-500 hover:text-orange-700 transition-colors">
-                  <ExternalLink class="w-3 h-3 mr-1" />
-                  访问主页
-                </button>
-                <router-link :to="`/plan/${p.key}/代码AI弗森`" 
-                             :class="`flex items-center transition-colors ${
-                               p.key === 'csdn' || p.key === 'juejin' 
-                                 ? 'text-orange-600 hover:text-orange-800' 
-                                 : 'text-gray-400 cursor-not-allowed'
-                             }`">
-                  <Target class="w-3 h-3 mr-1" />
-                  查看计划
-                </router-link>
+            <!-- 总阅读量 -->
+            <div class="bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl p-6 text-white shadow-2xl transform hover:scale-105 transition-all duration-300">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-3xl font-bold mb-1">{{ formatNumber(currentAccountStats.totalReads) }}</div>
+                  <div class="text-cyan-100 text-sm">总阅读量</div>
+                </div>
+                <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                  <Eye class="w-5 h-5" />
+                </div>
+              </div>
+            </div>
+
+            <!-- 总文章数 -->
+            <div class="bg-gradient-to-br from-emerald-500 to-green-500 rounded-2xl p-6 text-white shadow-2xl transform hover:scale-105 transition-all duration-300">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-3xl font-bold mb-1">{{ currentAccountStats.totalArticles }}</div>
+                  <div class="text-emerald-100 text-sm">总文章数</div>
+                </div>
+                <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                  <FileText class="w-5 h-5" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 增长趋势 -->
+          <div class="mt-8 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl p-6">
+            <h3 class="text-lg font-bold text-white mb-4 flex items-center space-x-2">
+              <TrendingUp class="w-5 h-5 text-emerald-400" />
+              <span>增长趋势</span>
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="flex items-center justify-between p-4 bg-gradient-to-r from-emerald-500/10 to-green-500/10 rounded-xl border border-emerald-400/20">
+                <div>
+                  <div class="text-sm text-gray-300 mb-1">周增长</div>
+                  <div class="text-2xl font-bold text-emerald-400">+{{ currentAccountStats.weeklyGrowth }}</div>
+                </div>
+                <div class="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center">
+                  <span class="text-emerald-400 text-sm">📈</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between p-4 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-xl border border-blue-400/20">
+                <div>
+                  <div class="text-sm text-gray-300 mb-1">月增长</div>
+                  <div class="text-2xl font-bold text-blue-400">+{{ currentAccountStats.monthlyGrowth }}</div>
+                </div>
+                <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                  <span class="text-blue-400 text-sm">📊</span>
+                </div>
               </div>
             </div>
           </div>
@@ -444,17 +348,90 @@ const goToHomepage = (url: string, accountName: string) => {
 </template>
 
 <style scoped>
-.bg-csdn-red { background: #F13C3C; }
-.bg-orange-500 { background: #f97316; }
-.text-csdn-red { color: #F13C3C; }
-
-/* 统一温暖色系配色 */
-.warm-gradient {
-  background: linear-gradient(135deg, #fed7aa 0%, #fde68a 100%);
+/* 多巴胺动画效果 */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
 }
 
-.warm-card {
-  background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
-  border: 1px solid #fed7aa;
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(236, 72, 153, 0.6); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes countUp {
+  0% { 
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% { 
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes numberGlow {
+  0%, 100% { 
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+  50% { 
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 30px rgba(255, 255, 255, 0.3);
+  }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+.glow-animation {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+.pulse-animation {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.counter-animation {
+  animation: countUp 1.5s ease-out, numberGlow 2s ease-in-out infinite;
+}
+
+/* 渐变文字动画 */
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.bg-gradient-to-r {
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #ec4899, #8b5cf6);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #be185d, #7c3aed);
 }
 </style>

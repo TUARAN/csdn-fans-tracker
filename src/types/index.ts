@@ -18,9 +18,46 @@ export interface Article {
 // 社区类型
 export type CommunityType = 'csdn' | 'juejin' | 'toutiao' | 'zhihu' | '_51cto' | 'wechat' | 'weibo' | 'infoq' | 'xiaohongshu'
 
+// 矩阵账号类型
+export interface MatrixAccount {
+  id: string
+  name: string
+  displayName: string
+  description: string
+  avatar: string
+  themeColor: string
+  status: 'active' | 'inactive'
+  platforms: CommunityType[]
+  isMain: boolean
+}
+
+// 账号数据统计
+export interface AccountStats {
+  totalFans: number
+  totalReads: number
+  totalArticles: number
+  weeklyGrowth: number
+  monthlyGrowth: number
+  platformStats: Record<CommunityType, PlatformStats>
+}
+
+// 平台统计数据
+export interface PlatformStats {
+  platform: CommunityType
+  fans: number
+  reads: number
+  articles: number
+  weeklyGrowth: number
+  monthlyGrowth: number
+  level: string
+  url?: string
+}
+
 // 粉丝数据
 export interface FanData {
+  id: string
   date: string
+  accountId: string
   community: CommunityType
   fansCount: number
   readCount: number
@@ -60,6 +97,16 @@ export interface CommunityStats {
   weibo: Stats
   infoq: Stats
   xiaohongshu: Stats
+}
+
+// 全网统计数据
+export interface GlobalStats {
+  totalFans: number
+  totalReads: number
+  totalArticles: number
+  totalAccounts: number
+  activePlatforms: number
+  accountStats: Record<string, AccountStats>
 }
 
 // 图表数据
