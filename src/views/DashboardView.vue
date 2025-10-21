@@ -1,10 +1,35 @@
 <script setup lang="ts">
 import { useFansStore } from '@/stores/fans'
-import { computed } from 'vue'
-import { ExternalLink, Users, Eye, FileText, TrendingUp, Sparkles, Star } from 'lucide-vue-next'
+import { computed, ref, onMounted, watch } from 'vue'
+import { ExternalLink, Users, Eye, FileText, TrendingUp, Sparkles, Star, Heart } from 'lucide-vue-next'
 import type { CommunityType } from '@/types'
 
 const fansStore = useFansStore()
+
+// 动画效果
+const animatedGlobalFans = ref(0)
+const animatedGlobalReads = ref(0)
+const animatedGlobalLikes = ref(0)
+const animatedGlobalArticles = ref(0)
+const animatedGlobalAccounts = ref(0)
+
+// 缓动函数
+const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
+
+// 动画函数
+function animateTo(target: number, outRef: { value: number }, duration = 1200) {
+  const start = 0
+  const startTime = performance.now()
+  function tick(now: number) {
+    const elapsed = now - startTime
+    const progress = Math.min(1, elapsed / duration)
+    const eased = easeOutCubic(progress)
+    outRef.value = Math.round(start + (target - start) * eased)
+    if (progress < 1) requestAnimationFrame(tick)
+  }
+  outRef.value = 0
+  requestAnimationFrame(tick)
+}
 
 // 获取所有账号数据并按粉丝数排序
 const allAccountsData = computed(() => {
@@ -96,6 +121,24 @@ const formatNumber = (num: number): string => {
   return num.toLocaleString()
 }
 
+// 生命周期钩子
+onMounted(() => {
+  animateTo(fansStore.globalStats.totalFans, animatedGlobalFans)
+  animateTo(fansStore.globalStats.totalReads, animatedGlobalReads)
+  animateTo(fansStore.globalStats.totalLikes, animatedGlobalLikes)
+  animateTo(fansStore.globalStats.totalArticles, animatedGlobalArticles)
+  animateTo(fansStore.globalStats.totalAccounts, animatedGlobalAccounts)
+})
+
+// 监听全局统计数据变化
+watch(() => fansStore.globalStats, (val) => {
+  animateTo(val.totalFans, animatedGlobalFans)
+  animateTo(val.totalReads, animatedGlobalReads)
+  animateTo(val.totalLikes, animatedGlobalLikes)
+  animateTo(val.totalArticles, animatedGlobalArticles)
+  animateTo(val.totalAccounts, animatedGlobalAccounts)
+})
+
 // 获取增长趋势颜色
 const getGrowthColor = (growth: number): string => {
   if (growth > 0) return 'text-emerald-500'
@@ -121,30 +164,36 @@ const getGrowthColor = (growth: number): string => {
           </div>
           
           <!-- 矩阵IP全览信息 -->
-          <div class="flex items-center space-x-8">
+          <div class="flex items-center space-x-6">
             <div class="text-center">
-              <div class="text-2xl font-bold text-amber-600">
-                {{ formatNumber(fansStore.globalStats.totalFans) }}
+              <div class="text-xl font-bold text-amber-600">
+                {{ formatNumber(animatedGlobalFans) }}
               </div>
-              <div class="text-gray-600 text-sm">全网粉丝</div>
+              <div class="text-gray-600 text-xs">全网粉丝</div>
             </div>
             <div class="text-center">
-              <div class="text-2xl font-bold text-orange-600">
-                {{ formatNumber(fansStore.globalStats.totalReads) }}
+              <div class="text-xl font-bold text-orange-600">
+                {{ formatNumber(animatedGlobalReads) }}
               </div>
-              <div class="text-gray-600 text-sm">全网阅读</div>
+              <div class="text-gray-600 text-xs">全网阅读</div>
             </div>
             <div class="text-center">
-              <div class="text-2xl font-bold text-yellow-600">
-                {{ fansStore.globalStats.totalArticles }}
+              <div class="text-xl font-bold text-yellow-600">
+                {{ formatNumber(animatedGlobalLikes) }}
               </div>
-              <div class="text-gray-600 text-sm">全网文章</div>
+              <div class="text-gray-600 text-xs">全网点赞</div>
             </div>
             <div class="text-center">
-              <div class="text-2xl font-bold text-amber-700">
-                {{ fansStore.globalStats.totalAccounts }}
+              <div class="text-xl font-bold text-amber-700">
+                {{ animatedGlobalArticles }}
               </div>
-              <div class="text-gray-600 text-sm">矩阵账号</div>
+              <div class="text-gray-600 text-xs">全网文章</div>
+            </div>
+            <div class="text-center">
+              <div class="text-xl font-bold text-orange-700">
+                {{ animatedGlobalAccounts }}
+              </div>
+              <div class="text-gray-600 text-xs">矩阵账号</div>
             </div>
           </div>
         </div>
@@ -197,29 +246,37 @@ const getGrowthColor = (growth: number): string => {
             </div>
 
             <!-- 数据统计 -->
-            <div class="flex-shrink-0 flex items-center space-x-8 ml-6">
+            <div class="flex-shrink-0 flex items-center space-x-6 ml-6">
               <!-- 粉丝数 -->
               <div class="text-center">
-                <div class="text-2xl font-bold text-amber-600">
+                <div class="text-xl font-bold text-amber-600">
                   {{ formatNumber(account.stats.totalFans) }}
                 </div>
-                <div class="text-gray-500 text-sm">粉丝</div>
+                <div class="text-gray-500 text-xs">粉丝</div>
               </div>
 
               <!-- 阅读量 -->
               <div class="text-center">
-                <div class="text-2xl font-bold text-orange-600">
+                <div class="text-xl font-bold text-orange-600">
                   {{ formatNumber(account.stats.totalReads) }}
                 </div>
-                <div class="text-gray-500 text-sm">阅读</div>
+                <div class="text-gray-500 text-xs">阅读</div>
+              </div>
+
+              <!-- 点赞量 -->
+              <div class="text-center">
+                <div class="text-xl font-bold text-yellow-600">
+                  {{ formatNumber(account.stats.totalLikes) }}
+                </div>
+                <div class="text-gray-500 text-xs">点赞</div>
               </div>
 
               <!-- 文章数 -->
               <div class="text-center">
-                <div class="text-2xl font-bold text-yellow-600">
+                <div class="text-xl font-bold text-amber-700">
                   {{ account.stats.totalArticles }}
                 </div>
-                <div class="text-gray-500 text-sm">文章</div>
+                <div class="text-gray-500 text-xs">文章</div>
               </div>
             </div>
           </div>

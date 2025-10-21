@@ -32,8 +32,10 @@ const formatNumber = (num: number): string => {
 // 数字从0到目标值的动画
 const animatedFans = ref(0)
 const animatedReads = ref(0)
+const animatedLikes = ref(0)
 const animatedFansDisplay = computed(() => formatNumber(animatedFans.value))
 const animatedReadsDisplay = computed(() => formatNumber(animatedReads.value))
+const animatedLikesDisplay = computed(() => formatNumber(animatedLikes.value))
 
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
 
@@ -54,11 +56,13 @@ function animateTo(target: number, outRef: { value: number }, duration = 1200) {
 onMounted(() => {
   animateTo(globalStats.value.totalFans, animatedFans)
   animateTo(globalStats.value.totalReads, animatedReads)
+  animateTo(globalStats.value.totalLikes, animatedLikes)
 })
 
 watch(globalStats, (val) => {
   animateTo(val.totalFans, animatedFans)
   animateTo(val.totalReads, animatedReads)
+  animateTo(val.totalLikes, animatedLikes)
 })
 </script>
 
@@ -78,7 +82,7 @@ watch(globalStats, (val) => {
             </div>
             
             <!-- 主要统计卡片 -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
               <!-- 全网粉丝量 -->
               <div class="bg-white rounded-2xl p-8 border border-amber-200 shadow-lg hover:shadow-xl transition-all duration-300">
                 <div class="flex items-center justify-between">
@@ -105,6 +109,21 @@ watch(globalStats, (val) => {
                   </div>
                   <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-yellow-500 rounded-2xl flex items-center justify-center shadow-lg">
                     <Eye class="w-8 h-8 text-white" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- 全网点赞量 -->
+              <div class="bg-white rounded-2xl p-8 border border-yellow-200 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="text-4xl font-bold text-yellow-600 mb-2">
+                      {{ animatedLikesDisplay }}
+                    </div>
+                    <div class="text-gray-600 text-lg font-medium">全网点赞量</div>
+                  </div>
+                  <div class="w-16 h-16 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-2xl flex items-center justify-center shadow-lg">
+                    <Sparkles class="w-8 h-8 text-white" />
                   </div>
                 </div>
               </div>

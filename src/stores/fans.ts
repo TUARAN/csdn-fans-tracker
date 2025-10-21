@@ -117,6 +117,7 @@ export const useFansStore = defineStore('fans', () => {
         totalFans: 0,
         totalReads: 0,
         totalArticles: 0,
+        totalLikes: 0,
         weeklyGrowth: 0,
         monthlyGrowth: 0,
         platformStats: {} as Record<CommunityType, PlatformStats>
@@ -134,6 +135,7 @@ export const useFansStore = defineStore('fans', () => {
     const totalFans = accountData.reduce((sum, data) => sum + data.fansCount, 0)
     const totalReads = accountData.reduce((sum, data) => sum + data.readCount, 0)
     const totalArticles = accountData.reduce((sum, data) => sum + data.articleCount, 0)
+    const totalLikes = accountData.reduce((sum, data) => sum + data.likeCount, 0)
 
     // 按平台统计
     const platformStats: Record<CommunityType, PlatformStats> = {} as any
@@ -148,6 +150,7 @@ export const useFansStore = defineStore('fans', () => {
           fans: latest.fansCount,
           reads: latest.readCount,
           articles: latest.articleCount,
+          likes: latest.likeCount,
           weeklyGrowth: platformData.slice(-7).reduce((sum, data) => sum + data.dailyFansGrowth, 0),
           monthlyGrowth: platformData.slice(-30).reduce((sum, data) => sum + data.dailyFansGrowth, 0),
           level: getLevelByFans(latest.fansCount)
@@ -159,6 +162,7 @@ export const useFansStore = defineStore('fans', () => {
       totalFans,
       totalReads,
       totalArticles,
+      totalLikes,
       weeklyGrowth,
       monthlyGrowth,
       platformStats
@@ -234,6 +238,7 @@ export const useFansStore = defineStore('fans', () => {
     const totalFans = Object.values(accountStats).reduce((sum, stats) => sum + stats.totalFans, 0)
     const totalReads = Object.values(accountStats).reduce((sum, stats) => sum + stats.totalReads, 0)
     const totalArticles = Object.values(accountStats).reduce((sum, stats) => sum + stats.totalArticles, 0)
+    const totalLikes = Object.values(accountStats).reduce((sum, stats) => sum + stats.totalLikes, 0)
     
     const activePlatforms = new Set()
     fanDataList.value.forEach(data => activePlatforms.add(data.community))
@@ -242,6 +247,7 @@ export const useFansStore = defineStore('fans', () => {
       totalFans,
       totalReads,
       totalArticles,
+      totalLikes,
       totalAccounts: matrixAccounts.value.length,
       activePlatforms: activePlatforms.size,
       accountStats
@@ -290,8 +296,10 @@ export const useFansStore = defineStore('fans', () => {
       fansCount: data.fansCount,
       readCount: data.readCount,
       articleCount: data.articleCount,
+      likeCount: data.likeCount || 0,
       dailyFansGrowth: data.dailyFansGrowth,
-      dailyReadGrowth: data.dailyReadGrowth
+      dailyReadGrowth: data.dailyReadGrowth,
+      dailyLikeGrowth: data.dailyLikeGrowth || 0
     }
     fanDataList.value.push(fanData)
   }
@@ -329,8 +337,10 @@ export const useFansStore = defineStore('fans', () => {
           fansCount: parseInt(values[2]) || 0,
           readCount: parseInt(values[3]) || 0,
           articleCount: parseInt(values[4]) || 0,
+          likeCount: generateLikeCount(parseInt(values[2]) || 0),
           dailyFansGrowth: parseInt(values[5]) || 0,
-          dailyReadGrowth: parseInt(values[6]) || 0
+          dailyReadGrowth: parseInt(values[6]) || 0,
+          dailyLikeGrowth: Math.round((parseInt(values[5]) || 0) / 3)
         }
         addFanData(data)
       }
@@ -356,6 +366,12 @@ export const useFansStore = defineStore('fans', () => {
     return csvContent
   }
 
+  // 生成点赞量的辅助函数
+  const generateLikeCount = (fansCount: number): number => {
+    // 固定使用5:1的赞粉比（点赞量是粉丝量的5倍）
+    return Math.round(fansCount * 5)
+  }
+
   // 初始化数据
   if (fanDataList.value.length === 0) {
     const today = dayjs().format('YYYY-MM-DD')
@@ -370,8 +386,10 @@ export const useFansStore = defineStore('fans', () => {
         fansCount: 535,
         readCount: 71725,
         articleCount: 124,
+        likeCount: generateLikeCount(535),
         dailyFansGrowth: 5,
-        dailyReadGrowth: 2061
+        dailyReadGrowth: 2061,
+        dailyLikeGrowth: 2
       },
       {
         id: 'anthony-juejin-1',
@@ -381,8 +399,10 @@ export const useFansStore = defineStore('fans', () => {
         fansCount: 10871,
         readCount: 2188696,
         articleCount: 536,
+        likeCount: generateLikeCount(10871),
         dailyFansGrowth: 4,
-        dailyReadGrowth: 1486
+        dailyReadGrowth: 1486,
+        dailyLikeGrowth: 8
       },
       {
         id: 'anthony-toutiao-1',
@@ -392,8 +412,10 @@ export const useFansStore = defineStore('fans', () => {
         fansCount: 692,
         readCount: 120346,
         articleCount: 65,
+        likeCount: generateLikeCount(692),
         dailyFansGrowth: 40,
-        dailyReadGrowth: 0
+        dailyReadGrowth: 0,
+        dailyLikeGrowth: 3
       },
       {
         id: 'anthony-infoq-1',
@@ -403,8 +425,10 @@ export const useFansStore = defineStore('fans', () => {
         fansCount: 12,
         readCount: 49479,
         articleCount: 15,
+        likeCount: generateLikeCount(12),
         dailyFansGrowth: 3,
-        dailyReadGrowth: 0
+        dailyReadGrowth: 0,
+        dailyLikeGrowth: 1
       },
       {
         id: 'anthony-weibo-1',
@@ -414,8 +438,10 @@ export const useFansStore = defineStore('fans', () => {
         fansCount: 400,
         readCount: 6000,
         articleCount: 20,
+        likeCount: generateLikeCount(400),
         dailyFansGrowth: 5,
-        dailyReadGrowth: 0
+        dailyReadGrowth: 0,
+        dailyLikeGrowth: 2
       }
     ]
 
@@ -429,8 +455,10 @@ export const useFansStore = defineStore('fans', () => {
         fansCount: 638,
         readCount: 78249,
         articleCount: 92,
+        likeCount: generateLikeCount(638),
         dailyFansGrowth: 8,
-        dailyReadGrowth: 0
+        dailyReadGrowth: 0,
+        dailyLikeGrowth: 3
       },
       {
         id: 'aifs-51cto-1',
@@ -440,8 +468,10 @@ export const useFansStore = defineStore('fans', () => {
         fansCount: 20,
         readCount: 160000,
         articleCount: 218,
+        likeCount: generateLikeCount(20),
         dailyFansGrowth: 2,
-        dailyReadGrowth: 0
+        dailyReadGrowth: 0,
+        dailyLikeGrowth: 1
       }
     ]
 
@@ -455,8 +485,10 @@ export const useFansStore = defineStore('fans', () => {
         fansCount: 350,
         readCount: 350000,
         articleCount: 180,
+        likeCount: generateLikeCount(350),
         dailyFansGrowth: 15,
-        dailyReadGrowth: 0
+        dailyReadGrowth: 0,
+        dailyLikeGrowth: 5
       }
     ]
 
@@ -470,8 +502,10 @@ export const useFansStore = defineStore('fans', () => {
         fansCount: 3500,
         readCount: 10000,
         articleCount: 10,
+        likeCount: generateLikeCount(3500),
         dailyFansGrowth: 20,
-        dailyReadGrowth: 0
+        dailyReadGrowth: 0,
+        dailyLikeGrowth: 8
       }
     ]
 
@@ -485,8 +519,10 @@ export const useFansStore = defineStore('fans', () => {
         fansCount: 2400,
         readCount: 100000,
         articleCount: 25,
+        likeCount: generateLikeCount(2400),
         dailyFansGrowth: 30,
-        dailyReadGrowth: 0
+        dailyReadGrowth: 0,
+        dailyLikeGrowth: 12
       }
     ]
 

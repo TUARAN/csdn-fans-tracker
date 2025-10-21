@@ -36,6 +36,7 @@ export interface AccountStats {
   totalFans: number
   totalReads: number
   totalArticles: number
+  totalLikes: number
   weeklyGrowth: number
   monthlyGrowth: number
   platformStats: Record<CommunityType, PlatformStats>
@@ -47,6 +48,7 @@ export interface PlatformStats {
   fans: number
   reads: number
   articles: number
+  likes: number
   weeklyGrowth: number
   monthlyGrowth: number
   level: string
@@ -62,8 +64,10 @@ export interface FanData {
   fansCount: number
   readCount: number
   articleCount: number
+  likeCount: number
   dailyFansGrowth: number
   dailyReadGrowth: number
+  dailyLikeGrowth: number
 }
 
 // 目标设置
@@ -104,6 +108,7 @@ export interface GlobalStats {
   totalFans: number
   totalReads: number
   totalArticles: number
+  totalLikes: number
   totalAccounts: number
   activePlatforms: number
   accountStats: Record<string, AccountStats>
