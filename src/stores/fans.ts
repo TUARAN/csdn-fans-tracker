@@ -26,13 +26,72 @@ export const useFansStore = defineStore('fans', () => {
   // 当前选中的账号（用于UI显示）
   const currentSelectedAccount = ref('掘金安东尼')
 
+  // 账号平台URL配置
+  const accountPlatformUrls: Record<string, Record<CommunityType, string>> = {
+    anthony: {
+      csdn: 'https://blog.csdn.net/Anthony1453?type=blog',
+      juejin: 'https://juejin.cn/user/1521379823340792/posts',
+      toutiao: 'https://www.toutiao.com/c/user/token/Ciy_3Xnf5OtbAIX8pIaZVxspEC60LMw-GqxUB8kRisVVwRhp3GZbqAbl0DaE4xpJCjwAAAAAAAAAAAAAT7ahdbcOy6ALK-zEuS3NsgvBPLfSC0Yeivfw9bZsx6yrvaVsp9gLvfXCLH-u4tQ55TAQ7MSBDhjDxYPqBCIBA3jZzf4=/?tab=article&wid=1763131759056',
+      zhihu: '',
+      _51cto: '',
+      wechat: '',
+      weibo: 'https://weibo.com/u/7962821975',
+      infoq: 'https://www.infoq.cn/profile/101F0D86A30093/publish',
+      xiaohongshu: ''
+    },
+    anthony404: {
+      csdn: '',
+      juejin: '',
+      toutiao: '',
+      zhihu: '',
+      _51cto: '',
+      wechat: '',
+      weibo: '',
+      infoq: '',
+      xiaohongshu: 'https://xhslink.com/m/2EODJWraf3H'
+    },
+    'code-ai-frosen': {
+      csdn: 'https://blog.csdn.net/aifs2025?spm=1000.2115.3001.5343',
+      juejin: '',
+      toutiao: '',
+      zhihu: '',
+      _51cto: 'https://blog.51cto.com/u_13961087',
+      wechat: '',
+      weibo: '',
+      infoq: '',
+      xiaohongshu: ''
+    },
+    'thirty-cube': {
+      csdn: '',
+      juejin: '',
+      toutiao: '',
+      zhihu: 'https://www.zhihu.com/people/tu-tu-tu-tu-tu-25-1',
+      _51cto: '',
+      wechat: '',
+      weibo: '',
+      infoq: '',
+      xiaohongshu: ''
+    },
+    'frontend-weekly': {
+      csdn: '',
+      juejin: '',
+      toutiao: '',
+      zhihu: '',
+      _51cto: '',
+      wechat: 'https://mp.weixin.qq.com/mp/wappoc_appmsgcaptcha?poc_token=HKdDF2mjsbHm9HgijxPOqJvPnDBVxY6m3jJ3vzMF&target_url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FCat8izJ1OEDapeZxSixWPQ',
+      weibo: '',
+      infoq: '',
+      xiaohongshu: ''
+    }
+  }
+
   // 矩阵账号数据
   const matrixAccounts = ref<MatrixAccount[]>([
     {
       id: 'anthony',
       name: '安东尼漫长岁月',
       displayName: '掘金安东尼',
-      description: '主账号 - 技术创作者 | 前端架构师',
+      description: '技术创作者',
       avatar: '👨‍💻',
       themeColor: 'orange',
       status: 'active',
@@ -43,7 +102,7 @@ export const useFansStore = defineStore('fans', () => {
       id: 'anthony404',
       name: '安东尼404',
       displayName: '安东尼404',
-      description: '科技资讯发布 | 前沿技术分享',
+      description: '科技资讯发布',
       avatar: '🚀',
       themeColor: 'pink',
       status: 'active',
@@ -54,7 +113,7 @@ export const useFansStore = defineStore('fans', () => {
       id: 'frontend-weekly',
       name: '前端周看',
       displayName: '前端周看',
-      description: '前端视野洞察 | 技术趋势分析',
+      description: '技术趋势分析',
       avatar: '🔍',
       themeColor: 'green',
       status: 'active',
@@ -65,7 +124,7 @@ export const useFansStore = defineStore('fans', () => {
       id: 'code-ai-frosen',
       name: '代码AI弗森',
       displayName: '代码AI弗森',
-      description: 'Vibe编程 | 大模型实践者',
+      description: '大模型实践者',
       avatar: '🤖',
       themeColor: 'amber',
       status: 'active',
@@ -145,6 +204,7 @@ export const useFansStore = defineStore('fans', () => {
       const platformData = accountData.filter(data => data.community === platform)
       if (platformData.length > 0) {
         const latest = platformData[platformData.length - 1]
+        const url = accountPlatformUrls[accountId]?.[platform] || undefined
         platformStats[platform] = {
           platform,
           fans: latest.fansCount,
@@ -153,7 +213,8 @@ export const useFansStore = defineStore('fans', () => {
           likes: latest.likeCount,
           weeklyGrowth: platformData.slice(-7).reduce((sum, data) => sum + data.dailyFansGrowth, 0),
           monthlyGrowth: platformData.slice(-30).reduce((sum, data) => sum + data.dailyFansGrowth, 0),
-          level: getLevelByFans(latest.fansCount)
+          level: getLevelByFans(latest.fansCount),
+          url
         }
       }
     })
@@ -396,10 +457,10 @@ export const useFansStore = defineStore('fans', () => {
         date: '2025-08-28',
         accountId: 'anthony',
         community: 'juejin',
-        fansCount: 10871,
+        fansCount: 13000,
         readCount: 2188696,
         articleCount: 536,
-        likeCount: generateLikeCount(10871),
+        likeCount: generateLikeCount(13000),
         dailyFansGrowth: 4,
         dailyReadGrowth: 1486,
         dailyLikeGrowth: 8
@@ -452,10 +513,10 @@ export const useFansStore = defineStore('fans', () => {
         date: today,
         accountId: 'code-ai-frosen',
         community: 'csdn',
-        fansCount: 638,
+        fansCount: 1200,
         readCount: 78249,
         articleCount: 92,
-        likeCount: generateLikeCount(638),
+        likeCount: generateLikeCount(1200),
         dailyFansGrowth: 8,
         dailyReadGrowth: 0,
         dailyLikeGrowth: 3
@@ -465,10 +526,10 @@ export const useFansStore = defineStore('fans', () => {
         date: today,
         accountId: 'code-ai-frosen',
         community: '_51cto',
-        fansCount: 20,
+        fansCount: 276,
         readCount: 160000,
         articleCount: 218,
-        likeCount: generateLikeCount(20),
+        likeCount: generateLikeCount(276),
         dailyFansGrowth: 2,
         dailyReadGrowth: 0,
         dailyLikeGrowth: 1
@@ -499,10 +560,10 @@ export const useFansStore = defineStore('fans', () => {
         date: today,
         accountId: 'frontend-weekly',
         community: 'wechat',
-        fansCount: 3500,
+        fansCount: 2676,
         readCount: 10000,
         articleCount: 10,
-        likeCount: generateLikeCount(3500),
+        likeCount: generateLikeCount(2676),
         dailyFansGrowth: 20,
         dailyReadGrowth: 0,
         dailyLikeGrowth: 8
@@ -516,10 +577,10 @@ export const useFansStore = defineStore('fans', () => {
         date: today,
         accountId: 'anthony404',
         community: 'xiaohongshu',
-        fansCount: 2400,
-        readCount: 100000,
-        articleCount: 25,
-        likeCount: generateLikeCount(2400),
+        fansCount: 5420,
+        readCount: 200000,
+        articleCount: 300,
+        likeCount: generateLikeCount(5420),
         dailyFansGrowth: 30,
         dailyReadGrowth: 0,
         dailyLikeGrowth: 12

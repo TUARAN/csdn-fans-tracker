@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useFansStore } from '@/stores/fans'
 import { computed, ref, watch, onMounted } from 'vue'
-import { Users, Eye, Sparkles, Zap } from 'lucide-vue-next'
+import { Users, Eye, Sparkles, Zap, FileText } from 'lucide-vue-next'
 
 const fansStore = useFansStore()
 
@@ -33,9 +33,11 @@ const formatNumber = (num: number): string => {
 const animatedFans = ref(0)
 const animatedReads = ref(0)
 const animatedLikes = ref(0)
+const animatedArticles = ref(0)
 const animatedFansDisplay = computed(() => formatNumber(animatedFans.value))
 const animatedReadsDisplay = computed(() => formatNumber(animatedReads.value))
 const animatedLikesDisplay = computed(() => formatNumber(animatedLikes.value))
+const animatedArticlesDisplay = computed(() => animatedArticles.value)
 
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
 
@@ -53,77 +55,139 @@ function animateTo(target: number, outRef: { value: number }, duration = 1200) {
   requestAnimationFrame(tick)
 }
 
+// 省略号动画
+const dotsCount = ref(1)
+const dotsDirection = ref(1) // 1: 增加, -1: 减少
+
 onMounted(() => {
   animateTo(globalStats.value.totalFans, animatedFans)
   animateTo(globalStats.value.totalReads, animatedReads)
   animateTo(globalStats.value.totalLikes, animatedLikes)
+  animateTo(globalStats.value.totalArticles, animatedArticles)
+  
+  // 省略号动画
+  setInterval(() => {
+    dotsCount.value += dotsDirection.value
+    if (dotsCount.value >= 6) {
+      dotsDirection.value = -1
+    } else if (dotsCount.value <= 1) {
+      dotsDirection.value = 1
+    }
+  }, 200) // 每200ms更新一次
 })
 
 watch(globalStats, (val) => {
   animateTo(val.totalFans, animatedFans)
   animateTo(val.totalReads, animatedReads)
   animateTo(val.totalLikes, animatedLikes)
+  animateTo(val.totalArticles, animatedArticles)
 })
+
+const dotsDisplay = computed(() => '.'.repeat(dotsCount.value))
 </script>
 
 <template>
-  <div id="app" class="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100">
+  <div id="app" class="min-h-screen bg-white">
     <!-- 主内容区域 -->
     <div class="min-h-screen">
         <!-- 极简Banner区域 -->
         <div class="relative overflow-hidden">
           <div class="relative z-10 max-w-6xl mx-auto px-6 py-8">
-            <!-- 主标题 -->
-            <div class="text-center space-y-3 mb-8">
-              <h1 class="text-4xl font-bold text-gray-800">
-                TUARAN 粉丝追踪器
+            <!-- 标题和介绍 -->
+            <div class="text-center mb-8">
+              <h1 class="text-4xl font-bold text-gray-800 mb-3">
+                个人矩阵号
               </h1>
-              <p class="text-lg text-gray-600">多账号矩阵数据管理中心</p>
+              <p class="text-lg text-gray-600 mb-2">
+                多平台内容创作者数据追踪与展示平台，实时监控矩阵账号运营数据
+              </p>
+              <div class="flex items-center justify-center space-x-4 text-sm text-gray-500">
+                <span>数据更新时间：2025年11月14日</span>
+                <span class="flex items-center space-x-2">
+                  <span class="relative flex items-center">
+                    <span class="absolute w-2 h-2 bg-amber-500 rounded-full animate-ping"></span>
+                    <span class="relative w-2 h-2 bg-amber-500 rounded-full animate-data-capturing"></span>
+                  </span>
+                  <span class="animate-text-glow font-medium">
+                    <span class="inline-block">数据持续捕获中</span><span class="inline-block w-8 text-left">{{ dotsDisplay }}</span>
+                  </span>
+                </span>
+              </div>
             </div>
             
             <!-- 主要统计卡片 -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+              <!-- 矩阵账号 -->
+              <div class="bg-white rounded-xl p-6 border border-orange-200 shadow-md hover:shadow-lg transition-all duration-300">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 bg-gradient-to-br from-orange-400 to-amber-500 rounded-lg flex items-center justify-center shadow-md flex-shrink-0">
+                    <Users class="w-6 h-6 text-white" />
+                  </div>
+                  <div class="flex-1">
+                    <div class="text-3xl font-bold text-orange-700 mb-1">
+                      {{ globalStats.totalAccounts }}
+                    </div>
+                    <div class="text-gray-600 text-sm font-medium">矩阵账号</div>
+                  </div>
+                </div>
+              </div>
+
               <!-- 全网粉丝量 -->
-              <div class="bg-white rounded-2xl p-8 border border-amber-200 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <div class="text-4xl font-bold text-amber-600 mb-2">
+              <div class="bg-white rounded-xl p-6 border border-amber-200 shadow-md hover:shadow-lg transition-all duration-300">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg flex items-center justify-center shadow-md flex-shrink-0">
+                    <Users class="w-6 h-6 text-white" />
+                  </div>
+                  <div class="flex-1">
+                    <div class="text-3xl font-bold text-amber-600 mb-1">
                       {{ animatedFansDisplay }}
                     </div>
-                    <div class="text-gray-600 text-lg font-medium">全网粉丝量</div>
+                    <div class="text-gray-600 text-sm font-medium">全网粉丝量</div>
                   </div>
-                  <div class="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
-                    <Users class="w-8 h-8 text-white" />
+                </div>
+              </div>
+
+              <!-- 全网文章数 -->
+              <div class="bg-white rounded-xl p-6 border border-emerald-200 shadow-md hover:shadow-lg transition-all duration-300">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-green-500 rounded-lg flex items-center justify-center shadow-md flex-shrink-0">
+                    <FileText class="w-6 h-6 text-white" />
+                  </div>
+                  <div class="flex-1">
+                    <div class="text-3xl font-bold text-emerald-600 mb-1">
+                      {{ animatedArticlesDisplay }}
+                    </div>
+                    <div class="text-gray-600 text-sm font-medium">全网文章数</div>
                   </div>
                 </div>
               </div>
 
               <!-- 全网阅读量 -->
-              <div class="bg-white rounded-2xl p-8 border border-orange-200 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <div class="text-4xl font-bold text-orange-600 mb-2">
+              <div class="bg-white rounded-xl p-6 border border-orange-200 shadow-md hover:shadow-lg transition-all duration-300">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 bg-gradient-to-br from-orange-400 to-yellow-500 rounded-lg flex items-center justify-center shadow-md flex-shrink-0">
+                    <Eye class="w-6 h-6 text-white" />
+                  </div>
+                  <div class="flex-1">
+                    <div class="text-3xl font-bold text-orange-600 mb-1">
                       {{ animatedReadsDisplay }}
                     </div>
-                    <div class="text-gray-600 text-lg font-medium">全网阅读量</div>
-                  </div>
-                  <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-yellow-500 rounded-2xl flex items-center justify-center shadow-lg">
-                    <Eye class="w-8 h-8 text-white" />
+                    <div class="text-gray-600 text-sm font-medium">全网阅读量</div>
                   </div>
                 </div>
               </div>
 
               <!-- 全网点赞量 -->
-              <div class="bg-white rounded-2xl p-8 border border-yellow-200 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <div class="text-4xl font-bold text-yellow-600 mb-2">
+              <div class="bg-white rounded-xl p-6 border border-yellow-200 shadow-md hover:shadow-lg transition-all duration-300">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-lg flex items-center justify-center shadow-md flex-shrink-0">
+                    <Sparkles class="w-6 h-6 text-white" />
+                  </div>
+                  <div class="flex-1">
+                    <div class="text-3xl font-bold text-yellow-600 mb-1">
                       {{ animatedLikesDisplay }}
                     </div>
-                    <div class="text-gray-600 text-lg font-medium">全网点赞量</div>
-                  </div>
-                  <div class="w-16 h-16 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-2xl flex items-center justify-center shadow-lg">
-                    <Sparkles class="w-8 h-8 text-white" />
+                    <div class="text-gray-600 text-sm font-medium">全网点赞量</div>
                   </div>
                 </div>
               </div>
@@ -155,5 +219,34 @@ watch(globalStats, (val) => {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #d97706;
+}
+
+/* 数据捕获中动画 */
+@keyframes dataCapturing {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes textGlow {
+  0%, 100% {
+    color: #6b7280;
+  }
+  50% {
+    color: #f59e0b;
+  }
+}
+
+.animate-data-capturing {
+  animation: dataCapturing 2s ease-in-out infinite;
+}
+
+.animate-text-glow {
+  animation: textGlow 2s ease-in-out infinite;
 }
 </style>

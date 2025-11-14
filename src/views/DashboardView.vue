@@ -4,6 +4,99 @@ import { computed, ref, onMounted, watch } from 'vue'
 import { ExternalLink, Users, Eye, FileText, TrendingUp, Sparkles, Star, Heart } from 'lucide-vue-next'
 import type { CommunityType } from '@/types'
 
+// 获取平台URL
+const getPlatformUrl = (account: any, platform: CommunityType): string | undefined => {
+  return account.stats?.platformStats?.[platform]?.url
+}
+
+// 获取平台颜色样式
+const getPlatformColors = (platform: CommunityType) => {
+  const colorMap: Record<CommunityType, { bg: string; hoverBg: string; border: string; hoverBorder: string; dot: string; text: string; icon: string }> = {
+    csdn: {
+      bg: 'bg-red-50',
+      hoverBg: 'hover:bg-red-100',
+      border: 'border-red-200',
+      hoverBorder: 'hover:border-red-300',
+      dot: 'bg-red-500',
+      text: 'text-gray-700',
+      icon: 'text-red-600'
+    },
+    juejin: {
+      bg: 'bg-blue-50',
+      hoverBg: 'hover:bg-blue-100',
+      border: 'border-blue-200',
+      hoverBorder: 'hover:border-blue-300',
+      dot: 'bg-blue-500',
+      text: 'text-gray-700',
+      icon: 'text-blue-600'
+    },
+    toutiao: {
+      bg: 'bg-orange-50',
+      hoverBg: 'hover:bg-orange-100',
+      border: 'border-orange-200',
+      hoverBorder: 'hover:border-orange-300',
+      dot: 'bg-orange-500',
+      text: 'text-gray-700',
+      icon: 'text-orange-600'
+    },
+    zhihu: {
+      bg: 'bg-cyan-50',
+      hoverBg: 'hover:bg-cyan-100',
+      border: 'border-cyan-200',
+      hoverBorder: 'hover:border-cyan-300',
+      dot: 'bg-cyan-500',
+      text: 'text-gray-700',
+      icon: 'text-cyan-600'
+    },
+    _51cto: {
+      bg: 'bg-green-50',
+      hoverBg: 'hover:bg-green-100',
+      border: 'border-green-200',
+      hoverBorder: 'hover:border-green-300',
+      dot: 'bg-green-500',
+      text: 'text-gray-700',
+      icon: 'text-green-600'
+    },
+    wechat: {
+      bg: 'bg-emerald-50',
+      hoverBg: 'hover:bg-emerald-100',
+      border: 'border-emerald-200',
+      hoverBorder: 'hover:border-emerald-300',
+      dot: 'bg-emerald-500',
+      text: 'text-gray-700',
+      icon: 'text-emerald-600'
+    },
+    weibo: {
+      bg: 'bg-rose-50',
+      hoverBg: 'hover:bg-rose-100',
+      border: 'border-rose-200',
+      hoverBorder: 'hover:border-rose-300',
+      dot: 'bg-rose-500',
+      text: 'text-gray-700',
+      icon: 'text-rose-600'
+    },
+    infoq: {
+      bg: 'bg-purple-50',
+      hoverBg: 'hover:bg-purple-100',
+      border: 'border-purple-200',
+      hoverBorder: 'hover:border-purple-300',
+      dot: 'bg-purple-500',
+      text: 'text-gray-700',
+      icon: 'text-purple-600'
+    },
+    xiaohongshu: {
+      bg: 'bg-pink-50',
+      hoverBg: 'hover:bg-pink-100',
+      border: 'border-pink-200',
+      hoverBorder: 'hover:border-pink-300',
+      dot: 'bg-pink-500',
+      text: 'text-gray-700',
+      icon: 'text-pink-600'
+    }
+  }
+  return colorMap[platform] || colorMap.csdn
+}
+
 const fansStore = useFansStore()
 
 // 动画效果
@@ -83,7 +176,7 @@ const platformConfigs: Record<CommunityType, { name: string; icon: string; color
     gradient: 'from-green-500 to-emerald-500'
   },
   wechat: { 
-    name: '微信', 
+    name: '公众号', 
     icon: '💬', 
     color: 'green', 
     url: 'https://mp.weixin.qq.com',
@@ -145,61 +238,15 @@ const getGrowthColor = (growth: number): string => {
   if (growth < 0) return 'text-red-500'
   return 'text-gray-400'
 }
+
+// 获取文章/帖子显示文本
+const getArticleLabel = (platforms: CommunityType[]): string => {
+  return platforms.includes('xiaohongshu') ? '帖子' : '文章'
+}
 </script>
 
 <template>
-  <div class="h-screen bg-gradient-to-br from-amber-50 to-orange-100 flex flex-col">
-    <!-- 页面标题 -->
-    <div class="bg-white/80 backdrop-blur-sm border-b border-amber-200 flex-shrink-0">
-      <div class="max-w-7xl mx-auto px-6 py-4">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center space-x-3">
-            <div class="w-8 h-8 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg flex items-center justify-center">
-              <Star class="w-4 h-4 text-white" />
-            </div>
-            <div>
-              <h1 class="text-xl font-bold text-gray-800">矩阵IP数据总览</h1>
-              <p class="text-gray-600 text-sm">所有账号数据一览，按粉丝数量排序</p>
-            </div>
-          </div>
-          
-          <!-- 矩阵IP全览信息 -->
-          <div class="flex items-center space-x-6">
-            <div class="text-center">
-              <div class="text-xl font-bold text-amber-600">
-                {{ formatNumber(animatedGlobalFans) }}
-              </div>
-              <div class="text-gray-600 text-xs">全网粉丝</div>
-            </div>
-            <div class="text-center">
-              <div class="text-xl font-bold text-orange-600">
-                {{ formatNumber(animatedGlobalReads) }}
-              </div>
-              <div class="text-gray-600 text-xs">全网阅读</div>
-            </div>
-            <div class="text-center">
-              <div class="text-xl font-bold text-yellow-600">
-                {{ formatNumber(animatedGlobalLikes) }}
-              </div>
-              <div class="text-gray-600 text-xs">全网点赞</div>
-            </div>
-            <div class="text-center">
-              <div class="text-xl font-bold text-amber-700">
-                {{ animatedGlobalArticles }}
-              </div>
-              <div class="text-gray-600 text-xs">全网文章</div>
-            </div>
-            <div class="text-center">
-              <div class="text-xl font-bold text-orange-700">
-                {{ animatedGlobalAccounts }}
-              </div>
-              <div class="text-gray-600 text-xs">矩阵账号</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+  <div class="h-screen bg-white flex flex-col">
     <!-- 主要内容 -->
     <div class="flex-1 max-w-7xl mx-auto px-6 py-6 w-full">
       <!-- 账号数据列表 -->
@@ -221,8 +268,9 @@ const getGrowthColor = (growth: number): string => {
             </div>
 
             <div class="flex-1 min-w-0">
-              <div class="flex items-center space-x-3 mb-1">
+              <div class="flex items-center space-x-3 mb-2 flex-wrap">
                 <h3 class="text-base font-semibold text-gray-800">{{ account.displayName }}</h3>
+                <span class="text-gray-500 text-sm">{{ account.description }}</span>
                 <span class="text-xs px-2 py-1 bg-amber-100 text-amber-700 rounded-full">
                   {{ account.status === 'active' ? '活跃' : '暂停' }}
                 </span>
@@ -230,18 +278,35 @@ const getGrowthColor = (growth: number): string => {
                   主账号
                 </span>
               </div>
-              <p class="text-gray-600 text-sm mb-2">{{ account.description }}</p>
               
               <!-- 平台标签 -->
-              <div class="flex flex-wrap gap-2">
-                <div 
-                  v-for="platform in account.platforms" 
-                  :key="platform"
-                  class="flex items-center space-x-1 px-2 py-1 bg-gray-100 rounded text-xs"
-                >
-                  <div class="w-2 h-2 bg-amber-400 rounded-full"></div>
-                  <span class="text-gray-600 text-xs">{{ platformConfigs[platform]?.name || platform }}</span>
-                </div>
+              <div class="flex flex-wrap gap-3">
+                <template v-for="platform in account.platforms" :key="platform">
+                  <a
+                    v-if="getPlatformUrl(account, platform)"
+                    :href="getPlatformUrl(account, platform)"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    :class="[
+                      'flex items-center space-x-2 px-4 py-2 border rounded-lg text-sm font-medium transition-all cursor-pointer hover:shadow-md',
+                      getPlatformColors(platform).bg,
+                      getPlatformColors(platform).hoverBg,
+                      getPlatformColors(platform).border,
+                      getPlatformColors(platform).hoverBorder
+                    ]"
+                  >
+                    <div :class="['w-2.5 h-2.5 rounded-full', getPlatformColors(platform).dot]"></div>
+                    <span :class="getPlatformColors(platform).text">{{ platformConfigs[platform]?.name || platform }}</span>
+                    <ExternalLink :class="['w-4 h-4 ml-0.5', getPlatformColors(platform).icon]" />
+                  </a>
+                  <div
+                    v-else
+                    class="flex items-center space-x-2 px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium cursor-default"
+                  >
+                    <div class="w-2.5 h-2.5 bg-gray-400 rounded-full"></div>
+                    <span class="text-gray-600">{{ platformConfigs[platform]?.name || platform }}</span>
+                  </div>
+                </template>
               </div>
             </div>
 
@@ -271,12 +336,12 @@ const getGrowthColor = (growth: number): string => {
                 <div class="text-gray-500 text-xs">点赞</div>
               </div>
 
-              <!-- 文章数 -->
+              <!-- 文章数/帖子数 -->
               <div class="text-center">
                 <div class="text-xl font-bold text-amber-700">
-                  {{ account.stats.totalArticles }}
+                  {{ account.stats.totalArticles }}{{ account.platforms.includes('xiaohongshu') ? '+' : '' }}
                 </div>
-                <div class="text-gray-500 text-xs">文章</div>
+                <div class="text-gray-500 text-xs">{{ getArticleLabel(account.platforms) }}</div>
               </div>
             </div>
           </div>
