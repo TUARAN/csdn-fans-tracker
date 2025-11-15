@@ -248,7 +248,7 @@ const getArticleLabel = (platforms: CommunityType[]): string => {
 <template>
   <div class="h-screen bg-white flex flex-col">
     <!-- 主要内容 -->
-    <div class="flex-1 max-w-7xl mx-auto px-6 py-6 w-full">
+    <div class="flex-1 max-w-6xl mx-auto px-6 py-6 w-full">
       <!-- 账号数据列表 -->
       <div class="space-y-3 h-full overflow-y-auto">
         <div 
